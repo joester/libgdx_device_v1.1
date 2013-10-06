@@ -817,8 +817,8 @@ public class GameObject implements Comparable<GameObject>
 		isInvincible = !isInvincible;
 	}
 	
-	public boolean isOnscreen(){
-		return !offscreenX(this.position) && !offscreenY(this.position);
+	public boolean isScreenCollide(){
+		return (this.position.x <= 10 || this.position.y >= 90 || this.position.y <= 5 || this.position.y >= 50);
 	}
 
 	public void update() {

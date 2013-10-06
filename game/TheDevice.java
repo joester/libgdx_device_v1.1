@@ -83,7 +83,7 @@ public class TheDevice extends BaseState
 		this.spawner[2] = new Spawner(this.room, box, 2f, 1f, 2f, graphics, 1, state.sounds);
 		
 		//Spawn Management for dev tool
-		new DesignHelper(new MonsterManager(box, this.graphics, state.sounds, this.room), this.room, box);
+		new DesignHelper(new MonsterManager(box, this.graphics, state.sounds, this.room), this.room, box, g, gameUI);
 		
 		
 		gameUI = new UI(g, graphics, this, this.room, state.sounds, state.renderInfo);

@@ -75,7 +75,10 @@ public class Room implements Controllable
 	private Texture vortKill;
 	
 	private float quickDT = 0;
-
+	
+	//Condition to toggle monster spawns.
+	private boolean canSpawn = true;
+	
 	/* Constructor */
 	public Room(GraphicsManager g, Player player, GameStats stats, SoundSystem sound)
 	{
@@ -124,11 +127,23 @@ public class Room implements Controllable
 	 */
 	public void spawn_object(GameObject obj)
 	{
+		if(canSpawn && obj.getID() == 3){			
+			monsterCount ++;	
+			this.spawn.add(obj);
+		}
+		else if(obj.getID() != 3){
+			this.spawn.add(obj);
+		}
+					
+	}//END spawn_object
+	
+	//Specialized method to spawn monsters regardless of dev settings. Used for designer testing.
+	public void test_spawn_obj(GameObject obj){
 		this.spawn.add(obj);
 		if(obj.getID() == 3){
 			monsterCount ++;
 		}
-	}//END spawn_object
+	}
 	
 	/* Input */
 	@Override
@@ -414,5 +429,9 @@ public class Room implements Controllable
 	
 	public void addShock(GameObject obj){
 		this.spawn_object(new ShockWave(obj.get_positionX(), obj.get_positionY(), graphics.ID(14), sound));
+	}
+	
+	public void toggleSpawn(){
+		canSpawn = !canSpawn;
 	}
 }

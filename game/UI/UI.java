@@ -343,4 +343,10 @@ public class UI
 			pause.draw(batch);
 		}
 	}
+	//Adds a nuke if nukeCount is not 3 or greater. Used for dev tool.
+	public void addNuke(){
+		if(nukes < 3){
+			nukes ++;
+		}
+	}
 }

@@ -43,7 +43,7 @@ public class MonsterEditor extends JFrame{
 				e.getAttack().power = Float.parseFloat(att[2].getText());
 				e.getAttack().range = Float.parseFloat(att[3].getText());
 				e.getAttack().damage = Integer.parseInt(att[4].getText());
-				r.spawn_object(e);
+				r.test_spawn_obj(e);
 				setVisible(false);
 				dispose();
 			}

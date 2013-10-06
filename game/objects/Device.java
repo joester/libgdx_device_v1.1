@@ -34,6 +34,9 @@ public class Device extends AnimatedObject {
 	private float hpMemory;
 	private float inv = -1;
 	
+	//Handy Dandy tool variables
+	private boolean canSpawnXP = true;
+	
 	public Device(float posX, float posY, Texture sprites, Texture spawn, Room room, Texture exp_sprites, Texture hit, SoundSystem sounds)
 	 {
 		super(
@@ -114,7 +117,7 @@ public class Device extends AnimatedObject {
 		}//fi
 		
 		this.timer_2.update_timer(dt);
-		if(this.timer_2.isDone())
+		if(this.timer_2.isDone() && canSpawnXP)
 		{
 			float dir = (float)(360 * Math.random());
 			float dst = 40 + (float)(30 * Math.random());
@@ -203,5 +206,10 @@ public class Device extends AnimatedObject {
 		{
 			this.inv = -1;
 		}
+		
+		public void toggleSpawnXP(){
+			canSpawnXP = !canSpawnXP;
+		}
+		
 	
 }

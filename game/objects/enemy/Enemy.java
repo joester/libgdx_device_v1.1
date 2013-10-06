@@ -97,10 +97,6 @@ public class Enemy extends AnimatedObject
 			this.unstun();
 		}//esle
 		
-		if(this.isOnscreen()){
-			this.isSolid = true;
-		}
-		
 		super.update(dt, objects);
 	}//END update
 	
