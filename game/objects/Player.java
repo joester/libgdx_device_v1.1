@@ -1,6 +1,6 @@
 package game.objects;
 
-import game.GameStats;
+import src.game.GameStats;
 import game.controls.GameTimer;
 import game.objects.actions.Action;
 import game.objects.actions.Attack;
