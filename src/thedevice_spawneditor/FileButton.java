@@ -106,11 +106,10 @@ class FileManager_SaveAsButton extends FileButton{
     
     int lastSaveAttemptCycle;
     public void fileButton_Activate(){
-	System.out.println("try saveas");
-	if(lastSaveAttemptCycle > _G.cycle-10) return;
-	draw();
-	lastSaveAttemptCycle = _G.cycle;
-	FileManager.saveMap();
+		if(lastSaveAttemptCycle > _G.cycle-10) return;
+		draw();
+		lastSaveAttemptCycle = _G.cycle;
+		FileManager.saveMap();
     }
 }
 

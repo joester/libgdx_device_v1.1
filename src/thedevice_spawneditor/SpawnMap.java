@@ -22,7 +22,7 @@ public class SpawnMap extends GuiObject{
     public static final Vector2 SIZE = new Vector2(SIZEFLOAT,SIZEFLOAT);
     public static final Vector2 CENTER = OFFSET.add(SIZE.div(2));
     
-    public static final Vector2 FIELDSIZE = new Vector2(577,330);
+    public static final Vector2 FIELDSIZE = new Vector2(996,662);
     public static final Vector2 FIELDUNITSIZE = Vector2.normalize(FIELDSIZE);
     public static final float UNITSIZE = FIELDSIZE.magnitude();
     public static final float FIELDANGLE = Vector2.toAngle(FIELDSIZE);

@@ -1,11 +1,14 @@
 package thedevice_spawneditor;
-import java.awt.Color;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+
 public class FileManager{
+	static final String DEFAULTFOLDER = "./data/editorsettings/spawnmaps";
     static final String FILENAMEEXTENSION = ".spawnmap";
     static boolean saving;
     static boolean loading;
@@ -28,30 +31,31 @@ public class FileManager{
     }
     
     static String chooseFileName(boolean savingnotloading){
-	Center.resetLeftMouse();
-	JFileChooser chooser = new JFileChooser();
-	FileNameExtensionFilter filter = new FileNameExtensionFilter("The Device Spawnpoint Map (*"+FILENAMEEXTENSION+")","spawnmap");
-	chooser.setFileFilter(filter);
-	chooser.setDialogTitle(savingnotloading ? "Save As" : "Open");
-	chooser.setDialogType(savingnotloading ? JFileChooser.SAVE_DIALOG : JFileChooser.OPEN_DIALOG);
-	int returnval = chooser.showOpenDialog(Center.instance);
-	if(returnval == 0){
-	    return chooser.getSelectedFile().getPath();
-	}
-	return null;
+		Center.resetLeftMouse();
+		
+		JFileChooser chooser = new JFileChooser(DEFAULTFOLDER);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("The Device Spawnpoint Map (*"+FILENAMEEXTENSION+")","spawnmap");
+		chooser.setFileFilter(filter);
+		chooser.setDialogTitle(savingnotloading ? "Save As" : "Open");
+		chooser.setDialogType(savingnotloading ? JFileChooser.SAVE_DIALOG : JFileChooser.OPEN_DIALOG);
+		int returnval = chooser.showOpenDialog(Center.instance);
+		if(returnval == 0){
+		    return chooser.getSelectedFile().getPath();
+		}
+		return null;
     }
     
     public static void saveMap(){
-	saving = true;
-	String s = chooseFileName(true);
-	if(s != null){
-	    int i2 = s.length()-FILENAMEEXTENSION.length();
-	    if(!s.substring(i2).equals(FILENAMEEXTENSION))
-		s += FILENAMEEXTENSION;
-	    saveMapToFile(s);
-	}else
-	    SpawnMap.showMessage("Save cancelled.");
-	saving = false;
+		saving = true;
+		String s = chooseFileName(true);
+		if(s != null){
+		    int i2 = s.length()-FILENAMEEXTENSION.length();
+		    if(!s.substring(i2).equals(FILENAMEEXTENSION))
+			s += FILENAMEEXTENSION;
+		    saveMapToFile(s);
+		}else
+		    SpawnMap.showMessage("Save cancelled.");
+		saving = false;
     }
     
     public static void saveMap_Default(){
@@ -68,7 +72,6 @@ public class FileManager{
 	    stream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(filename)));
 	    ArrayList<SpawnLocation> list = SpawnMap.currentMap.spawns;
 	    for(int i = 0;i < list.size();i++){
-		System.out.println(i);
 		SpawnLocation location = list.get(i);
 		stream.writeByte(location.type.ordinal());
 		stream.writeFloat(location.time);
