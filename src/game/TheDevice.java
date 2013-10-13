@@ -14,9 +14,11 @@ import game.objects.spawner.Spawner;
 import game.room.Room;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import dev.DesignHelper;
+import dev.Manager;
 
 public class TheDevice extends BaseState
 {
@@ -24,11 +26,13 @@ public class TheDevice extends BaseState
 	GraphicsManager graphics;
 	UI gameUI;
 	Player player;
+	Manager manager;
 	
-	public TheDevice(StateManager state, GraphicsManager g, SoundSystem sound) {
-		super(state, sound);
+	public TheDevice(StateManager state, GraphicsManager g, SoundSystem sound, Manager manager) {
+		super(state, sound, manager);
 		this.graphics = g;
 		this.state = state;
+		this.manager = manager;
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -43,11 +47,15 @@ public class TheDevice extends BaseState
 	//Controller
 	Controller controller;
 	
-	
-	
 	@Override
 	public void create()
 	{
+		
+		
+		manager.loadArtAssets("Game");
+		
+		assets = manager.getArtAssets("Game");
+		
 		/* Start Room */
 		player = new Player(
 				0, //ID
@@ -60,7 +68,7 @@ public class TheDevice extends BaseState
 				8, //Touch Radius
 				false, //Touchability
 				8, (16 + 2/3) * 0.8f, //Draw width and height
-				graphics.ID(0), //Sprite
+				assets.get("hero"), //Sprite
 				150, 250,
 				g,//Src width and height
 				state.sounds
@@ -71,9 +79,9 @@ public class TheDevice extends BaseState
 		//Set XP Fill
 		
 		
-		this.room = new Room(graphics, player, this.g, state.sounds);
+		this.room = new Room(graphics, player, this.g, state.sounds, assets);
 		
-		box = new Device(25,25,graphics.ID(1),graphics.ID(4), room, graphics.ID(2), graphics.ID(7),state.sounds);
+		box = new Device(25,25,assets.get("device"),assets.get("device_spawn"), room, assets.get("exp"), assets.get("device_hit"),state.sounds);
 		this.room.add_object(this.box);
 		this.room.add_object(player);
 		
@@ -98,7 +106,7 @@ public class TheDevice extends BaseState
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		graphics.dispose();
+		manager.unloadArtAssets();
 		
 		//room.dispose();
 	}

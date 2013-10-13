@@ -15,6 +15,7 @@ import game.objects.items.VortexIcon;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -23,6 +24,8 @@ import sounds.SoundSystem;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import dev.Manager;
 
 public class Room implements Controllable
 {
@@ -75,26 +78,28 @@ public class Room implements Controllable
 	
 	//Condition to toggle monster spawns.
 	private boolean canSpawn = true;
+	HashMap<String, Texture> assets;
 	
 	/* Constructor */
-	public Room(GraphicsManager g, Player player, GameStats stats, SoundSystem sound)
+	public Room(GraphicsManager g, Player player, GameStats stats, SoundSystem sound, HashMap<String, Texture> assets)
 	{
-		this.background = new Sprite(g.ID(100));
-		this.deathRing = new Sprite(g.ID(101));
+		this.assets = assets;
+		this.background = new Sprite(assets.get("game_bg"));
+		this.deathRing = new Sprite(assets.get("deathRing"));
 		this.player = player;
 		this.stats = stats;
-		this.indicators = new GraphicIndicators(g.ID(8), player);
+		this.indicators = new GraphicIndicators(assets.get("indicate"), player);
 		this.sound = sound;
 		this.graphics = g;
 		
-		warningS = new Sprite(new Texture("data/UI/warn.png"));
+		warningS = new Sprite(assets.get("ui_warn"));
 		warning = new Animator(warningS,62,62);
 		warning.add_animation(0, 0, 4, 5, true);
 		warning.set_animation(0);
 		
-		mineTex = g.ID(9);
-		vortTex = g.ID(10);
-		vortKill = g.ID(11);
+		mineTex = assets.get("mine_drop");
+		vortTex = assets.get("vortex_drop");
+		vortKill = assets.get("vortex");
 	}//END Room
 	
 	/* Object Management */
@@ -229,11 +234,11 @@ public class Room implements Controllable
 				{
 					if(stats.getLevel() > 2 && Math.random() < mineChance)
 					{
-						drops.add(new Mine(obj.get_positionX(), obj.get_positionY(), stats, sound, graphics.ID(9)));
+						drops.add(new Mine(obj.get_positionX(), obj.get_positionY(), stats, sound, assets.get("mine_drop")));
 					}
 					if(stats.getLevel() > 5 && Math.random() < vortexChance)
 					{
-						drops.add(new VortexIcon(obj.get_positionX(), obj.get_positionY(), stats, sound, graphics.ID(11)));
+						drops.add(new VortexIcon(obj.get_positionX(), obj.get_positionY(), stats, sound, assets.get("vortex_drop")));
 					}
 				}
 				iter.remove();
@@ -425,10 +430,15 @@ public class Room implements Controllable
 	}//END wipe
 	
 	public void addShock(GameObject obj){
-		this.spawn_object(new ShockWave(obj.get_positionX(), obj.get_positionY(), graphics.ID(14), sound));
+		this.spawn_object(new ShockWave(obj.get_positionX(), obj.get_positionY(), assets.get("shock_wave"), sound));
 	}
 	
 	public void toggleSpawn(){
 		canSpawn = !canSpawn;
 	}
+	
+	public Texture getAsset(String str){
+		return assets.get(str);
+	}
+	
 }

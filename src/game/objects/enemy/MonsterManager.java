@@ -21,13 +21,13 @@ public class MonsterManager {
 	
 	public Enemy spawnMonster(int ID, float xPos, float yPos){
 		if(ID == 1){
-			return new FuzzOne(d, xPos, yPos, g.ID(3), g.ID(5), g.ID(6), s, r);
+			return new FuzzOne(d, xPos, yPos, r.getAsset("fuzz1"), r.getAsset("fuzz2"), r.getAsset("fuzz3"), s, r);
 		}
 		if(ID == 2){
-			return new FuzzTwo(d, xPos, yPos, g.ID(5), g.ID(6), s, r);
+			return new FuzzTwo(d, xPos, yPos, r.getAsset("fuzz2"), r.getAsset("fuzz3"), s, r);
 		}
 		if(ID == 3){
-			return new FuzzThree(d, xPos, yPos, g.ID(6), s, r );
+			return new FuzzThree(d, xPos, yPos, r.getAsset("fuzz3"), s, r );
 		}
 		return null;
 	}

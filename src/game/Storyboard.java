@@ -1,25 +1,44 @@
 package game;
 
+import java.util.HashMap;
+
 import sounds.SoundSystem;
 import menu.BaseState;
 import menu.StateManager;
 import game.draw.GraphicsManager;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import dev.Manager;
+
 public class Storyboard extends BaseState{
-	int currentScene;
+	int currentScene, maxScene;
 	Sprite scene;
 	GraphicsManager graphics;
 	boolean isDone;
+	Manager manager;
+	HashMap<String, Texture> assets;
+	String cinematicType;
 	
-	public Storyboard(StateManager state, GraphicsManager g, SoundSystem sound){
-		super(state, sound);
+	public Storyboard(StateManager state, GraphicsManager g, SoundSystem sound, Manager manager, String cinematicType, int numScenes){
+		super(state, sound, manager);
 		this.currentScene = 0;
 		this.graphics = g;
-		this.create();
+		this.manager = manager;
+		if(cinematicType.equals("Outro")){
+			manager.loadArtAssets("Outro");
+			assets = manager.getArtAssets("Outro");
+		}
+		else if(cinematicType.equals("Intro")){
+			manager.loadArtAssets("Intro");
+			assets = manager.getArtAssets("Intro");
+		}
+		this.cinematicType = cinematicType;
+		maxScene=numScenes;
+		this.create();		
 	}
 	
 	private void update(){
@@ -34,18 +53,19 @@ public class Storyboard extends BaseState{
 	
 	private void advanceScene(){
 		currentScene ++;
-		if(currentScene == 5){
-			state.moveToSequence();
-			scene.getTexture().dispose();
-		}
-		if(currentScene == 8){
-			state.moveToMenu();
-			scene.getTexture().dispose();
-			currentScene = 0;
-			isDone = true;
+		if(currentScene == maxScene){		
+			if(cinematicType == "Intro"){
+				manager.unloadArtAssets();
+				state.moveToGame();
+			}
+			else if(cinematicType == "Outro"){
+				manager.unloadArtAssets();
+				state.moveToMenu();
+			}
+			
 			return;
 		}
-		scene = new Sprite(graphics.ID(2000 + currentScene));
+		scene = new Sprite(assets.get("sc" + Integer.toString(currentScene)));
 		this.dispose();
 		
 	}
@@ -62,22 +82,12 @@ public class Storyboard extends BaseState{
 	@Override
 	public void create() {
 		// TODO Auto-generated method stub
-		this.graphics.load(2000,
-				"data/scenes/sketch_scene1-2.png",
-				"data/scenes/sketch_scene2.png",
-				"data/scenes/sketch_scene3-2.png",
-				"data/scenes/sketch_scene4-2.png",
-				"data/scenes/sketch_scene5.png",
-				"data/scenes/sketch_scene6-2.png",
-				"data/scenes/sketch_scene7.png",
-				"data/scenes/sketch_scene8.png"				
-				);
-		this.scene = new Sprite(graphics.ID(2000 + currentScene));
+		this.scene = new Sprite(assets.get("sc" + Integer.toString(currentScene)));
 	}
-
+	
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		graphics.dispose(2000 + currentScene - 1);
+		
 	}
 }

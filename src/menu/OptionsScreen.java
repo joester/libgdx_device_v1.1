@@ -7,6 +7,8 @@ import sounds.SoundSystem;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import dev.Manager;
+
 public class OptionsScreen extends BaseState{
 	
 	Button button1 = null;
@@ -15,8 +17,8 @@ public class OptionsScreen extends BaseState{
 	StateManager state;
 	static OptionsContainer opCon = new OptionsContainer();
 	
-	public OptionsScreen(StateManager state, SoundSystem sound){
-		super(state, sound);
+	public OptionsScreen(StateManager state, SoundSystem sound, Manager manager){
+		super(state, sound, manager);
 		create();		
 	}
 

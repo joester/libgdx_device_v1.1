@@ -7,8 +7,6 @@ import game.TheDevice;
 import game.Tutorial;
 import game.draw.GraphicsManager;
 
-import java.util.ArrayList;
-
 import sounds.SoundSystem;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -17,14 +15,17 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import dev.Manager;
+
 public class StateManager implements ApplicationListener{
 
 	public GraphicsManager graphics = new GraphicsManager();
 	public SoundSystem sounds = new SoundSystem();
 	int currentState;
-	ArrayList<BaseState> posStates;
+	BaseState[] posStates;
 	BitmapFont font;
 	GameStats stats;
+	Manager manager;
 	
 	public float[] renderInfo = 
 		{
@@ -38,7 +39,7 @@ public class StateManager implements ApplicationListener{
 	@Override
 	public void create() {
 		// TODO Auto-generated method stub
-		posStates = new ArrayList<BaseState>();
+		posStates = new BaseState[7];
 		
 		sounds.init();
 		font = new BitmapFont(Gdx.files.internal("data/bearz/bearz.fnt"),Gdx.files.internal("data/bearz/bearz.png"), false);
@@ -46,8 +47,8 @@ public class StateManager implements ApplicationListener{
 		float width = Gdx.graphics.getWidth();
 		this.renderInfo[2] = width/renderInfo[0];
 		
-		
-		
+		this.manager = new Manager();
+		/*
 		this.graphics = new GraphicsManager();
 		this.graphics.load
 			(
@@ -105,13 +106,11 @@ public class StateManager implements ApplicationListener{
 				"data/UI/retry.png",
 				"data/UI/quitter.png"
 				);
+		*/
 		
-		posStates.add(new MainMenuScreen(this, sounds, renderInfo));
-		posStates.add(new OptionsScreen(this, sounds));
-		posStates.add(new Storyboard(this, this.graphics, sounds));
-		posStates.add(new TheDevice(this, this.graphics, sounds));
-		posStates.add(new Tutorial(this, this.graphics, sounds));
-		posStates.add(new GameOverState(this, this.graphics, sounds));
+		posStates[0] = new MainMenuScreen(this, sounds, renderInfo, manager);
+		//posStates[1]=new OptionsScreen(this, sounds, manager);
+		
 		
 		currentState = 0;
 		sounds.playMusicLooping(1);
@@ -120,7 +119,7 @@ public class StateManager implements ApplicationListener{
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		posStates.get(currentState).dispose();
+		posStates[currentState].dispose();
 	}
 
 	@Override
@@ -135,7 +134,7 @@ public class StateManager implements ApplicationListener{
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		SpriteBatch batch = new SpriteBatch();
 		batch.begin();
-		posStates.get(currentState).render(batch);
+		posStates[currentState].render(batch);
 		if (currentState == 5)
 		{
 			//Draw Score
@@ -164,38 +163,44 @@ public class StateManager implements ApplicationListener{
 		
 	}
 
-	public void moveToSequence(){
-		if(currentState != 2){
+	public void moveToSequence(String seq){
+		if(seq.equals("Intro")){
 			sounds.playMusicLooping(1);
+			posStates[2]=new Storyboard(this, this.graphics, sounds, manager, "Intro", 5);
 			currentState = 2;
 		}
-		else{
-			moveToGame();
+		else if(seq.equals("Outro")){
+			posStates[6]=new Storyboard(this, this.graphics, sounds, manager, "Outro", 3);
+			currentState = 6;
 		}
 	}
 	
 	public void moveToGame(){
 		sounds.stopMusic(1);
 		sounds.playMusicLooping(2);
-		posStates.get(3).create();
+		posStates[3] = new TheDevice(this, this.graphics, sounds, manager);
+		posStates[3].create();
 		currentState = 3;
 	}
 	
 	public void moveToTutorial(){
-		//posStates.get(currentState).dispose();
-		posStates.get(4).create();
+		//posStates[currentState).dispose();
+		posStates[4] = new Tutorial(this, this.graphics, sounds, manager);
+		posStates[4].create();
 		currentState = 4;
 	}
 	
 	public void moveToMenu(){
-		//posStates.get(currentState).dispose();
+		//posStates[currentState).dispose();
 		sounds.playMusicLooping(1);
-		posStates.get(0).create();
+		posStates[0] = new MainMenuScreen(this, sounds, renderInfo, manager);
+		posStates[0].create();
 		currentState = 0;
 	}
 	
 	public void endGame(GameStats g){
-		posStates.get(5).create();
+		posStates[5] = new GameOverState(this, this.graphics, sounds, manager);
+		posStates[5].create();
 		sounds.stopMusic(2);
 		sounds.playSound(SoundSystem.laugh);
 		currentState = 5;

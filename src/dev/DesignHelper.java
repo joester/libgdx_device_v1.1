@@ -29,8 +29,9 @@ public class DesignHelper extends JFrame{
 	JRadioButton xpSpawn = new JRadioButton("Toggle XP");
 	JRadioButton monsterSpawn = new JRadioButton("Toggle Fuzzie");
 	
+	
 	public DesignHelper(final MonsterManager m, final Room r, final GameObject g, final GameStats stats, final UI ui) {
-		setTitle("Design Helper v0.1a");
+		setTitle("Design Helper v0.2a");
 		getContentPane().setLayout(new GridLayout(8,1));
 		setSize(500, 1000);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);

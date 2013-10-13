@@ -1,27 +1,33 @@
 package game;
 
+import java.util.HashMap;
+
 import sounds.SoundSystem;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import dev.Manager;
 import game.draw.GraphicsManager;
 import menu.BaseState;
 import menu.StateManager;
 
 public class Tutorial extends BaseState {
 	
-	Sprite nav_left, nav_right, nav_exit;
+	Sprite nav_left, nav_right, nav_exit, scr1, scr2;
 	boolean canLeft, canRight;
 	int currentScreen;
 	GraphicsManager g;
 	Sprite scene;
+	HashMap<String, Texture> assets;
 	
-	public Tutorial(StateManager state, GraphicsManager g, SoundSystem sound){
-		super(state, sound);
+	public Tutorial(StateManager state, GraphicsManager g, SoundSystem sound, Manager manager){
+		super(state, sound, manager);
 		this.g = g;
+		manager.loadArtAssets("Tut");
+		assets = manager.getArtAssets("Tut");
 		create();
 	}
 
@@ -32,8 +38,7 @@ public class Tutorial extends BaseState {
 			if(canLeft){
 				if(nav_left.getBoundingRectangle().contains(x, y) && canLeft){
 					currentScreen = 0;
-					this.scene = new Sprite(g.ID(50 + currentScreen));
-					sound.playSound(SoundSystem.buttonh);
+					this.scene = currentScreen == 0 ? scr1 : scr2;
 					canLeft = false;
 					canRight = true;
 					return;
@@ -42,7 +47,7 @@ public class Tutorial extends BaseState {
 			if(canRight){
 				if(nav_right.getBoundingRectangle().contains(x, y) && canRight){
 					currentScreen = 1;
-					this.scene = new Sprite(g.ID(50 + currentScreen));
+					this.scene = currentScreen == 0 ? scr1 : scr2;
 					sound.playSound(SoundSystem.buttonl);
 					canLeft = true;
 					canRight = false;
@@ -50,12 +55,14 @@ public class Tutorial extends BaseState {
 				}
 			}
 			if(nav_exit.getBoundingRectangle().contains(x, y)){
+				manager.unloadArtAssets();
 				state.moveToMenu();
 				currentScreen = 0;
-				this.scene = new Sprite(g.ID(50 + currentScreen));
+				this.scene = currentScreen == 0 ? scr1 : scr2;
 				sound.playSound(SoundSystem.buttonh);
 				canLeft = false;
 				canRight = true;
+				
 				return;
 			}
 		}
@@ -80,10 +87,15 @@ public class Tutorial extends BaseState {
 	@Override
 	public void create() {
 		// TODO Auto-generated method stub
-		this.scene = new Sprite(g.ID(50 + currentScreen));
-		nav_left = new Sprite(g.ID(52));
-		nav_right = new Sprite(g.ID(53));
-		nav_exit = new Sprite(g.ID(54));
+		
+		scr1 = new Sprite(assets.get("tut_pg1"));
+		scr2 = new Sprite(assets.get("tut_pg2"));
+		
+		this.scene = currentScreen == 0 ? scr1 : scr2;
+
+		nav_left = new Sprite(assets.get("tut_nav_left"));
+		nav_right = new Sprite(assets.get("tut_nav_right"));
+		nav_exit = new Sprite(assets.get("tut_nav_exit"));
 		nav_left.setScale(.3f);
 		nav_left.setPosition(0, -50);
 		nav_right.setScale(.3f);
@@ -91,9 +103,7 @@ public class Tutorial extends BaseState {
 		nav_exit.setScale(.3f);
 		nav_exit.setPosition(370, -180);
 		canLeft = false;
-		canRight = true;
-		currentScreen = 0;
-		
+		canRight = true;	
 	}
 
 	@Override

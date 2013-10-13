@@ -1,28 +1,36 @@
 package menu;
 
+import java.util.HashMap;
+
 import sounds.SoundSystem;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import dev.Manager;
 
 public class MainMenuScreen extends BaseState {
 	
 	Sprite bgArt, play, help;
 	float[] renderInfo;
+	HashMap<String, Texture> assets = new HashMap<String, Texture>();
 
-	public MainMenuScreen(StateManager state, SoundSystem sound, float[] renderInfo){
-		super(state, sound);
+	public MainMenuScreen(StateManager state, SoundSystem sound, float[] renderInfo, Manager manager){
+		super(state, sound, manager);
 		this.renderInfo = renderInfo;
+		manager.loadArtAssets("Main");
+		assets = manager.getArtAssets("Main");
 		create();
 	}
 	
 	@Override
 	public void create() {
 		// TODO Auto-generated method stub
-		play = new Sprite(state.graphics.ID(200));
-		bgArt = new Sprite(state.graphics.ID(201));		
-		help = new Sprite(state.graphics.ID(202));
+		play = new Sprite(assets.get("main_play"));
+		bgArt = new Sprite(assets.get("main_bg"));		
+		help = new Sprite(assets.get("main_help"));
 		play.setPosition(renderInfo[0]*renderInfo[2]*0.58f, renderInfo[1]*renderInfo[2]*0.005f);
 		help.setPosition(renderInfo[0]*renderInfo[2]*0.74f, renderInfo[1]*renderInfo[2]*0.005f);
 		this.bgArt.setSize(state.renderInfo[2] * (100),
@@ -34,9 +42,7 @@ public class MainMenuScreen extends BaseState {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		bgArt.getTexture().dispose();
-		play.getTexture().dispose();
-		help.getTexture().dispose();
+		
 	}
 
 	@Override
@@ -53,10 +59,12 @@ public class MainMenuScreen extends BaseState {
 			int x = Gdx.input.getX();
 			int y = Gdx.graphics.getHeight() - Gdx.input.getY();
 			if(play.getBoundingRectangle().contains(x, y)){
-				state.moveToSequence();
+				manager.unloadArtAssets();
+				state.moveToSequence("Intro");				
 			}
 			else if(help.getBoundingRectangle().contains(x,y)){
-				state.moveToTutorial();
+				manager.unloadArtAssets();
+				state.moveToTutorial();			
 			}
 		}
 	}

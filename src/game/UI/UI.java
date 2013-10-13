@@ -63,17 +63,20 @@ public class UI
 	
 	public UI(GameStats stats, GraphicsManager graphics, TheDevice state, Room room, SoundSystem sound, float[] render){
 		this.state = state;
-		this.UIBase = new Sprite(graphics.ID(1000));
-		this.XPFill = new Sprite(graphics.ID(1001));
-		this.XPEmpty = new Sprite(graphics.ID(1002));
-		this.XPGlow = new Sprite(graphics.ID(1003));
-		this.pause = new Sprite(graphics.ID(1004));
-		this.nuke = new Sprite(graphics.ID(1006));
-		this.nukeCount = new Sprite(graphics.ID(1007));
-		this.mine = new Sprite(graphics.ID(1008));
-		this.mineCount = new Sprite(graphics.ID(1009));
-		this.vortex = new Sprite(graphics.ID(1010));
-		this.vortexCount = new Sprite(graphics.ID(1009));
+		
+		//TODO Fix up dependencies on managers, consolidate into one manager. Also, make look purdy.
+		
+		this.UIBase = new Sprite(room.getAsset("ui_base"));
+		this.XPFill = new Sprite(room.getAsset("ui_xpfill"));
+		this.XPEmpty = new Sprite(room.getAsset("ui_xpempty"));
+		this.XPGlow = new Sprite(room.getAsset("ui_xpglow"));
+		this.pause = new Sprite(room.getAsset("ui_pause"));
+		this.nuke = new Sprite(room.getAsset("ui_bomb"));
+		this.nukeCount = new Sprite(room.getAsset("ui_bombcount"));
+		this.mine = new Sprite(room.getAsset("ui_mine"));
+		this.mineCount = new Sprite(room.getAsset("ui_minecount"));
+		this.vortex = new Sprite(room.getAsset("ui_vortex"));
+		this.vortexCount = new Sprite(room.getAsset("ui_minecount"));
 		this.sound = sound;
 		this.g = stats;
 		this.graphics = graphics;
@@ -249,7 +252,7 @@ public class UI
 				playMOnce = false;
 			}	
 			minePlace = false;
-			room.add_object(new ActiveMine(Gdx.input.getX() / state.state.renderInfo[2], (Gdx.graphics.getHeight() - Gdx.input.getY()) / state.state.renderInfo[2], sound, graphics.ID(10)));
+			room.add_object(new ActiveMine(Gdx.input.getX() / state.state.renderInfo[2], (Gdx.graphics.getHeight() - Gdx.input.getY()) / state.state.renderInfo[2], sound, room.getAsset("mine")));
 			mine.setRegion(0,0,124,98);
 		}
 		else if(minePlace)
@@ -272,7 +275,7 @@ public class UI
 				playVOnce = false;
 			}
 			vortexPlace = false;
-			room.add_object(new Vortex(Gdx.input.getX() / render[2], (Gdx.graphics.getHeight() - Gdx.input.getY()) / render[2], sound, graphics.ID(12)));
+			room.add_object(new Vortex(Gdx.input.getX() / render[2], (Gdx.graphics.getHeight() - Gdx.input.getY()) / render[2], sound, room.getAsset("vortex")));
 			vortex.setRegion(124,0,124,98);
 		}
 		else if(vortexPlace)
