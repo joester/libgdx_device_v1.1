@@ -27,6 +27,7 @@ public class TheDevice extends BaseState
 	UI gameUI;
 	Player player;
 	Manager manager;
+	DesignHelper helper;
 	
 	public TheDevice(StateManager state, GraphicsManager g, SoundSystem sound, Manager manager) {
 		super(state, sound, manager);
@@ -90,7 +91,7 @@ public class TheDevice extends BaseState
 		this.spawner[2] = new Spawner(this.room, box, 2f, 1f, 2f, graphics, 1, state.sounds);
 		
 		//Spawn Management for dev tool
-		new DesignHelper(new MonsterManager(box, this.graphics, state.sounds, this.room), this.room, box, g, gameUI);
+		helper = new DesignHelper(new MonsterManager(box, this.graphics, state.sounds, this.room), this.room, box, g, gameUI);
 		
 		
 		gameUI = new UI(g, graphics, this, this.room, state.sounds, state.renderInfo);
@@ -124,6 +125,7 @@ public class TheDevice extends BaseState
 		{
 			
 			if(box.getHp() <= 0){
+				helper.dispose();
 				state.endGame(g);
 				return;
 			}

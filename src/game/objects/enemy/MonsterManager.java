@@ -29,6 +29,12 @@ public class MonsterManager {
 		if(ID == 3){
 			return new FuzzThree(d, xPos, yPos, r.getAsset("fuzz3"), s, r );
 		}
+		if(ID == 4){
+			return new PlantOne(d, xPos, yPos, r.getAsset("plant1"), r.getAsset("plant2"), r.getAsset("plant3"), s, r);
+		}
+		if(ID == 5){
+			return new PlantTwo(d, xPos, yPos, r.getAsset("plant2"), r.getAsset("plant3"), s, r);
+		}
 		return null;
 	}
 	

@@ -19,9 +19,11 @@ public class DesignHelper extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	JButton mon1 = new JButton("Monster 1");
-	JButton mon2 = new JButton("Monster 2");
-	JButton mon3 = new JButton("Monster 3");
+	JButton mon1 = new JButton("Fuzz 1");
+	JButton mon2 = new JButton("Fuzz 2");
+	JButton mon3 = new JButton("Fuzz 3");
+	JButton mon4 = new JButton("Plant 1");
+	JButton mon5 = new JButton("Plant 2");
 	JButton addMine = new JButton("Add Mine");
 	JButton addVort = new JButton("Add Vortex");
 	JButton addNuke = new JButton("Add N00k");
@@ -49,6 +51,16 @@ public class DesignHelper extends JFrame{
 		mon3.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent evt){
 				new MonsterEditor(m.spawnMonster(3, 0, 0), r);
+			}
+		});
+		mon4.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent evt){
+				new MonsterEditor(m.spawnMonster(4, 0, 0), r);
+			}
+		});
+		mon5.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent evt){
+				new MonsterEditor(m.spawnMonster(5, 0, 0), r);
 			}
 		});
 		addMine.addActionListener(new ActionListener(){
@@ -84,6 +96,8 @@ public class DesignHelper extends JFrame{
 		add(mon1);
 		add(mon2);
 		add(mon3);
+		add(mon4);
+		add(mon5);
 		add(addMine);
 		add(addVort);
 		add(addNuke);

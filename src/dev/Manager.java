@@ -43,7 +43,9 @@ public class Manager {
 				"ui_bombcount", "data/UI/BombCount.png",
 				"ui_mine", "data/UI/mine.png",
 				"ui_minecount", "data/UI/count.png",
-				"ui_vortex", "data/UI/vortex.png"
+				"ui_vortex", "data/UI/vortex.png",
+				"plant1", "data/monsters/plant/plant_one.png",
+				"plant2", "data/monsters/plant/plant_two.png"
 		);
 	
 	this.addPath(

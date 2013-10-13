@@ -33,6 +33,9 @@ public class SoundSystem {
 		vortex = 12,
 		
 		xp = 21,
+		monster2_1_death = 22,
+		monster2_2_death = 23,
+		monster2_3_death = 24,
 		
 		hit = 31,
 		spawn = 32,
