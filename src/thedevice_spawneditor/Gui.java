@@ -95,7 +95,7 @@ public class Gui{
 	new SpawnMap_ToggleShowNumbers().register();
 	new SpawnMap_ToggleShowMouseDistance().register();
 	new SpawnMap_RecenterButton().register();
-	new SnapTypeVariator().register();
+	//new SnapTypeVariator().register();
     }
     
     public static void draw_SpawnLocationPlacer(){
