@@ -84,7 +84,7 @@ public class SpawnList extends GuiObject{
 	    SpawnMap.currentMap.spawns.remove(selectedSpawns.get(i));
 	}
 	clearSelections();
-	SpawnMap.currentMap.showMessage(""+siz+" point"+(siz == 1 ? "" : "s")+" removed.");
+	SpawnMap.showMessage(""+siz+" point"+(siz == 1 ? "" : "s")+" removed.");
     }
     
     /////Bars
@@ -122,7 +122,8 @@ public class SpawnList extends GuiObject{
     }
     
     public void focusOnBar(int index){//Makes the list focus on a certain position if it is not already in view
-	setBarPosition(index < barPosition ? index : index >= barPosition+MAXBARS ? index-MAXBARS+1 : barPosition);
+    	setBarPosition(index < barPosition ? index : index >= barPosition+MAXBARS ? index-MAXBARS+1 : barPosition);
+    	firstSelection = index;
     }
     
     /////Update
@@ -219,16 +220,23 @@ public class SpawnList extends GuiObject{
 	//Go up and down with arrow keys
 	boolean goup = Center.keyPressed(Keys.UP);
 	if(goup || Center.keyPressed(Keys.DOWN)){
-	    int index = dragSelectIndex0 != -1 ? dragSelectIndex0 : firstSelection;
+	    /*int index = dragSelectIndex0 != -1 ? dragSelectIndex0 : firstSelection;//This commented-out code would instead make the up/down keys change the selection up/down, though shift would be buggy
 	    if(index != -1){
 		index = goup ? index-1 : index+1;
 		if(index >= 0 && index < SpawnMap.currentMap.spawns.size()){
-		    clearSelections();
-		    firstSelection = index;
+			if(Center.getKey(Keys.SHIFT)){
+				if(dragSelectIndex0 == -1){
+					dragSelectIndex0 = firstSelection;
+					dragSelectIndex1 = index;
+				}
+			}else
+				clearSelections();
+			//firstSelection = index;//focusOnBar does this anyway
 		    selectSpawn(index);
 		    focusOnBar(index);
 		}
-	    }
+	    }*/
+		setBarPosition(goup ? barPosition-1 : barPosition+1);
 	}
 	
 	//select all with CTRL+A

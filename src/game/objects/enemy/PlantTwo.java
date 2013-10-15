@@ -16,7 +16,7 @@ public class PlantTwo extends Enemy{
 	Texture monster3;
 	public PlantTwo(GameObject device, float posX, float posY, Texture sprites, Texture monster3, SoundSystem sounds, Room room) {
 		super(device, 3, posX, posY, 2, 5, 6, 6, 0,
-				0, true, 10, true, 9, 9,
+				0, true, 10, true, 12,12,//9, 9,
 				sprites, 256, 256, sounds, room);
 		// TODO Auto-generated constructor stub
 		
