@@ -1,8 +1,5 @@
 package game;
 
-import sounds.SoundSystem;
-import menu.BaseState;
-import menu.StateManager;
 import game.UI.UI;
 import game.controls.Controller;
 import game.draw.GraphicsManager;
@@ -10,11 +7,13 @@ import game.objects.Device;
 import game.objects.GameObject;
 import game.objects.Player;
 import game.objects.enemy.MonsterManager;
-import game.objects.spawner.Spawner;
+import game.objects.spawner.CustomSpawner;
 import game.room.Room;
+import menu.BaseState;
+import menu.StateManager;
+import sounds.SoundSystem;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 //import dev.DesignHelper;
@@ -22,6 +21,8 @@ import dev.Manager;
 
 public class TheDevice extends BaseState
 {
+	static final String MAPPATH = "./data/editorsettings/spawnmaps/ExampleDoableMap.spawnmap";//Temporary until we make a way for the game to choose the map to use
+	
 	public StateManager state;
 	GraphicsManager graphics;
 	UI gameUI;
@@ -39,7 +40,7 @@ public class TheDevice extends BaseState
 	
 	/* Game */
 	private GameObject box;
-	private Spawner[] spawner = new Spawner[3];
+	private CustomSpawner spawner;
 	
 	public Room room;
 	private GameStats g;
@@ -86,9 +87,7 @@ public class TheDevice extends BaseState
 		this.room.add_object(this.box);
 		this.room.add_object(player);
 		
-		this.spawner[0] = new Spawner(this.room, box, 2f, 1f, 2f, graphics, 1, state.sounds);
-		this.spawner[1] = new Spawner(this.room, box, 2f, 1f, 2f, graphics, 1, state.sounds);
-		this.spawner[2] = new Spawner(this.room, box, 2f, 1f, 2f, graphics, 1, state.sounds);
+		spawner = new CustomSpawner(MAPPATH,box,graphics,state.sounds,room);//temporary path
 		
 		//Spawn Management for dev tool
 		//helper = new DesignHelper(new MonsterManager(box, this.graphics, state.sounds, this.room), this.room, box, g, gameUI);
@@ -134,17 +133,7 @@ public class TheDevice extends BaseState
 			//boolean gameIsOver = this.room.update(dt);
 			g.updateTimeElapsed(dt);
 			
-			for(int i = 0; i < spawnsToUse; i ++){
-				if(spawner[i] != null){
-					spawner[i].incMax(0.02f * dt);
-					spawner[i].update(dt);
-					if(i == spawnsToUse - 1 && spawner[i].isDone()){
-						if(spawnsToUse < 3){
-							spawnsToUse ++;
-						}
-					}
-				}
-			}
+			spawner.update(dt);
 			if(gameUI.nukeState)
 			{
 				this.room.wipe();
