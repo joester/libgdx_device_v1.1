@@ -6,12 +6,16 @@ import java.util.HashMap;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 
+import device.graphics.Graphics;
+
 public class Manager {
 	
 	HashMap<String, ArrayList<String>> textureMap = new HashMap<String, ArrayList<String>>();
 	AssetManager a_manager = new AssetManager();
 	HashMap<String, HashMap<String, String>> entries = new HashMap<String, HashMap<String, String>>();
 	String current_pack = "";
+	
+	Graphics graphics = new Graphics();
 	
 	public Manager(){
 	this.addPath(
