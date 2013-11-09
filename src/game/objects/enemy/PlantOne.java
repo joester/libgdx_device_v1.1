@@ -16,7 +16,7 @@ public class PlantOne extends Enemy{
 	float cooldown = 0.6f;
 	
 	public PlantOne(GameObject device, float posX, float posY, Texture sprites, Texture monster2, Texture monster3, SoundSystem sounds, Room room) {
-		super(device, 3, posX, posY, 12, 12, 6, 6, 0,
+		super("plant1", device, 3, posX, posY, 12, 12, 6, 6, 0,
 				0, true, 10, true, 12, 12,
 				sprites, 256, 256, sounds, room);
 		// TODO Auto-generated constructor stub
@@ -36,10 +36,10 @@ public class PlantOne extends Enemy{
 		this.monster2 = monster2;
 		this.monster3 = monster3;
 		
-		this.animator.add_animation(0, 0, 5, true, 0, 1, 2, 3, 2, 1, 0);
-		this.animator.add_animation(0, 0, 5, true, 0, 1, 2, 3, 2, 1, 0);
-		this.animator.add_animation(0, 0, 5, true, 0, 1, 2, 3, 2, 1, 0);
-		this.set_animation(0);
+		this.animator.add_animation("death", 0, 0, 5, false, 0, 1, 2, 3, 2, 1, 0);
+		this.animator.add_animation("attack", 0, 0, 5, true, 0, 1, 2, 3, 2, 1, 0);
+		this.animator.add_animation("walk", 0, 0, 5, true, 0, 1, 2, 3, 2, 1, 0);
+		this.set_animation("walk", true);
 	}
 	
 	@Override
@@ -48,7 +48,7 @@ public class PlantOne extends Enemy{
 	}
 	public void playHit()
 	{
-		playDeath();
+		sounds.playSound(SoundSystem.monster1_2_damage);
 	}
 	@Override
 	public void playAttack(){

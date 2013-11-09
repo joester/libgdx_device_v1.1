@@ -193,6 +193,10 @@ public class SoundSystem {
 		addSound(monster1_3_roar, Gdx.files.internal("data/sounds/monster/m3roar.mp3"));
 		addSound(monster1_3_slam, Gdx.files.internal("data/sounds/monster/m3slam.mp3"));
 		
+		addSound(monster2_1_death, Gdx.files.internal("data/sounds/monster/monster_plant/plant_one.mp3"));
+		addSound(monster2_2_death, Gdx.files.internal("data/sounds/monster/monster_plant/plant_two.mp3"));
+		addSound(monster2_3_death, Gdx.files.internal("data/sounds/monster/monster_plant/plant_three.mp3"));
+		
 		addSound(nuke, Gdx.files.internal("data/sounds/items/nuke.mp3"));
 		addSound(mine, Gdx.files.internal("data/sounds/items/mine.mp3"));
 		addSound(vortex, Gdx.files.internal("data/sounds/items/vortex.mp3"));

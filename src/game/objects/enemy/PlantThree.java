@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class PlantThree extends Enemy{
 	public PlantThree(GameObject device, float posX, float posY, Texture sprites, SoundSystem sounds, Room room) {
-		super(device, 3, posX, posY, 30, 50, 12, 12, 0,
+		super("plant3",device, 3, posX, posY, 30, 50, 12, 12, 0,
 				0, true, 15, true, 12, 12,
 				sprites, 128, 128, sounds, room);
 		// TODO Auto-generated constructor stub
@@ -29,11 +29,11 @@ public class PlantThree extends Enemy{
 		
 		this.drawOffsetY = 2;
 		
-		this.add_animation(0, 0, 7, 7, false);
-		this.animator.add_animation(0, 1, 13, false, 0,1,2,3,4,5,6);
-		this.animator.add_animation(0, 2, 5, true,0,1,2,1,0,3,4,3,0);
+		this.add_animation("death", 0, 0, 7, 7, false);
+		this.animator.add_animation("attack", 0, 1, 13, false, 0,1,2,3,4,5,6);
+		this.animator.add_animation("walk", 0, 2, 5, true,0,1,2,1,0,3,4,3,0);
 		
-		this.set_animation(2);
+		this.set_animation("walk", true);
 	}
 	
 	public void playSound(){

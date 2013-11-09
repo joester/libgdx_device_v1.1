@@ -26,7 +26,7 @@ public class SpawnList extends GuiObject{
 	instance = this;
 	setPosition(new Vector2(OFFSET.x,OFFSET.y-100));
 	setSize(new Vector2(SIZE.x,SIZE.y+200));
-	selectedSpawns = new ArrayList<>();
+	selectedSpawns = new ArrayList<SpawnLocation>();
     }
     
     /////Register

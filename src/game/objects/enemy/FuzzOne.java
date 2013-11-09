@@ -11,7 +11,7 @@ public class FuzzOne extends Enemy{
 	Texture monster2;
 	Texture monster3;
 	public FuzzOne(GameObject device, float posX, float posY, Texture sprites, Texture monster2, Texture monster3, SoundSystem sounds, Room room) {
-		super(device, 3, posX, posY, 12, 12, 6, 6, 0,
+		super("fuzz1", device, 3, posX, posY, 12, 12, 6, 6, 0,
 				0, true, 10, true, 12, 12,
 				sprites, 128, 128, sounds, room);
 		// TODO Auto-generated constructor stub
@@ -31,10 +31,10 @@ public class FuzzOne extends Enemy{
 		this.health.max = 1;
 		this.worth = 3;
 		
-		this.add_animation(0, 0, 7, 12, false);
-		this.animator.add_animation(0, 1, 16, false, 0,1,2,1,0,3,4,0,2);
-		this.animator.add_animation(0, 2, 5, true, 0, 1, 2, 3, 4, 3, 2, 1, 0);
-		this.set_animation(2);
+		this.add_animation("death", 0, 0, 7, 12, false);
+		this.animator.add_animation("attack", 0, 1, 16, false, 0,1,2,1,0,3,4,0,2);
+		this.animator.add_animation("walk", 0, 2, 5, true, 0, 1, 2, 3, 4, 3, 2, 1, 0);
+		this.set_animation("walk", true);
 	}
 	
 	@Override

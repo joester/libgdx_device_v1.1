@@ -40,6 +40,7 @@ public class Device extends AnimatedObject {
 	public Device(float posX, float posY, Texture sprites, Texture spawn, Room room, Texture exp_sprites, Texture hit, SoundSystem sounds)
 	 {
 		super(
+				"device", //animator name
 				1, //ID
 				posX, posY, //Position
 				1, //Mass
@@ -64,14 +65,14 @@ public class Device extends AnimatedObject {
 		this.health.max = 10;
 		this.health.current = 10;
 		
-		this.animator.add_animation(0, 0, 5, 24, true);
-		this.animator.set_animation(0);
+		this.animator.add_animation("device_float", 0, 0, 5, 24, true);
+		this.animator.set_animation("device_float", true);
 		
 		/* Spawn */
 		this.spawn = new Sprite(spawn);
-		this.spawn_animator = new Animator(this.spawn, 200, 200);
-		this.spawn_animator.add_animation(0, 0, 3, 8, false);
-		this.spawn_animator.set_animation(0);
+		this.spawn_animator = new Animator("device", this.spawn, 200, 200);
+		this.spawn_animator.add_animation("device_spawn", 0, 0, 3, 8, false);
+		this.spawn_animator.set_animation("device_spawn", true);
 		
 		/* Hit */
 		this.hit = new Sprite(hit);
@@ -132,7 +133,7 @@ public class Device extends AnimatedObject {
 				this.room.spawn_object(exp1);
 				this.timer.reset_timer();
 				this.isSpawning = true;
-				this.spawn_animator.set_animation(0);
+				this.spawn_animator.set_animation("device_spawn", true);
 			}//fi
 			
 			if (this.timer_count <= 0)

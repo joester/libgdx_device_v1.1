@@ -94,9 +94,9 @@ public class Room implements Controllable
 		this.graphics = g;
 		
 		warningS = new Sprite(assets.get("ui_warn"));
-		warning = new Animator(warningS,62,62);
-		warning.add_animation(0, 0, 4, 5, true);
-		warning.set_animation(0);
+		warning = new Animator("warning",warningS,62,62);
+		warning.add_animation("warning", 0, 0, 4, 5, true);
+		warning.set_animation("warning", true);
 		
 		mineTex = assets.get("mine_drop");
 		vortTex = assets.get("vortex_drop");

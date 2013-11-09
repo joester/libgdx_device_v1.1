@@ -26,12 +26,12 @@ public class Enemy extends AnimatedObject
 	boolean isWalking, isAttacking;
 	float speedCopy = this.get_speed();
 	
-	public Enemy(GameObject device, int objectID, float posX, float posY, float mass,
+	public Enemy(String name, GameObject device, int objectID, float posX, float posY, float mass,
 			float friction, float hitWidth, float hitHeight, float hitX,
 			float hitY, boolean isSolid, float touchRadius,
 			boolean isTouchable, float drawWidth, float drawHeight,
 			Texture sprites, int srcWidth, int srcHeight, SoundSystem sounds, Room room) {
-		super(objectID, posX, posY, mass, friction, hitWidth, hitHeight, hitX, hitY,
+		super(name, objectID, posX, posY, mass, friction, hitWidth, hitHeight, hitX, hitY,
 				isSolid, touchRadius, isTouchable, drawWidth, drawHeight,
 				sprites, srcWidth, srcHeight, sounds);
 		
@@ -45,8 +45,8 @@ public class Enemy extends AnimatedObject
 	public void update(float dt, ArrayList<GameObject> objects)
 	{
 		if(this.isDying){
-			if(this.animator.get_currentAnimation() != 0){
-				this.animator.set_animation(0);
+			if(!this.animator.get_currentAnimation().equals("death")){
+				this.animator.playAnimation("death", 15, false);
 				this.isTouchable = false;
 				this.isSolid = false;
 				playDeath();
@@ -60,16 +60,16 @@ public class Enemy extends AnimatedObject
 		}
 		
 		if(this.attack.isAttacking){
-			if(this.animator.get_currentAnimation() != 1){
-				this.animator.set_animation(1);
+			if(!this.animator.get_currentAnimation().equals("attack")){
+				this.animator.playAnimation("attack", 15, false);
 				this.animation_state = 1;
 				playAttack();
 			}
 			super.update(dt, objects);
 			return;
 		}
-		else if(this.animator.get_currentAnimation() != 2){
-			this.animator.set_animation(2);
+		else if(this.animator.get_currentAnimation().equals("walk")){
+			this.animator.playAnimation("walk", 10, true);
 		}
 		
 		if(!stunned)

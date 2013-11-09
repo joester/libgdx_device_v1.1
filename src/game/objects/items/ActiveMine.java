@@ -16,15 +16,15 @@ public class ActiveMine extends AnimatedObject{
 	private boolean isExploding2 = false;
 	
 	public ActiveMine(float posX, float posY, SoundSystem sounds, Texture tex) {
-		super(97, posX, posY, 1, 90, 8, 8, 0, 0,
+		super("activemine",97, posX, posY, 1, 90, 8, 8, 0, 0,
 				false, 5, true, 18, 18, tex,
 				200, 200, sounds);
 		
 		this.screenBound = true;
 		this.drawOffsetY = 6.5f;
-		this.add_animation(1, 0, 5, 10, false);
-		this.add_animation(0, 0, 1, 1, true);
-		this.animator.set_animation(1);
+		this.add_animation("mine_active", 1, 0, 5, 10, false);
+		this.add_animation("mine_passive", 0, 0, 1, 1, true);
+		this.animator.set_animation("mine_passive", true);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -38,7 +38,7 @@ public class ActiveMine extends AnimatedObject{
 			this.drawOffsetY = 10;
 			this.drawWidth = 30;
 			this.drawHeight = 30;
-			this.animator.set_animation(0);
+			this.animator.set_animation("mine_active", false);
 			this.set_velocity(0, 0);
 			this.isTouchable = false;
 		}

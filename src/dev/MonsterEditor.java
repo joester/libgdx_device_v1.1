@@ -24,7 +24,7 @@ public class MonsterEditor extends JFrame{
 	public MonsterEditor(final Enemy e, final Room r) {
 		setTitle("Creation of Monster w/ ID: " + e.getID());
 		setSize(500, 500);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setVisible(true);
 		getContentPane().setLayout(new GridLayout(6, 1));
 		att[0].setText(Float.toString(e.getHp()));

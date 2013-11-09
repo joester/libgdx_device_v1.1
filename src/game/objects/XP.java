@@ -11,6 +11,7 @@ public class XP extends AnimatedObject
 	public XP(float posX, float posY, Texture sprites, float speed, float direction, SoundSystem sounds)
 	{
 		super(
+				"XP",
 				2, //ID
 				posX, posY, //Position
 				1, //Mass
@@ -32,8 +33,8 @@ public class XP extends AnimatedObject
 		this.set_velocity(xComp, yComp);
 		this.worth = 5;
 		
-		this.add_animation(0, 0, 3, 6, true);
-		this.set_animation(0);
+		this.add_animation("xp_float", 0, 0, 3, 6, true);
+		this.set_animation("xp_float", true);
 	}//END XP
 	
 }//END class XP

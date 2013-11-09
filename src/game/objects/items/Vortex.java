@@ -16,12 +16,12 @@ public class Vortex extends AnimatedObject{
 	float scaleBase = 3;
 
 	public Vortex(float posX, float posY, SoundSystem sounds, Texture sprites) {
-		super(14, posX, posY, 0, 0, 5, 5, 0, 0,
+		super("vortex",14, posX, posY, 0, 0, 5, 5, 0, 0,
 				false, 2.5f, false, 4, 4, sprites,
 				400, 400, sounds);
 		
-		this.add_animation(0, 0, 5, 30, true);
-		this.set_animation(0);
+		this.add_animation("vortex_active", 0, 0, 5, 30, true);
+		this.set_animation("vortex_active", true);
 
 		sounds.playSound(SoundSystem.vortex);
 		// TODO Auto-generated constructor stub

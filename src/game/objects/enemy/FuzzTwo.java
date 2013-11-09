@@ -22,7 +22,7 @@ public class FuzzTwo extends Enemy{
 	
 	Texture monster3;
 	public FuzzTwo(GameObject device, float posX, float posY, Texture sprites, Texture monster3, SoundSystem sounds, Room room) {
-		super(device, 3, posX, posY, 2, 5, 6, 6, 0,
+		super("fuzz2",device, 3, posX, posY, 2, 5, 6, 6, 0,
 				0, true, 10, true, 9, 9,
 				sprites, 128, 128, sounds, room);
 		// TODO Auto-generated constructor stub
@@ -43,12 +43,12 @@ public class FuzzTwo extends Enemy{
 		this.health.max = 2;
 		this.worth = 7;
 		
-		this.add_animation(0, 0, 7, 12, false);
-		this.add_animation(0, 1, 2, 5, true);
-		this.animator.add_animation(0, 2, 5, true, 0,1,0,2);
-		this.add_animation(0, 3, 3, 5, true);
+		this.add_animation("death",0, 0, 7, 12, false);
+		this.add_animation("attack",0, 1, 2, 5, true);
+		this.animator.add_animation("walk",0, 2, 5, true, 0,1,0,2);
+		this.add_animation("charge",0, 3, 3, 5, true);
 
-		this.set_animation(2);
+		this.set_animation("walk", true);
 	}
 	
 	@Override
@@ -57,14 +57,14 @@ public class FuzzTwo extends Enemy{
 			super.update(dt, objects);
 			return;
 		}
-		if((!isPrepping && !isRunning) && this.animator.get_currentAnimation() != 2){
-			this.animator.set_animation(2);
+		if((!isPrepping && !isRunning) && !this.animator.get_currentAnimation().equals("walk")){
+			this.animator.set_animation("walk", true);
 			return;
 		}
 		if(timer.isDone()){
 			this.action_queue.clear();
-			if(this.animator.get_currentAnimation() != 3){
-				this.animator.set_animation(3);
+			if(!this.animator.get_currentAnimation().equals("charge")){
+				this.animator.set_animation("charge", true);
 				isPrepping = true;
 			}
 			if(isPrepping){
@@ -80,7 +80,7 @@ public class FuzzTwo extends Enemy{
 					sounds.playSound(SoundSystem.monster1_2_charge);
 					isPrepping = false;
 					prepTime.reset_timer();
-					this.animator.set_animation(1);
+					this.animator.set_animation("attack", true);
 					timer.reset_timer();
 				}
 				else{
@@ -122,7 +122,7 @@ public class FuzzTwo extends Enemy{
 		isRunning = false;
 		this.mass = 2;
 		runTime.reset_timer();
-		this.animator.set_animation(2);
+		this.animator.set_animation("walk", true);
 	}
 	
 	private void charge(GameObject obj){

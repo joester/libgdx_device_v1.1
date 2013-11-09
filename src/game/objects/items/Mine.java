@@ -18,14 +18,14 @@ public class Mine extends AnimatedObject{
 	boolean isActive;
 	
 	public Mine(float posX, float posY, GameStats stats, SoundSystem sounds, Texture sprites){
-		super(99, posX, posY, 1, 90, 5, 5, 0, 0,
+		super("mine",99, posX, posY, 1, 90, 5, 5, 0, 0,
 				false, 5, false, 5, 5,
 				sprites, 200, 200, sounds);
 		this.stats = stats;
 		this.movement.speedcap = 100;
 		this.isActive = false;
-		this.add_animation(0, 0, 4, 8, true);
-		this.set_animation(0);
+		this.add_animation("mine_item", 0, 0, 4, 8, true);
+		this.set_animation("mine_item", true);
 
 	}
 	

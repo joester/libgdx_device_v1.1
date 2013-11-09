@@ -40,11 +40,11 @@ public class AnimatedObject extends GameObject
 	 * @param srcWidth the width of a sprite
 	 * @param srcHeight the height of a sprite
 	 */
-	public AnimatedObject(int objectID, float posX, float posY, float mass, float friction, float hitWidth, float hitHeight, float hitX, float hitY, boolean isSolid, float touchRadius, boolean isTouchable, float drawWidth, float drawHeight, Texture sprites, int srcWidth, int srcHeight, SoundSystem sounds)
+	public AnimatedObject(String animatorName, int objectID, float posX, float posY, float mass, float friction, float hitWidth, float hitHeight, float hitX, float hitY, boolean isSolid, float touchRadius, boolean isTouchable, float drawWidth, float drawHeight, Texture sprites, int srcWidth, int srcHeight, SoundSystem sounds)
 	{
 		super(objectID, posX, posY, mass, friction, hitWidth, hitHeight, hitX, hitY, isSolid, touchRadius, isTouchable, drawWidth, drawHeight, sprites, srcWidth, srcHeight, sounds);
 		
-		this.animator = new Animator(this.sprite, srcWidth, srcHeight);
+		this.animator = new Animator(animatorName, this.sprite, srcWidth, srcHeight);
 	}//END AnimatedObject
 	
 	/* Animation */
@@ -62,9 +62,9 @@ public class AnimatedObject extends GameObject
 	 * @param animationSpeed the number of frames per second/interval
 	 * @param loops whether the animation is looping or not
 	 */
-	public void add_animation(int startX, int startY, int numFrames, float animationSpeed, boolean loops)
+	public void add_animation(String name, int startX, int startY, int numFrames, float animationSpeed, boolean loops)
 	{
-		this.animator.add_animation(startX, startY, numFrames, animationSpeed, loops);
+		this.animator.add_animation(name, startX, startY, numFrames, animationSpeed, loops);
 	}//END add_animation
 	
 	/**
@@ -83,9 +83,9 @@ public class AnimatedObject extends GameObject
 	 * 
 	 * @param animationID the ID of the animation.
 	 */
-	public void set_animation(int animationID)
+	public void set_animation(String animationID, boolean loops)
 	{
-		this.animator.set_animation(animationID);
+		this.animator.set_animation(animationID, loops);
 		this.animationSet = true;
 	}//END set_animationStart
 	

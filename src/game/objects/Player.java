@@ -68,7 +68,7 @@ public class Player extends AnimatedObject
 	public Player(int objectID, float posX, float posY, float mass, float friction, float hitWidth, float hitHeight, float hitX, float hitY, boolean isSolid, float touchRadius, boolean isTouchable, float drawWidth, float drawHeight,
 			Texture sprites1, int srcWidth, int srcHeight, GameStats stats, SoundSystem sounds)
 	{
-		super(objectID, posX, posY, mass, 300, hitWidth, hitHeight, hitX, hitY, isSolid, touchRadius, isTouchable, 20, 15, sprites1, 200, 150, sounds);
+		super("player", objectID, posX, posY, mass, 300, hitWidth, hitHeight, hitX, hitY, isSolid, touchRadius, isTouchable, 20, 15, sprites1, 200, 150, sounds);
 		
 		this.screenBound = true;
 		
@@ -90,24 +90,36 @@ public class Player extends AnimatedObject
 		//Idle
 		for(int i = 0; i < 8; i++)
 		{
-			this.add_animation(5, 4 + i, 1, 6, true);
+			this.add_animation("idle_".concat(Integer.toString(i)),5, 4 + i, 1, 6, true);
+			/*
+			 Alright, so for now, the system for idle animations will be idle_(some number). 
+			 System starts at 0, which is at essentially 0 degrees.
+			 For every increment i, increase the angle by 45 degrees in the counterclockwise position.
+			 This will get you the direction that the player is facing.
+			 Don't exceed 7. Just don't do it man. It's not worth it.
+			 */
 		}//rof
 		
 		//Walking
-		this.add_animation(0, 4 + 0, 5, 13, true);
-		this.add_animation(0, 4 + 2, 5, 13, true);
-		this.add_animation(0, 4 + 2, 5, 13, true);
-		this.add_animation(0, 4 + 2, 5, 13, true);
-		this.add_animation(0, 4 + 4, 5, 13, true);
-		this.animator.add_animation(0, 4 + 5, 10, true, 4,3,1,0);
-		this.add_animation(0, 4 + 6, 5, 13, true);
-		this.animator.add_animation(0, 4 + 7, 10, true, 4,3,1,0);
+		this.add_animation("run_0",0, 4 + 0, 5, 500, true);
+		this.add_animation("run_1",0, 4 + 2, 5, 500, true);
+		this.add_animation("run_2",0, 4 + 2, 5, 500, true);
+		this.add_animation("run_3",0, 4 + 2, 5, 500, true);
+		this.add_animation("run_4",0, 4 + 4, 5, 500, true);
+		this.animator.add_animation("run_5",0, 4 + 5, 500, true, 4,3,1,0);
+		this.add_animation("run_6", 0, 4 + 6, 5, 500, true);
+		this.animator.add_animation("run_7", 0, 4 + 7, 500, true, 4,3,1,0);
 		
 		//Attack
-		this.add_animation(0, 2, 5, 20, false);
-		this.add_animation(0, 0, 5, 20, false);
-		this.add_animation(0, 3, 5, 20, false);
-		this.add_animation(0, 1, 5, 20, false);
+		
+		/*
+		 System works the same as before, only instead of 45 degree increments, 90 degree increments.
+		 */
+		
+		this.add_animation("attack_0", 0, 2, 5, 5, false);
+		this.add_animation("attack_1", 0, 0, 5, 5, false);
+		this.add_animation("attack_2", 0, 3, 5, 5, false);
+		this.add_animation("attack_3", 0, 1, 5, 5, false);
 		
 		this.directionBasedAnimation(ANIMATION_IDLE);
 	}//END Player
@@ -263,11 +275,14 @@ public class Player extends AnimatedObject
 		this.animation_state = animationID;
 		if(animationID == ANIMATION_ATTACKING)
 		{
-			this.set_animation(animationID * 8 + (int)((this.facing_angle + 45)%360)/(90));
+			this.animator.playAnimation("attack_".concat(Integer.toString((int)((this.facing_angle + 45)%360)/(90))), 30, false);
 		}
-		else
+		else if(animationID == ANIMATION_WALKING)
 		{
-			this.set_animation(animationID * 8 + this.get_facingAngleIndex());
+			this.animator.playAnimation("run_".concat(Integer.toString(this.get_facingAngleIndex())), 15, true);
+		}
+		else{
+			this.animator.playAnimation("idle_".concat(Integer.toString(this.get_facingAngleIndex())), 15, true);
 		}
 	}//END directionBasedAnimation
 	
@@ -281,6 +296,7 @@ public class Player extends AnimatedObject
 		{
 			this.animation_state = ANIMATION_WALKING;
 		}//esle
+		directionBasedAnimation(this.animation_state);
 	}//END set_currentAnimation
 	
 	/* Update */
@@ -320,7 +336,7 @@ public class Player extends AnimatedObject
 			
 			this.set_currentAnimation();
 		
-			if((this.animator.get_currentAnimation() != this.animation_state * 8 + this.get_facingAngleIndex()))
+			if((this.animator.get_currentAnimation().equals("attack_".concat(Integer.toString(this.animation_state * 8 + this.get_facingAngleIndex())))));
 			{
 				this.directionBasedAnimation(this.animation_state);
 			}//fi

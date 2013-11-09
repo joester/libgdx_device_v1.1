@@ -36,7 +36,7 @@ public class DesignHelper extends JFrame{
 		setTitle("Design Helper v0.2a");
 		getContentPane().setLayout(new GridLayout(8,1));
 		setSize(500, 1000);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setVisible(true);
 		mon1.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent evt){

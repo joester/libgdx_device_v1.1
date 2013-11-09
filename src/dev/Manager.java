@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Manager {
@@ -12,6 +14,9 @@ public class Manager {
 	AssetManager a_manager = new AssetManager();
 	HashMap<String, HashMap<String, String>> entries = new HashMap<String, HashMap<String, String>>();
 	String current_pack = "";
+	HashMap<String, Texture> tex = new HashMap<String, Texture>();
+	HashMap<String, Sound> sound = new HashMap<String, Sound>();
+	HashMap<String, Music> music = new HashMap<String, Music>();
 	
 	public Manager(){
 	this.addPath(
@@ -46,13 +51,17 @@ public class Manager {
 				"ui_vortex", "data/UI/vortex.png",
 				"plant1", "data/monsters/plant/plant_one.png",
 				"plant2", "data/monsters/plant/plant_two.png"
+				
+			
 		);
 	
 	this.addPath(
 			"Main",
 			"main_play","data/UI/play.png", 
-			"main_bg","data/backgrounds/TitleScreen.png", 
-			"main_help","data/UI/help.png");
+			"main_bg","data/backgrounds/TitleScreen.png", 			
+			"main_help","data/UI/help.png"
+			
+			);
 	
 	this.addPath(
 			
@@ -62,6 +71,7 @@ public class Manager {
 			"tut_nav_left", "data/UI/nav_left.png",
 			"tut_nav_right","data/UI/nav_right.png",
 			"tut_nav_exit", "data/UI/nav_exit.png"
+			
 			);
 	
 	this.addPath(			
@@ -69,6 +79,7 @@ public class Manager {
 			"end_bg", "data/backgrounds/gameover.png",
 			"end_retry", "data/UI/retry.png",
 			"end_quit", "data/UI/quitter.png"
+			
 	);
 	
 	this.addPath(
@@ -100,7 +111,8 @@ public class Manager {
 	}
 	
 	public void loadArtAssets(String packName){
-		for(String str : entries.get(packName).values()){
+		//System.out.println(entries.isEmpty());
+		for(String str : entries.get(packName).values()){			
 			a_manager.load(str, Texture.class);
 		}
 		current_pack=packName;
@@ -108,12 +120,22 @@ public class Manager {
 	}
 	
 	public HashMap<String, Texture> getArtAssets(String packName){
-		HashMap<String, Texture> tex = new HashMap<String, Texture>();
+		HashMap<String, Texture> thing = new HashMap<String, Texture>();
 		for(String str : entries.get(packName).keySet()){
-			tex.put(str, (Texture) a_manager.get(entries.get(packName).get(str)));
+			thing.put(str, (Texture)a_manager.get(entries.get(packName).get(str)));
 		}
-		return tex;
+		//System.out.println(thing.isEmpty());
+		return thing;
 	}
+	
+	public HashMap<String, Sound> getSoundAssets(String packName){
+		return this.sound;
+	}
+	
+	public HashMap<String, Music> getMusicAssets(String packName){
+		return this.music;
+	}
+	
 	public void unloadArtAssets(){
 		if(current_pack == ""){
 			return;
@@ -123,4 +145,5 @@ public class Manager {
 		}
 		current_pack="";
 	}
+	
 }
