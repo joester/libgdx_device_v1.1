@@ -43,14 +43,14 @@ class SpawnMap_ToggleShowColors extends ToggleButton{
     
     /////Overrides
     public void button_OnMouseClick(){
-	SpawnMap.currentMap.showEnemyColors = !SpawnMap.currentMap.showEnemyColors;
+	SpawnMap.showEnemyColors = !SpawnMap.showEnemyColors;
     }
     
     public String getToggleButtonText(){
 	return "Show enemy colors [T]";
     }
     public boolean checkIsToggledOn(){
-	return SpawnMap.currentMap.showEnemyColors;
+	return SpawnMap.showEnemyColors;
     }
     public Keys getShortcutKey(){
 	return Keys.T;
@@ -64,7 +64,7 @@ class SpawnMap_ToggleOnlySelected extends ToggleButton{
     
     /////Overrides
     public void button_OnMouseClick(){
-	SpawnMap.currentMap.onlyShowSelected = !SpawnMap.currentMap.onlyShowSelected;
+	SpawnMap.onlyShowSelected = !SpawnMap.onlyShowSelected;
     }
     
     public String getToggleButtonText(){
@@ -77,8 +77,8 @@ class SpawnMap_ToggleOnlySelected extends ToggleButton{
 	return Keys.G;
     }
 }
-class SpawnMap_ToggleShowNumbers extends ToggleButton{
-    public SpawnMap_ToggleShowNumbers(){
+class SpawnMap_ToggleShowMouseDistance extends ToggleButton{
+    public SpawnMap_ToggleShowMouseDistance(){
 	super();
 	setPosition(new Vector2(1,360));
 	setSize(ToggleButton.TOGGLEBUTTONSIZE);
@@ -86,21 +86,21 @@ class SpawnMap_ToggleShowNumbers extends ToggleButton{
     
     /////Overrides
     public void button_OnMouseClick(){
-	SpawnMap.currentMap.showRingNumbers = !SpawnMap.currentMap.showRingNumbers;
+	SpawnMap.showMouseDistance = !SpawnMap.showMouseDistance;
     }
     
     public String getToggleButtonText(){
-	return "Show ring numbers [B]";
+	return "Show mouse dist [B]";
     }
     public boolean checkIsToggledOn(){
-	return SpawnMap.currentMap.showRingNumbers;
+	return SpawnMap.showMouseDistance;
     }
     public Keys getShortcutKey(){
 	return Keys.B;
     }
 }
-class SpawnMap_ToggleShowMouseDistance extends ToggleButton{
-    public SpawnMap_ToggleShowMouseDistance(){
+class SpawnMap_ToggleShowNumbers extends ToggleButton{
+    public SpawnMap_ToggleShowNumbers(){
 	super();
 	setPosition(new Vector2(1,390));
 	setSize(ToggleButton.TOGGLEBUTTONSIZE);
@@ -108,14 +108,14 @@ class SpawnMap_ToggleShowMouseDistance extends ToggleButton{
     
     /////Overrides
     public void button_OnMouseClick(){
-	SpawnMap.currentMap.showMouseDistance = !SpawnMap.currentMap.showMouseDistance;
+	SpawnMap.showRingNumbers = !SpawnMap.showRingNumbers;
     }
     
     public String getToggleButtonText(){
-	return "Show mouse dist [H]";
+	return "Show ring numbers [H]";
     }
     public boolean checkIsToggledOn(){
-	return SpawnMap.currentMap.showMouseDistance;
+	return SpawnMap.currentMap.showRingNumbers;
     }
     public Keys getShortcutKey(){
 	return Keys.H;

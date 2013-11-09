@@ -8,6 +8,8 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
+import device.graphics.Graphics;
+
 public class Manager {
 	
 	HashMap<String, ArrayList<String>> textureMap = new HashMap<String, ArrayList<String>>();
@@ -17,6 +19,8 @@ public class Manager {
 	HashMap<String, Texture> tex = new HashMap<String, Texture>();
 	HashMap<String, Sound> sound = new HashMap<String, Sound>();
 	HashMap<String, Music> music = new HashMap<String, Music>();
+	
+	Graphics graphics = new Graphics();
 	
 	public Manager(){
 	this.addPath(

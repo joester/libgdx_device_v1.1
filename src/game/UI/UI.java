@@ -53,6 +53,12 @@ public class UI
 	GameStats g;
 	float[] render;
 	
+	//render[0] = game width;
+	//render[1] = game height;
+	//render[2] = convert to scalar;
+	private float gWidth;
+	private float gHeight;
+	
 	private Rectangle UIBox;
 	private Rectangle nukeB;
 	private Rectangle pauseB;
@@ -63,6 +69,9 @@ public class UI
 	
 	public UI(GameStats stats, GraphicsManager graphics, TheDevice state, Room room, SoundSystem sound, float[] render){
 		this.state = state;
+		
+		gWidth = render[0]*render[2];
+		gHeight = render[1]*render[2];
 		
 		//TODO Fix up dependencies on managers, consolidate into one manager. Also, make look purdy.
 		
@@ -83,43 +92,43 @@ public class UI
 		this.room = room;
 		this.render = render;
 		//Set Fill
-		XPFill.setPosition(render[0]*render[2]*0.89f, Gdx.graphics.getHeight() - render[1]*render[2]*0.395f);
-		XPEmpty.setPosition(render[0]*render[2]*0.89f, Gdx.graphics.getHeight() - render[1]*render[2]*0.395f);
-		XPEmpty.setSize(render[0]*render[2]*0.11f, render[1]*render[2]*0.07f);
+		XPFill.setPosition(gWidth*0.89f, Gdx.graphics.getHeight() - gHeight*0.395f);
+		XPEmpty.setPosition(gWidth*0.89f, Gdx.graphics.getHeight() - gHeight*0.395f);
+		XPEmpty.setSize(gWidth*0.11f, gHeight*0.07f);
 		UIBox = UIBase.getBoundingRectangle();
 		//Set Glow
-		XPGlow.setSize(render[0] * 0.15f * render[2],render[1] * render[2]);
-		XPGlow.setPosition(render[0]*render[2]*0.85f, 0);
+		XPGlow.setSize(gWidth * 0.15f,gHeight);
+		XPGlow.setPosition(gWidth*0.85f, 0);
 		//Set Pause
-		pause.setPosition(render[0]*render[2]*0.92f, render[1]*render[2]*0.90f);
+		pause.setPosition(gWidth*0.92f, gHeight*0.90f);
 		pause.setRegion(0, 0, 57, 57);
-		pause.setSize(render[0]*render[2]*0.05f,render[1]*render[2]*0.09f);
+		pause.setSize(gWidth*0.05f,gHeight*0.09f);
 		pauseB = pause.getBoundingRectangle();
 		//Set Nuke
-		nuke.setPosition(render[0]*render[2]*0.88f, render[1]*render[2]*0.14f);
-		nuke.setSize(render[0]*render[2]*0.12f, render[1]*render[2]*0.16f);
+		nuke.setPosition(gWidth*0.88f, gHeight*0.14f);
+		nuke.setSize(gWidth*0.12f, gHeight*0.16f);
 		nukeB = nuke.getBoundingRectangle();
-		nukeCount.setSize(render[0]*render[2]*0.08f,render[1]*render[2]*0.095f);
+		nukeCount.setSize(gWidth*0.08f,gHeight*0.095f);
 		//Set Mine
-		mine.setPosition(render[0]*render[2]*0.88f, render[1]*render[2]*0.30f);
-		mine.setSize(render[0]*render[2]*0.11f,render[1]*render[2]*0.15f);
+		mine.setPosition(gWidth*0.88f, gHeight*0.30f);
+		mine.setSize(gWidth*0.11f,gHeight*0.15f);
 		mine.setRegion(0,0,124,98);
 		mineB = mine.getBoundingRectangle();
 		//Set Mine count
-		mineCount.setPosition(render[0]*render[2]*0.942f,render[1]*render[2]*0.345f);
-		mineCount.setSize(render[0]*render[2]*0.035f,render[1]*render[2]*0.058f);
+		mineCount.setPosition(gWidth*0.942f,gHeight*0.345f);
+		mineCount.setSize(gWidth*0.035f,gHeight*0.058f);
 		mineCount.setRegion(117-(39*g.getMineCount()),0,39,38);
 		//Set Vortex
-		vortex.setPosition(render[0]*render[2]*0.88f, render[1]*render[2]*0.45f);
-		vortex.setSize(render[0]*render[2]*0.11f,render[1]*render[2]*0.15f);
+		vortex.setPosition(gWidth*0.88f, gHeight*0.45f);
+		vortex.setSize(gWidth*0.11f,gHeight*0.15f);
 		vortex.setRegion(0,0,124,98);
 		vortexB = vortex.getBoundingRectangle();
 		//Set Vortex count
-		vortexCount.setPosition(render[0]*render[2]*0.942f,render[1]*render[2]*0.495f);
-		vortexCount.setSize(render[0]*render[2]*0.035f,render[1]*render[2]*0.058f);
+		vortexCount.setPosition(gWidth*0.942f,gHeight*0.495f);
+		vortexCount.setSize(gWidth*0.035f,gHeight*0.058f);
 		vortexCount.setRegion(117-(39*g.getMineCount()),0,39,38);
 		
-		UIBar = Gdx.graphics.getWidth() - render[0]*render[2]*0.18f;
+		UIBar = Gdx.graphics.getWidth() - gWidth*0.18f;
 		font = new BitmapFont(Gdx.files.internal("data/bearz/bearz.fnt"),Gdx.files.internal("data/bearz/bearz.png"), false);
 	}
 	
@@ -141,7 +150,6 @@ public class UI
 		{
 			if(!playNOnce)
 			{
-				
 				sound.playSound(SoundSystem.buttonl);
 				playNOnce = true;
 			}
@@ -204,7 +212,7 @@ public class UI
 		
 		//Draw Level
 		String levelString = Integer.toString(g.getLevel());
-		font.draw(batch, levelString, render[0]*render[2]*0.975f-font.getBounds(levelString).width/2, render[1]*render[2]*0.673f);
+		font.draw(batch, levelString, gWidth*0.975f-font.getBounds(levelString).width/2, gHeight*0.673f);
 		
 		//Draw UIBase
 		UIBase.setSize(render[0] * 0.15f * render[2],render[1] * render[2]);
@@ -229,7 +237,7 @@ public class UI
 		}
 		//Draw Score
 		String scoreString = Integer.toString(g.getScore());
-		font.draw(batch, scoreString, Gdx.graphics.getWidth() - font.getBounds(scoreString).width - render[0]*render[2]*0.01f, render[1]*render[2]*0.83f);
+		font.draw(batch, scoreString, Gdx.graphics.getWidth() - font.getBounds(scoreString).width - gWidth*0.01f, gHeight*0.83f);
 		
 		//Draw time
 		g.updateTimeElapsed(dt);
@@ -308,7 +316,7 @@ public class UI
 		{
 			nukeCount.setRegion(94,0,93,64);
 		}
-		nukeCount.setPosition(render[0]*render[2]*0.86f,render[1]*render[2]*0.09f);
+		nukeCount.setPosition(gWidth*0.86f,gHeight*0.09f);
 		nukeCount.draw(batch);
 		if(nukes > 1)
 		{
@@ -319,7 +327,7 @@ public class UI
 		{
 			nukeCount.setRegion(94,0,93,64);
 		}
-		nukeCount.setPosition(render[0]*render[2]*0.90f,render[1]*render[2]*0.07f);
+		nukeCount.setPosition(gWidth*0.90f,gHeight*0.07f);
 		nukeCount.draw(batch);
 		if(nukes > 2)
 		{
@@ -330,7 +338,7 @@ public class UI
 		{
 			nukeCount.setRegion(94,0,93,64);
 		}
-		nukeCount.setPosition(render[0]*render[2]*0.94f,render[1]*render[2]*0.09f);
+		nukeCount.setPosition(gWidth*0.94f,gHeight*0.09f);
 		nukeCount.draw(batch);
 		
 		

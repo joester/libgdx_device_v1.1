@@ -4,10 +4,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
 import java.util.ArrayList;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-
 public class FileManager{
+	static final byte FILEVERSION = 10;
 	static final String DEFAULTFOLDER = "./data/editorsettings/spawnmaps";
     static final String FILENAMEEXTENSION = ".spawnmap";
     static boolean saving;
@@ -70,13 +68,14 @@ public class FileManager{
 	DataOutputStream stream = null;
 	try{
 	    stream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(filename)));
+	    stream.write(FILEVERSION);
 	    ArrayList<SpawnLocation> list = SpawnMap.currentMap.spawns;
 	    for(int i = 0;i < list.size();i++){
-		SpawnLocation location = list.get(i);
-		stream.writeByte(location.type.ordinal());
-		stream.writeFloat(location.time);
-		stream.writeFloat(location.position.x);
-		stream.writeFloat(location.position.y);
+			SpawnLocation location = list.get(i);
+			stream.writeByte(location.type.ordinal());
+			stream.writeFloat(location.time);
+			stream.writeFloat(location.position.x);
+			stream.writeFloat(location.position.y);
 	    }
 	    stream.flush();
 	    SpawnMap.showMessage("Map saved.");
@@ -104,40 +103,56 @@ public class FileManager{
 	loading = false;
     }
     
-    static void loadMapFromFile(String filename){
-	SpawnMap.showMessage("Loading...");
-	newMap();
-	DataInputStream stream = null;
-	boolean success = true;
-	try{
-	    stream = new DataInputStream(new BufferedInputStream(new FileInputStream(filename)));
+    static void loadData(DataInputStream stream) throws java.io.EOFException,Exception{
 	    SpawnType[] spawntypes = SpawnType.values();
 	    for(int i = 0; i < 9999; i++){
-		SpawnType type = spawntypes[stream.readByte()];
-		float time = stream.readFloat();
-		float xpos = stream.readFloat();
-		float ypos = stream.readFloat();
-		SpawnMap.currentMap.addSpawnLocation(new SpawnLocation(new Vector2(xpos,ypos),type,time));
+			SpawnType type = spawntypes[stream.readByte()];
+			float time = stream.readFloat();
+			float xpos = stream.readFloat();
+			float ypos = stream.readFloat();
+			SpawnMap.currentMap.addSpawnLocation(new SpawnLocation(new Vector2(xpos,ypos),type,time));
 	    }
-	}catch(java.io.EOFException _){
-	    //Completed sucessfully
-	    success = true;
-	}catch(Exception e){
-	    System.out.println("MAP LOADING THREW EXCEPTION: "+e);
-	    SpawnMap.showMessage("Map loaded.");
-	    success = false;
-	}finally{
-	    if(success){
-		SpawnMap.showMessage("Map loaded.");
-		fileName = filename;
-		TheDevice_SpawnEditor.changeTitle(fileName);
-	    }else
-		SpawnMap.showMessage("Load failed!!");
-	    try{
-		stream.close();
-	    }catch(Exception e){
-		System.out.println("Well this sucks.");
-	    }
-	}
+    }
+    static void loadMapFromFile(String filename){
+		SpawnMap.showMessage("Loading...");
+		newMap();
+		DataInputStream stream = null;
+		boolean success = true;
+		try{
+		    stream = new DataInputStream(new BufferedInputStream(new FileInputStream(filename)));
+		    byte version = stream.readByte(); 
+		    switch(version){
+		    	case 10:
+		    		loadData(stream);
+		    		break;
+		    	default://For backwards compatibility; the first byte in older versions (corresponding to the SpawnType) should be less than 10; my mistake for not adding a version number before
+					SpawnType itype = SpawnType.values()[version];//The "version number" byte in older versions is actually the SpawnType byte
+					float itime = stream.readFloat();
+					float ixpos = stream.readFloat();
+					float iypos = stream.readFloat();
+					SpawnMap.currentMap.addSpawnLocation(new SpawnLocation(new Vector2(ixpos,iypos),itype,itime));
+					loadData(stream);
+					break;
+		    }
+		}catch(java.io.EOFException _){
+		    //Completed sucessfully
+		    success = true;
+		}catch(Exception e){
+		    System.out.println("MAP LOADING THREW EXCEPTION: "+e);
+		    SpawnMap.showMessage("Map loaded.");
+		    success = false;
+		}finally{
+		    if(success){
+			SpawnMap.showMessage("Map loaded.");
+			fileName = filename;
+			TheDevice_SpawnEditor.changeTitle(fileName);
+		    }else
+			SpawnMap.showMessage("Load failed!!");
+		    try{
+			stream.close();
+		    }catch(Exception e){
+			System.out.println("Well this sucks.");
+		    }
+		}
     }
 }

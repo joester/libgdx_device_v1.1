@@ -92,10 +92,10 @@ public class Gui{
 	new SpawnList().register();
 	new SpawnMap_ToggleShowColors().register();
 	new SpawnMap_ToggleOnlySelected().register();
-	new SpawnMap_ToggleShowNumbers().register();
 	new SpawnMap_ToggleShowMouseDistance().register();
+	//new SpawnMap_ToggleShowNumbers().register();
 	new SpawnMap_RecenterButton().register();
-	new SnapTypeVariator().register();
+	//new SnapTypeVariator().register();
     }
     
     public static void draw_SpawnLocationPlacer(){

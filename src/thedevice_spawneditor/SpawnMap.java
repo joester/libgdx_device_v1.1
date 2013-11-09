@@ -6,9 +6,9 @@ enum MapSnapType{None,Ring,Grid}
 
 public class SpawnMap extends GuiObject{
     //////////Constants
-    public static final int MINSCALE = 4;
-    public static final int MAXSCALE = 16;
-    public static final int DEFAULTSCALE = 6;
+    public static final int MINSCALE = 2;
+    public static final int MAXSCALE = 8;
+    public static final int DEFAULTSCALE = 4;
     
     public static final Color COLOR_BACKGROUND = new Color(0,0,0);
     public static final Color COLOR_LINES = new Color(0f,1,0);
@@ -28,6 +28,7 @@ public class SpawnMap extends GuiObject{
     public static final float FIELDANGLE = Vector2.toAngle(FIELDSIZE);
     
     static final int NUMANGLELINES = 12;
+    static final float SCALELERPAMOUNT = .2f;
     
     //////////Statics
     public static SpawnMap currentMap;
@@ -43,7 +44,7 @@ public class SpawnMap extends GuiObject{
     public static boolean showMouseDistance;
     
     public static MapSnapType snapType;
-    public static int snapSize;
+    public static int snapSize = 5;
     
     static float scale = MAXSCALE;
     static float desiredscale = DEFAULTSCALE;
@@ -93,9 +94,9 @@ public class SpawnMap extends GuiObject{
     
     /////Add/Remove locations
     void addSpawnLocationAt(SpawnLocation spawn,int index){
-	spawns.add(index,spawn);
-	if(SpawnList.instance != null)
-	    SpawnList.instance.focusOnBar(index);
+		spawns.add(index,spawn);
+		if(SpawnList.instance != null)
+		    SpawnList.instance.focusOnBar(index);
     }
     public void addSpawnLocation(SpawnLocation spawn){
 	SpawnLocation otherspawn;
@@ -205,7 +206,7 @@ public class SpawnMap extends GuiObject{
     public void update(){//sorry for all the megafunctions here
 	super.update();
 	
-	scale = desiredscale*.08f+scale*.92f;
+	scale = desiredscale*SCALELERPAMOUNT+scale*(1-SCALELERPAMOUNT);
 	//drawOffset = viewOffset.add(scale);
 	
 	update_middleclickmapmovement();

@@ -496,7 +496,7 @@ public class GameObject implements Comparable<GameObject>
 												collider.get_hitWidth(),
 												collider.get_hitHeight());
 		
-		return Intersector.intersectRectangles(self_rect, collider_rect);
+		return Intersector.intersectRectangles(self_rect, collider_rect, new Rectangle());
 	}//END isColliding
 	
 	/**

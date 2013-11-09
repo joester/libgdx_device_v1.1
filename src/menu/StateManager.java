@@ -13,6 +13,7 @@ import sounds.SoundSystem;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -39,6 +40,8 @@ public class StateManager implements ApplicationListener{
 	
 	@Override
 	public void create() {
+		
+		Texture.setEnforcePotImages(false);
 		// TODO Auto-generated method stub
 		posStates = new BaseState[7];
 		
