@@ -17,7 +17,8 @@ public class TheDevice_FormationEditor{
     		jframe.dispose();
     	}
     	exitonclose = false;
-		main(new String[]{});
+		//main(new String[]{});
+    	(new Thread(new NewThreadRunnable())).start();
 		fileToOpen = name;
     }
     
@@ -32,4 +33,10 @@ public class TheDevice_FormationEditor{
         jframe.add(center);
         jframe.setVisible(true);
     }
+}
+
+class NewThreadRunnable implements Runnable{
+	public void run(){
+		TheDevice_FormationEditor.main(new String[]{});
+	}
 }

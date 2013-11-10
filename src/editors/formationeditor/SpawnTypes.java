@@ -2,15 +2,15 @@ package editors.formationeditor;
 
 import java.awt.Color;
 
-import editors.shared.EventType;
+import editors.shared.SpawnType;
 import editors.shared.GraphicsDraw;
 import editors.shared.Vector2;
 
 
-class EventTypes{
+class SpawnTypes{
 	//static final Color COLOR_PLOTHOLE = new Color(0f,1,1);
 	
-    public static int getLevel(EventType t){
+    public static int getLevel(SpawnType t){
 		switch(t){
 		    case Fuzzie1:
 		    case Plant1:
@@ -29,7 +29,7 @@ class EventTypes{
 		}
     }
     
-    public static String getName(EventType t){
+    public static String getName(SpawnType t){
     	switch(t){
 		    case Fuzzie1:
 		    	return "Fuzzie 1";
@@ -54,7 +54,7 @@ class EventTypes{
     }
     
     static final int FUZZYGRAY = 174;
-    public static Color getColor1(EventType t){
+    public static Color getColor1(SpawnType t){
 	switch(t){
 	    case Fuzzie1:
 	    case Fuzzie2:
@@ -77,7 +77,7 @@ class EventTypes{
 	}
 	return Color.BLUE;
     }
-    public static Color getColor2(EventType t){
+    public static Color getColor2(SpawnType t){
 	switch(t){
 	    case Fuzzie1:
 	    	return new Color(222,165,198);
@@ -122,12 +122,12 @@ class EventTypes{
         	GraphicsDraw.circle(screenpos,radius-2);
     	}else{*/
 	    	//large X with a small lined circle
-	    	float siz = 5+EventTypes.getLevel(s.type)*3;
+	    	float siz = 5+SpawnTypes.getLevel(s.type)*3;
 	    	GraphicsDraw.circle(screenpos,siz/2);
 	    	GraphicsDraw.line(new Vector2(screenpos.x-siz,screenpos.y-siz),new Vector2(screenpos.x+siz,screenpos.y+siz));
 	    	GraphicsDraw.line(new Vector2(screenpos.x+siz,screenpos.y-siz),new Vector2(screenpos.x-siz,screenpos.y+siz));
 	    	if(SpawnMap.showEnemyColors){
-	    	    GraphicsDraw.setColor(EventTypes.getColor1(s.type));
+	    	    GraphicsDraw.setColor(SpawnTypes.getColor1(s.type));
 	    	    GraphicsDraw.fillCircle(screenpos,siz/2);
 	    	}
     	//}
@@ -140,9 +140,9 @@ class EventTypes{
 			GraphicsDraw.fillCircle(sqpos,sqsiz.x/2-2);
 			GraphicsDraw.circle(sqpos,sqsiz.x/2);
     	}else{*/
-			GraphicsDraw.setColor(EventTypes.getColor1(spawn.type));
+			GraphicsDraw.setColor(SpawnTypes.getColor1(spawn.type));
 			GraphicsDraw.fillRectangle(sqpos,sqsiz);
-			GraphicsDraw.setColor(EventTypes.getColor2(spawn.type));
+			GraphicsDraw.setColor(SpawnTypes.getColor2(spawn.type));
 			GraphicsDraw.fillRectangle(sqpos,sqsiz.div(2));
     	//}
     }

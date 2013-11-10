@@ -1,6 +1,6 @@
 package editors.shared;
 
-public enum EventType{//Do not change the order/numbers or it will mess up saves
+public enum SpawnType{//Do not change the order/numbers or it will mess up saves
     Fuzzie1,//0
     Fuzzie2,//1
     Fuzzie3,//2

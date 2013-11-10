@@ -190,10 +190,10 @@ public class FileManager{
 		    	formationnames.add(stream.readUTF());
 		    
 		    num = stream.readByte();//number of waves
-		    for(int i = 0; i < num; i++){
+		    for(byte i = 0; i < num; i++){
 		    	byte numformations = stream.readByte();//number of formations in the current wave
 		    	ArrayList<SingleFormation> formations = new ArrayList<SingleFormation>();
-		    	for(int j = 0; j < numformations; j++){
+		    	for(byte j = 0; j < numformations; j++){
 		    		SingleFormation s = new SingleFormation();
 		    		s.name = formationnames.get(stream.readByte());
 		    		s.spawnAngle = stream.readByte();

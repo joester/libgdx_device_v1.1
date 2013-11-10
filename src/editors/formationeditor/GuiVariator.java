@@ -2,7 +2,7 @@ package editors.formationeditor;
 import java.awt.Color;
 
 import editors.shared.CenteredText;
-import editors.shared.EventType;
+import editors.shared.SpawnType;
 import editors.shared.GraphicsDraw;
 import editors.shared.Vector2;
 import editors.shared._G;
@@ -233,7 +233,7 @@ class EnemyVariator extends GuiVariator{
 	return 0;
     }
     public int getMaxValue(){
-	return EventType.values().length-1;
+	return SpawnType.values().length-1;
     }
     
     public float getHoldIncrementerIncrease(){
@@ -252,7 +252,7 @@ class EnemyVariator extends GuiVariator{
 	super.draw();
 	GraphicsDraw.setColor(Color.BLACK);
 	GraphicsDraw.biggishFont();
-	GraphicsDraw.centerText(EventTypes.getName(EventType.values()[value]),getCenter());
+	GraphicsDraw.centerText(SpawnTypes.getName(SpawnType.values()[value]),getCenter());
     }
 }
 

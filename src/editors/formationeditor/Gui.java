@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.awt.Color;
 
 import editors.shared.CenteredText;
-import editors.shared.EventType;
+import editors.shared.SpawnType;
 import editors.shared.GraphicsDraw;
 import editors.shared.Vector2;
 
@@ -70,8 +70,8 @@ public class Gui{
 		GraphicsDraw.centerText(Text_Spawn);
     }
     
-    public static EventType SpawnLocationCreator_getDesiredSpawnType(){
-    	return EventType.values()[ev.value];
+    public static SpawnType SpawnLocationCreator_getDesiredSpawnType(){
+    	return SpawnType.values()[ev.value];
     }
     
     /////////////////////////SpawnLocation Placer

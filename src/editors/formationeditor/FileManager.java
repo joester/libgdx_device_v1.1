@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import editors.shared.EventType;
+import editors.shared.SpawnType;
 import editors.shared.Vector2;
 import editors.shared._G;
 
@@ -126,9 +126,9 @@ public class FileManager{
 		    stream = new DataInputStream(new BufferedInputStream(new FileInputStream(path)));
 		    byte version = stream.readByte();
 		    int size;
-		    EventType[] spawntypes = EventType.values();
+		    SpawnType[] spawntypes = SpawnType.values();
 		    for(int i = 0; i < 9999; i++){//The last iteration will throw an EOFException
-				EventType type = spawntypes[stream.readByte()];
+				SpawnType type = spawntypes[stream.readByte()];
 				float xpos = stream.readFloat();
 				float ypos = stream.readFloat();
 				SpawnMap.currentMap.addSpawnLocation(new EventLocation(new Vector2(xpos,ypos),type));

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.awt.Color;
 
 import editors.shared.CenteredText;
-import editors.shared.EventType;
+import editors.shared.SpawnType;
 import editors.shared.GraphicsDraw;
 import editors.shared.Vector2;
 

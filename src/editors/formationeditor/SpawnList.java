@@ -300,7 +300,7 @@ public class SpawnList extends GuiObject{
 		/////Draw color-coded square
 		Vector2 sqpos = new Vector2(pos.x-BARSIZE.x/2+BARSIZE.y/2,pos.y);
 		Vector2 sqsiz = new Vector2(BARSIZE.y-8,BARSIZE.y-8);
-		EventTypes.drawSymbol(spawn,sqpos,sqsiz);
+		SpawnTypes.drawSymbol(spawn,sqpos,sqsiz);
     }
     
     public void draw(){

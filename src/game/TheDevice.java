@@ -21,7 +21,7 @@ import dev.Manager;
 
 public class TheDevice extends BaseState
 {
-	static final String MAPPATH = "./data/editorsettings/spawnmaps/ExampleDoableMap.spawnmap";//Temporary until we make a way for the game to choose the map to use
+	static final String LEVELPATH = "./data/leveldata/levels/Level1.devicelevel";//Temporary until we make a way for the game to choose the map to use
 	
 	public StateManager state;
 	GraphicsManager graphics;
@@ -87,7 +87,7 @@ public class TheDevice extends BaseState
 		this.room.add_object(this.box);
 		this.room.add_object(player);
 		
-		spawner = new CustomSpawner(MAPPATH,box,graphics,state.sounds,room);//temporary path
+		spawner = new CustomSpawner(LEVELPATH,box,graphics,state.sounds,room);//temporary path
 		
 		//Spawn Management for dev tool
 		//helper = new DesignHelper(new MonsterManager(box, this.graphics, state.sounds, this.room), this.room, box, g, gameUI);

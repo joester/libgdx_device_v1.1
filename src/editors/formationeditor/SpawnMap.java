@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.awt.Color;
 
 import editors.shared.CenteredText;
-import editors.shared.EventType;
+import editors.shared.SpawnType;
 import editors.shared.GraphicsDraw;
 import editors.shared.Vector2;
 import editors.shared._G;
@@ -285,7 +285,7 @@ public class SpawnMap extends GuiObject{
     
     /////Draw
     void drawSingleSpawnLocation(EventLocation s,Vector2 screenpos,boolean selected){
-    	EventTypes.drawPoint(s,screenpos,SIZEFLOAT/scale,selected);
+    	SpawnTypes.drawPoint(s,screenpos,SIZEFLOAT/scale,selected);
     }
     final float MESSAGEHEIGHT = 32;
     void draw_message(){
@@ -421,9 +421,9 @@ public class SpawnMap extends GuiObject{
 
 class EventLocation{
     public Vector2 position;
-    public EventType type;
+    public SpawnType type;
     
-    public EventLocation(Vector2 pos,EventType typ){
+    public EventLocation(Vector2 pos,SpawnType typ){
 		position = pos;
 		type = typ;
     }
