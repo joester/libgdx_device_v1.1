@@ -1,25 +1,32 @@
 package game.objects.spawner;
 
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
+
 import sounds.SoundSystem;
 
 import com.badlogic.gdx.math.Vector2;
+
+import editors.shared.LevelWave;
+import editors.shared.SingleFormation;
+import editors.shared._G;
 import game.draw.GraphicsManager;
 import game.objects.GameObject;
+import game.objects.enemy.Enemy;
 import game.objects.enemy.MonsterManager;
 import game.room.Room;
-
-import java.io.*;
-import java.util.LinkedList;
-
-import game.objects.enemy.Enemy;
-
-import java.util.Random;
 
 public class CustomSpawner{
 	//////////Constants
 	static final boolean APPLYRANDOMDIRECTIONTOWAVES = true;//makes each wave of enemies appear in a random direction while keeping their formation
 	static final boolean LOOPWHENFINISHED = true;//Will start over if it is finished
 	static final float LOOPDELAY = 3;//Delay when looping
+	static final String FORMATIONFILEPATH = _G.DATAFOLDER+"formations/";
+	static final String FORMATIONFILENAMEEXTENSION = ".spawnformation";
 	/////The following two constants are temporary until we figure out a way to get the map size.
 	/////They should depend on the size of the field.
 	static final Vector2 center = new Vector2(45,30);//The center of the map
@@ -31,23 +38,26 @@ public class CustomSpawner{
 	SoundSystem soundSystem;
 	Room room;
 	
-	MonsterManager monsterManager; 
-	
-	LinkedList<SpawnLocation> spawnLocations;
-	private float time;
+	MonsterManager monsterManager;
 	
 	private Random rand;
 	private VectorMath vmath;
 	
-	private String mapPath;
+	private String levelFilePath;
+
+
+	private float timer;
+	private int currentWaveIndex,currentFormationIndex;
+	private ArrayList<LevelWave> waves;
+	private ArrayList<String> formationNames;
+	private HashMap<String,ArrayList<SpawnData>> formationNameToData = new HashMap<String,ArrayList<SpawnData>>();
 	
-	public CustomSpawner(String mappath,GameObject gameObject,GraphicsManager graphicsManager,SoundSystem soundSystem,Room room){
-		mapPath = mappath;
+	public CustomSpawner(String levelfilepath,GameObject gameObject,GraphicsManager graphicsManager,SoundSystem soundSystem,Room room){
+		levelFilePath = levelfilepath;
 		this.gameObject = gameObject;
 		this.graphicsManager = graphicsManager;
 		this.soundSystem = soundSystem;
 		this.room = room;
-		spawnLocations = new LinkedList<SpawnLocation>();
 
 		this.monsterManager = new MonsterManager(gameObject, graphicsManager, soundSystem, room);
 		
@@ -56,46 +66,96 @@ public class CustomSpawner{
 		
 		reset();
 	}
-
-    private void loadData(DataInputStream stream) throws java.io.EOFException,Exception{
-	    for(int i = 0; i < 9999; i++){
-			int type = stream.readByte();
-			float time = stream.readFloat();
-			float xpos = stream.readFloat();
-			float ypos = stream.readFloat();
-			spawnLocations.add(new SpawnLocation(new Vector2(xpos,ypos),type,time));
-	    }
-    }
     
+	/////Helpful Functions
     public void reset(){
     	System.out.println("GL HF!");
-    	time = 0;
-		loadMapFromFile(mapPath);
+    	currentWaveIndex = 0;
+    	timer = 0;
+    	loadLevelFromFile(levelFilePath);
     }
     
-    public void loadMapFromFile(String filename){
+    public void onLevelFinished(){//Don't know what to do here yet
+		System.out.println("Level finished!");
+		if(LOOPWHENFINISHED){
+			System.out.println("Resetting spawner!");
+			reset();
+			timer = -LOOPDELAY;
+		}
+    }
+    
+    /////File Loading
+    void loadFormationFromFile(String filename){
+    	String filepath = FORMATIONFILEPATH+filename+FORMATIONFILENAMEEXTENSION;
+		DataInputStream stream = null;
+	    ArrayList<SpawnData> ans = new ArrayList<SpawnData>();
+		try{
+		    stream = new DataInputStream(new BufferedInputStream(new FileInputStream(filepath)));
+		    byte version = stream.readByte();
+		    for(int i = 0; i < 9999; i++){
+			    byte type = stream.readByte();
+			    float x = stream.readFloat();
+			    Vector2 pos = new Vector2(x,stream.readFloat());
+			    ans.add(new SpawnData(type,pos));
+		    }
+		}catch(java.io.EOFException _){
+		    //Completed sucessfully
+		}catch(Exception e){
+			System.out.println("Formation loading threw exception: "+e);
+			System.out.println("Check if the file "+filename+" is missing. If it isn't, please inform Masana that his formation-loading system sucks.");
+		}finally{
+		    try{
+		    	stream.close();
+		    }catch(Exception e){
+		    	System.out.println("Well this sucks.");
+		    }
+		}
+		formationNames.add(filename);
+		formationNameToData.put(filename,ans);
+	    System.out.println(filename+" : "+formationNames.size());
+    }
+    
+    public void loadLevelFromFile(String filename){		
+		waves = new ArrayList<LevelWave>();
+    	formationNames = new ArrayList<String>();
+    	
 		DataInputStream stream = null;
 		try{
 		    stream = new DataInputStream(new BufferedInputStream(new FileInputStream(filename)));
-		    byte version = stream.readByte(); 
-		    switch(version){
-		    	case 10:
-		    		loadData(stream);
-		    		break;
-		    	default://For backwards compatibility; the first byte in older versions (corresponding to the SpawnType) should be less than 10; my mistake for not adding a version number before
-					int itype = version;//The "version number" byte in older versions is actually the SpawnType byte
-					float itime = stream.readFloat();
-					float ixpos = stream.readFloat();
-					float iypos = stream.readFloat();
-					spawnLocations.add(new SpawnLocation(new Vector2(ixpos,iypos),itype,itime));
-					loadData(stream);
-					break;
+		    byte version = stream.readByte();
+		    System.out.println("version: "+version);
+		    
+		    byte numFormationTypes = stream.readByte();
+		    System.out.println("numFormationTypes: "+numFormationTypes);
+		    for(byte b = 0; b < numFormationTypes; b++)
+		    	loadFormationFromFile(stream.readUTF());
+		    
+		    byte numWaves = stream.readByte();
+		    System.out.println("numWaves: "+numWaves);
+		    for(byte i = 0; i < numWaves; i++){
+		    	System.out.println("i: "+i);
+	    		LevelWave wave = new LevelWave();
+		    	byte numFormationsInWave = stream.readByte();
+		    	System.out.println("numFormationsInWave: "+numFormationsInWave);
+		    	for(byte j = 0; j < numFormationsInWave; j++){
+		    		System.out.println("j: "+j);
+		    		SingleFormation form = new SingleFormation();
+		    		byte formationnameindex = stream.readByte();
+		    		System.out.println("formationnameindex: "+formationnameindex);
+		    		form.name = formationNames.get(formationnameindex);
+		    		System.out.println("formation name: "+form.name);
+		    		form.spawnAngle = stream.readByte();
+		    		wave.formations.add(form);
+		    	}
+		    	wave.numFormationsUsed = stream.readByte();
+		    	wave.delayBetweenFormations = stream.readFloat();
+		    	waves.add(wave);
 		    }
 		}catch(java.io.EOFException _){
 		    //Completed sucessfully
 		}catch(Exception e){
 			System.out.println("Map loading threw exception: "+e);
-			System.out.println("Check if the file "+filename+" is missing. If it isn't, please inform Masana.");
+			System.out.println("Check if the file "+filename+" is missing. If it isn't, please inform Masana that his level-loading system sucks.");
 		}finally{
 		    try{
 		    	stream.close();
@@ -105,49 +165,56 @@ public class CustomSpawner{
 		}
     }
     
-    public void spawnEnemy(SpawnLocation location,float relativerotation){
-    	Vector2 pos = new Vector2(center.x+location.position.x*baseDistance,center.y-location.position.y*baseDistance);//Negative Y because GDX's system has a positive Y go upward rather than downward
-    	pos = vmath.rotate(pos,relativerotation);
-    	Enemy enemy = monsterManager.spawnMonster(location.type+1,pos.x,pos.y);
+    /////Spawning Functions
+    void spawnEnemy(SpawnData data,float rotation){
+    	Vector2 pos = vmath.rotate(data.position,rotation);
+    	pos = new Vector2(center.x+pos.x*baseDistance,center.y-pos.y*baseDistance);//Negative Y because GDX's system has a positive Y go upward rather than downward
+    	System.out.println("Spawning "+data.type+" at "+pos);
+    	Enemy enemy = monsterManager.spawnMonster(data.type+1,pos.x,pos.y);
     	room.spawn_object(enemy);
     }
+    void spawnFormationFrom(LevelWave currentWave){
+    	SingleFormation formation = currentWave.formations.get(rand.nextInt(currentWave.formations.size()));
+    	float rotation = SingleFormation.spawnAngleToRadians(formation.spawnAngle,rand);
+    	int num = 0;
+    	for(SpawnData spawn : formationNameToData.get(formation.name)){
+    		++num;
+    		spawnEnemy(spawn,rotation);
+    	}
+    	System.out.println("num: "+num);
+    }
 
-    private float waveDirection = 0;
+    /////Update
 	public void update(float dseconds){
-		if((int)time != (int)(time += dseconds) & APPLYRANDOMDIRECTIONTOWAVES){//Will randomize the spawn direction every second
-			waveDirection = (float)rand.nextDouble()*VectorMath.pi*2;
-			System.out.println("waveDirection: "+(int)(waveDirection/VectorMath.pi/2*360)+" degrees");
-		}
-
-		SpawnLocation location;
+		timer += dseconds;
 		
-		if(spawnLocations.isEmpty()){
-			System.out.println("NO ENEMIES LEFT!");
-			if(LOOPWHENFINISHED){
-				System.out.println("Resetting spawner!");
-				reset();
-				time = -LOOPDELAY;
+		if(waves.size() == 0)
+			System.out.println("PLEASE USE A LEVEL THAT ACTUALLY HAS WAVES IN IT!!!!");
+		LevelWave currentWave = waves.get(currentWaveIndex);
+		
+		if(timer > currentWave.delayBetweenFormations){
+			timer = 0;
+			++currentFormationIndex;
+			if(currentFormationIndex == currentWave.numFormationsUsed){
+				currentFormationIndex = 0;
+				++currentWaveIndex;
+				if(currentWaveIndex == waves.size()){
+					onLevelFinished();
+				}
+			}else{
+				spawnFormationFrom(currentWave);
 			}
-		}else while(!spawnLocations.isEmpty()){
-			location = spawnLocations.getFirst();
-			if(location.time > time)
-				break;
-			spawnEnemy(location,waveDirection);
-			spawnLocations.pollFirst();
 		}
 	}
 }
 
-class SpawnLocation{
-    public Vector2 position;
-    public int type;//spawn type
-    public float time;
-    
-    public SpawnLocation(Vector2 pos,int typ,float tim){
-		position = pos;
-		type = typ;
-		time = tim;
-    }
+class SpawnData{
+	public byte type;
+	public Vector2 position;
+	public SpawnData(byte t,Vector2 p){
+		type = t;
+		position = p;
+	}
 }
 
 class VectorMath{//Masana's Vector Math class
@@ -163,13 +230,11 @@ class VectorMath{//Masana's Vector Math class
     public boolean equals(Vector2 v1,Vector2 v2){return distance(v1,v2) < .1f;}
     
     public float distance(Vector2 v1,Vector2 v2){return magnitude(sub(v1,v2));}
-    public boolean distanceLessThan(Vector2 v1,Vector2 v2,float dist){//Optimized
-    	return magnitude(new Vector2(v1.x-v2.x,v1.y-v2.y)) < dist;
-    	/*
+    public boolean distanceLessThan(Vector2 v1,Vector2 v2,float dist){//optimized
     	float x = v1.x-v2.x;
     	if(Math.abs(x) >= dist) return false;
     	float y = v2.y-v1.y;
-    	return Math.abs(y) < dist && x*x+y*y < dist*dist;*/
+    	return Math.abs(y) < dist && x*x+y*y < dist*dist;
     }
     	
     public float magnitude(Vector2 v){return (float)Math.sqrt(v.x*v.x+v.y*v.y);}
