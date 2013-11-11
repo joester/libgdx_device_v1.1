@@ -34,7 +34,7 @@ public class Manager {
 				"fuzz3", "data/monsters/Fuzzies3.png",		
 				"device_hit", "data/objects/device_hit.png",		
 				"indicate", "data/UI/indication_sheet.png",		
-				"mine_drop","data/objects/mineDrop.png",		
+				"mine_drop","data/objects/mineDrop.png",
 				"mine","data/mine.png",					
 				"vortex_drop","data/vortIcon.png",			
 				"vortex","data/vortex.png",					

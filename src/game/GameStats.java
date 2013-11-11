@@ -9,8 +9,8 @@ public class GameStats {
 	private int xpCount = 0;
 	private int xpMax=20;
 	private int level = 1;
-	private int mineCount = 0;
-	private int vortCount = 0;
+	private int mineCount = 1;
+	private int vortCount = 1;
 	private int maxItemCount;
 	private float boxHP;
 	private float totalTimeElapsed;
