@@ -63,7 +63,7 @@ public class SpawnMap extends GuiObject{
     //////////Instance
     public ArrayList<EventLocation> spawns;
     public SpawnMap(){
-	spawns = new ArrayList<>();
+	spawns = new ArrayList<EventLocation>();
 	setPosition(OFFSET);
 	setSize(SIZE);
 	currentMap = this;
@@ -181,7 +181,7 @@ public class SpawnMap extends GuiObject{
 			Vector2 mousepos = screenToMap(Center.mousePosition());
 			rightclickdragstartposition = mousepos;
 			float dist = 99999;
-			ArrayList<EventLocation> selectedlocations = new ArrayList<>();
+			ArrayList<EventLocation> selectedlocations = new ArrayList<EventLocation>();
 			for(EventLocation location : spawns){
 			    float d = Vector2.distance(mousepos,location.position);
 			    if(d == dist){
