@@ -35,8 +35,8 @@ public class MainMenuScreen extends BaseState {
 		help.setPosition(renderInfo[0]*renderInfo[2]*0.74f, renderInfo[1]*renderInfo[2]*0.005f);
 		this.bgArt.setSize(state.renderInfo[2] * (100),
 				state.renderInfo[2] * (57.2f));
-		this.play.setScale(.4f);
-		this.help.setScale(.4f);
+		this.play.setScale(renderInfo[0]*renderInfo[2] * 0.0005f, renderInfo[1]*renderInfo[2] * 0.0008f);
+		this.help.setScale(renderInfo[0]*renderInfo[2] * 0.0005f, renderInfo[1]*renderInfo[2] * 0.0008f);
 	}
 
 	@Override
