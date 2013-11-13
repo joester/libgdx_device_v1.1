@@ -71,8 +71,7 @@ public class Tutorial extends BaseState {
 	@Override
 	public void render(SpriteBatch batch) {
 		// TODO Auto-generated method stub
-		this.scene.setSize(state.renderInfo[2] * (100),
-				state.renderInfo[2] * (57.2f));
+		this.scene.setSize(state.renderInfo[2] * (100),	state.renderInfo[2] * (57.2f));
 		this.scene.draw(batch);
 		if(canLeft){
 			nav_left.draw(batch);
@@ -96,12 +95,17 @@ public class Tutorial extends BaseState {
 		nav_left = new Sprite(assets.get("tut_nav_left"));
 		nav_right = new Sprite(assets.get("tut_nav_right"));
 		nav_exit = new Sprite(assets.get("tut_nav_exit"));
-		nav_left.setScale(.3f);
+/*		nav_left.setScale(.3f);
 		nav_left.setPosition(0, -50);
 		nav_right.setScale(.3f);
 		nav_right.setPosition(900, -50);
 		nav_exit.setScale(.3f);
-		nav_exit.setPosition(370, -180);
+		nav_exit.setPosition(370, -180);*/
+		
+		nav_left.setBounds(Gdx.graphics.getWidth() * 0.08f, Gdx.graphics.getHeight() * 0.02f, Gdx.graphics.getWidth() * 0.11f, Gdx.graphics.getHeight() * 0.19f);
+		nav_right.setBounds(Gdx.graphics.getWidth() * 0.81f, Gdx.graphics.getHeight() * 0.02f, Gdx.graphics.getWidth() * 0.11f, Gdx.graphics.getHeight() * 0.19f);
+		nav_exit.setBounds(Gdx.graphics.getWidth() * 0.415f, -Gdx.graphics.getHeight() * 0.04f, Gdx.graphics.getWidth() * 0.17f, Gdx.graphics.getHeight() * 0.3f);
+		
 		canLeft = false;
 		canRight = true;	
 	}
