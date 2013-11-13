@@ -20,6 +20,7 @@ public class Graphics
 	
 	private Sprite background;
 	private TreeMap<Float, Sprite> actors = new TreeMap<Float, Sprite>();
+	private TreeMap<Float, Sprite> hpbars = new TreeMap<Float, Sprite>();
 	private Sprite[] ui;
 	private Sprite[] buttons;
 	
@@ -28,7 +29,7 @@ public class Graphics
 	
 	public enum TYPES
 	{
-		BACKGROUND, ACTOR, UI, BUTTON
+		BACKGROUND, ACTOR, HPBAR, UI, BUTTON
 	}
 	
 	public Graphics()
@@ -52,6 +53,10 @@ public class Graphics
 				actors.put(-dst.y, s);
 				break;
 				
+			case HPBAR:
+				hpbars.put(-dst.y, s);
+				break;
+				
 			case UI:
 				ui[uicount] = s;
 				break;
@@ -67,6 +72,8 @@ public class Graphics
 		background.setScale(widthRatio, heightRatio);
 		for (Sprite s : actors.values())
 			s.setScale(widthRatio, heightRatio);
+		for (Sprite s : hpbars.values())
+			s.setScale(widthRatio, heightRatio);
 		for (Sprite s : ui)
 			s.setScale(widthRatio, heightRatio);
 		for (Sprite s : buttons)
@@ -78,6 +85,8 @@ public class Graphics
 		s.begin();
 		background.draw(s);
 		for(Sprite sprite : actors.values())
+			sprite.draw(s);
+		for(Sprite sprite : hpbars.values())
 			sprite.draw(s);
 		for(Sprite sprite : ui)
 			sprite.draw(s);

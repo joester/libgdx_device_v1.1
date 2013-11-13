@@ -242,6 +242,10 @@ public class Room implements Controllable
 					{
 						drops.add(new VortexIcon(obj.get_positionX(), obj.get_positionY(), stats, sound, assets.get("vortex_drop")));
 					}
+					if(obj.getHp() == 0)
+					{
+						stats.addMonsterKill();
+					}
 				}
 				iter.remove();
 			}//fi	

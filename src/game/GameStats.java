@@ -5,6 +5,7 @@ import sounds.SoundSystem;
 
 public class GameStats {
 	
+	private int monsterCount = 0;
 	private int score = 0;
 	private int xpCount = 0;
 	private int xpMax=20;
@@ -21,6 +22,15 @@ public class GameStats {
 		maxItemCount = 3;
 		this.sound = sound;
 		this.player = player;
+	}
+	
+	public void addMonsterKill()
+	{
+		monsterCount++;
+	}
+	public int getMonsterCount()
+	{
+		return monsterCount;
 	}
 	
 	public void addScore(int scoreAdd){
