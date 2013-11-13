@@ -27,6 +27,8 @@ public class Player extends AnimatedObject
 	private GameTimer stunTime = new GameTimer(1);
 	public boolean isKnocked;
 	private GameTimer knockTime;
+	private boolean isSlowed;
+	private GameTimer slowTime;
 	
 	/* Animation */
 	private static final int ANIMATION_IDLE = 0;
@@ -79,12 +81,9 @@ public class Player extends AnimatedObject
 		/* Stats */
 		this.movement.speed = 30f;
 		this.movement.acceleration = 30f;
-		this.attack.damage = 1;
-		this.attack.attackframe = 4;
-		this.attack.power = 50;
-		this.attack.range = 9f;
-		this.attack.attackrange_limit = 900;
+		this.setAttack();
 		this.knockTime = new GameTimer(.55f);
+		this.slowTime = new GameTimer(2.5f);
 		
 		/* Animations */
 		//Idle
@@ -116,13 +115,21 @@ public class Player extends AnimatedObject
 		 System works the same as before, only instead of 45 degree increments, 90 degree increments.
 		 */
 		
-		this.add_animation("attack_0", 0, 2, 5, 5, false);
-		this.add_animation("attack_1", 0, 0, 5, 5, false);
-		this.add_animation("attack_2", 0, 3, 5, 5, false);
-		this.add_animation("attack_3", 0, 1, 5, 5, false);
+		this.add_animation("attack_0", 0, 2, 5, 50, false);
+		this.add_animation("attack_1", 0, 0, 5, 50, false);
+		this.add_animation("attack_2", 0, 3, 5, 50, false);
+		this.add_animation("attack_3", 0, 1, 5, 50, false);
 		
 		this.directionBasedAnimation(ANIMATION_IDLE);
 	}//END Player
+	
+	public void setAttack(){
+		this.attack.damage = 1;
+		this.attack.attackframe = 4;
+		this.attack.power = 50;
+		this.attack.range = 9f;
+		this.attack.attackrange_limit = 900;
+	}
 	
 	/* Input */
 	public void pause_touch()
@@ -275,7 +282,7 @@ public class Player extends AnimatedObject
 		this.animation_state = animationID;
 		if(animationID == ANIMATION_ATTACKING)
 		{
-			this.animator.playAnimation("attack_".concat(Integer.toString((int)((this.facing_angle + 45)%360)/(90))), 30, false);
+			this.animator.playAnimation("attack_".concat(Integer.toString((int)((this.facing_angle + 45)%360)/(90))), 15, false);
 		}
 		else if(animationID == ANIMATION_WALKING)
 		{
@@ -288,6 +295,7 @@ public class Player extends AnimatedObject
 	
 	private void set_currentAnimation()
 	{
+
 		if(this.isIdle())
 		{
 			this.animation_state = ANIMATION_IDLE;
@@ -296,7 +304,8 @@ public class Player extends AnimatedObject
 		{
 			this.animation_state = ANIMATION_WALKING;
 		}//esle
-		directionBasedAnimation(this.animation_state);
+			directionBasedAnimation(this.animation_state);
+				
 	}//END set_currentAnimation
 	
 	/* Update */
@@ -312,9 +321,25 @@ public class Player extends AnimatedObject
 				this.knockTime.reset_timer();
 			}
 		}
+		if(this.isSlowed){
+			this.movement.acceleration = 5f;
+			this.movement.speed = 10f;
+			this.movement.speedcap = 30f;
+			this.slowTime.update_timer(dt);
+			if(this.slowTime.isDone()){
+				this.isSlowed = false;
+				this.movement.acceleration = 30f;
+				this.movement.speed = 30f;
+				this.movement.speedcap = 150;
+				this.slowTime.reset_timer();
+				this.sprite.setColor(1,1,1,1);
+			}
+		}
 		if(this.target != null && (this.target.isGone() || this.target.isDying))
 		{
 			this.target = null;
+			this.attack = new AttackAttributes();
+			this.setAttack();
 		}//fi
 		
 		if(this.attack.isAttacking && this.animation_state != ANIMATION_ATTACKING)
@@ -361,7 +386,7 @@ public class Player extends AnimatedObject
 					stunTime.reset_timer();
 				}
 				return;
-			}		
+			}	
 			super.update(dt, objects);
 			
 			if(this.isStunned && heldAction != null)
@@ -369,6 +394,7 @@ public class Player extends AnimatedObject
 				this.action_queue.clear();
 				this.action_queue.add_action(heldAction);
 			}
+			
 
 		}//fi
 		else
@@ -394,6 +420,11 @@ public class Player extends AnimatedObject
 		this.isStunned = true;
 		this.friction = 100;
 		this.velocity = obj.get_velocity();	
+	}
+	
+	public void slow(){
+		this.sprite.setColor(0.5f, 1f, 0.5f, 0.8f);
+		this.isSlowed = true;
 	}
 }//END class Player
 

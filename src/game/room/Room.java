@@ -9,6 +9,7 @@ import game.draw.GraphicIndicators;
 import game.draw.GraphicsManager;
 import game.objects.Device;
 import game.objects.GameObject;
+import game.objects.GasCloud;
 import game.objects.Player;
 import game.objects.ShockWave;
 import game.objects.items.Mine;
@@ -432,6 +433,10 @@ public class Room implements Controllable
 	
 	public void addShock(GameObject obj){
 		this.spawn_object(new ShockWave(obj.get_positionX(), obj.get_positionY(), assets.get("shock_wave"), sound));
+	}
+	
+	public void addGas(GameObject obj){
+		this.spawn_object(new GasCloud(obj.get_positionX(), obj.get_positionY(), assets.get("gas_cloud"), sound));
 	}
 	
 	public void toggleSpawn(){

@@ -133,7 +133,7 @@ public class Device extends AnimatedObject {
 				this.room.spawn_object(exp1);
 				this.timer.reset_timer();
 				this.isSpawning = true;
-				this.spawn_animator.set_animation("device_spawn", true);
+				this.spawn_animator.set_animation("device_spawn", false);
 			}//fi
 			
 			if (this.timer_count <= 0)

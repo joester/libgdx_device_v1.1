@@ -1,8 +1,6 @@
 package game.objects.enemy;
 
-import game.controls.GameTimer;
 import game.objects.GameObject;
-import game.objects.Player;
 import game.room.Room;
 
 import java.util.ArrayList;
@@ -14,6 +12,8 @@ import com.badlogic.gdx.graphics.Texture;
 public class PlantTwo extends Enemy{
 	
 	Texture monster3;
+	private float lastHP;
+	
 	public PlantTwo(GameObject device, float posX, float posY, Texture sprites, Texture monster3, SoundSystem sounds, Room room) {
 		super("plant2",device, 3, posX, posY, 2, 5, 6, 6, 0,
 				0, true, 10, true, 9, 9,
@@ -35,6 +35,7 @@ public class PlantTwo extends Enemy{
 		this.health.current = 2;
 		this.health.max = 2;
 		this.worth = 7;
+		this.lastHP = this.getHp();
 		
 		this.animator.add_animation("death", 0, 0, 5, false, 0,1,2,3,4,3,2,1,0);
 		this.animator.add_animation("attack", 0, 0, 5, true, 0,1,2,3,4,3,2,1,0);
@@ -56,4 +57,13 @@ public class PlantTwo extends Enemy{
 		sounds.playSound(SoundSystem.monster2_2_death);
 	}
 	
+	@Override
+	public void update(float dt, ArrayList<GameObject> objects){
+		if(this.lastHP > this.getHp()){
+			//Spawn gas
+			room.addGas(this);
+			this.lastHP = this.getHp();
+		}
+		super.update(dt, objects);
+	}
 }

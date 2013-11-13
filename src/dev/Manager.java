@@ -54,8 +54,8 @@ public class Manager {
 				"ui_minecount", "data/UI/count.png",
 				"ui_vortex", "data/UI/vortex.png",
 				"plant1", "data/monsters/plant/plant_one.png",
-				"plant2", "data/monsters/plant/plant_two.png"
-				
+				"plant2", "data/monsters/plant/plant_two.png",
+				"gas_cloud", "data/monsters/plant/gas_cloud.png"
 			
 		);
 	

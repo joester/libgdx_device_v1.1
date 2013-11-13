@@ -41,15 +41,15 @@ public class GraphicIndicators
 		this.animation_2 = new Animator("indicator2",this.sprite_2, 50, 50);
 		
 		/* Add Animations */
-		this.animation_1.add_animation("test0",0,0,5,10, true);
-		this.animation_1.add_animation("test1",0,0,5,10, true);
-		this.animation_1.add_animation("test2",5, 1, 5, 10, true);
-		this.animation_1.add_animation("test3",0, 2, 8, 10, true);
-		this.animation_1.set_animation("test2", true);
+		this.animation_1.add_animation("test0",0,0,5,10, false);
+		this.animation_1.add_animation("test1",0,0,5,10, false);
+		this.animation_1.add_animation("test2",5, 1, 5, 10, false);
+		this.animation_1.add_animation("test3",0, 2, 8, 10, false);
+		this.animation_1.set_animation("test2", false);
 		
-		this.animation_2.add_animation("test0",0, 0, 5, 10, true);
-		this.animation_2.add_animation("test1",5, 1, 5, 10, true);
-		this.animation_2.set_animation("test0", true);
+		this.animation_2.add_animation("test0",0, 0, 5, 10, false);
+		this.animation_2.add_animation("test1",5, 1, 5, 10, false);
+		this.animation_2.set_animation("test0", false);
 	}//END GraphicIndicators
 	
 	public void initialize_device(GameObject device)
@@ -73,7 +73,7 @@ public class GraphicIndicators
 		{
 			if(!this.animation_1.get_currentAnimation().equals(3))
 			{
-				this.animation_1.set_animation("test3", true);
+				this.animation_1.set_animation("test3", false);
 				this.animation_1.setCurrentFrame(0);
 				this.drawHeight = 10;
 				this.drawWidth = 10;
@@ -87,7 +87,7 @@ public class GraphicIndicators
 		{
 			if(target.getID() == 3 && !this.animation_1.get_currentAnimation().equals("test1"))
 			{
-				this.animation_1.set_animation("test1", true);
+				this.animation_1.set_animation("test1", false);
 				this.animation_1.setCurrentFrame(0);
 				this.drawHeight = 7;
 				this.drawWidth = 7;
@@ -97,7 +97,7 @@ public class GraphicIndicators
 			{
 				if(!this.animation_2.get_currentAnimation().equals("test1"))
 				{
-					this.animation_2.set_animation("test1", true);
+					this.animation_2.set_animation("test1", false);
 				}//fi
 				this.selectedDevice = true;
 			}//fi esle
@@ -107,7 +107,7 @@ public class GraphicIndicators
 		
 		if(this.selectedDevice == false && !this.animation_2.get_currentAnimation().equals("test0"))
 		{
-			this.animation_2.set_animation("test0", true);
+			this.animation_2.set_animation("test0", false);
 		}//fi
 		
 		if(!this.player.isIdle() && !this.selectedDevice)

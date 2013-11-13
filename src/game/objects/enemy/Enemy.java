@@ -62,13 +62,14 @@ public class Enemy extends AnimatedObject
 		if(this.attack.isAttacking){
 			if(!this.animator.get_currentAnimation().equals("attack")){
 				this.animator.playAnimation("attack", 15, false);
-				this.animation_state = 1;
-				playAttack();
+			}
+			if(this.animator.isDone()){
+				//this.action_queue.clear();
 			}
 			super.update(dt, objects);
 			return;
 		}
-		else if(this.animator.get_currentAnimation().equals("walk")){
+		else{
 			this.animator.playAnimation("walk", 10, true);
 		}
 		

@@ -27,14 +27,15 @@ public class PlantOne extends Enemy{
 		this.attack.power = 20;
 		this.attack.range = 7;
 		this.attack.attackrange_limit = 10;
-		this.movement.speed = 10;
-		this.movement.speedcap = 15;
+		this.movement.speed = 15;
+		this.movement.speedcap = 20;
 		this.movement.acceleration = 1;
 		this.health.current = 1;
 		this.health.max = 1;
 		this.worth = 3;
 		this.monster2 = monster2;
 		this.monster3 = monster3;
+		
 		
 		this.animator.add_animation("death", 0, 0, 5, false, 0, 1, 2, 3, 2, 1, 0);
 		this.animator.add_animation("attack", 0, 0, 5, true, 0, 1, 2, 3, 2, 1, 0);
@@ -54,6 +55,7 @@ public class PlantOne extends Enemy{
 	public void playAttack(){
 		sounds.playSound(SoundSystem.monster1_1_bite);
 	}
+	
 	
 	@Override
 	protected void evolve(){

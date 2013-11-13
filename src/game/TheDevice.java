@@ -1,5 +1,7 @@
 package game;
 
+import java.util.HashMap;
+
 import game.UI.UI;
 import game.controls.Controller;
 import game.draw.GraphicsManager;
@@ -14,8 +16,13 @@ import menu.StateManager;
 import sounds.SoundSystem;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+
+
+
+import dev.DesignHelper;
 //import dev.DesignHelper;
 import dev.Manager;
 
@@ -55,6 +62,8 @@ public class TheDevice extends BaseState
 		
 		
 		manager.loadArtAssets("Game");
+		
+		HashMap<String, Texture> asset = new HashMap<String, Texture>();
 		
 		assets = manager.getArtAssets("Game");
 		

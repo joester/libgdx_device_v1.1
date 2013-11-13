@@ -44,8 +44,12 @@ public class Animator
 	}
 	
 	public void playAnimation(String animationID, float animationSpeed, boolean loops){
-		this.current_animation = this.animations.get(animationID);
+		this.current_animation = this.animations.get(animationID);		
 		this.current_animation.changeSpeed(animationSpeed);
+		if(!loops){
+			this.current_animation.reset_animation();
+		}
+		
 		this.animation_indicator = animationID;
 		this.looping = loops;
 	}
@@ -59,6 +63,7 @@ public class Animator
 		private int startX, startY; //Where the animation starts.
 		private int curFrame = 0; //The current frame in the animation.
 		protected boolean isDone = false; //Indicates whether or not the animation is looping or not.
+		private float animationSpeed = 10;
 		
 		private float animationIndicator = 0; //Indicates when to go to the next frame.
 		
@@ -82,6 +87,7 @@ public class Animator
 			
 		}//END Animation
 		
+
 		public Animation(int startX, int startY, float animationSpeed, boolean loops, int... frames)
 		{
 			this.startX = startX;
@@ -157,16 +163,16 @@ public class Animator
 		public void update(float delta)
 		{
 			this.animationIndicator += delta;
-			while(this.animationIndicator > 1/animationSpeed)
+			while(this.animationIndicator >= 1/this.animationSpeed)
 			{
-				this.animationIndicator -= 1/animationSpeed;
+				this.animationIndicator -= 1/this.animationSpeed;
 				this.nextFrame();
 			}//elihw
 		}//END update
 		
 		public void changeSpeed(float speed)
 		{
-			animationSpeed = speed;
+			this.animationSpeed = speed;
 		}
 	}//END class Animation
 	
@@ -222,7 +228,7 @@ public class Animator
 		
 		this.animation_indicator = id;
 		this.current_animation = this.animations.get(id);
-		this.animationSpeed = 5;
+		this.animationSpeed = 10;
 		this.looping = loops;
 	}//END set_animation
 	
