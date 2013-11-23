@@ -50,8 +50,8 @@ public class SpawnMap extends GuiObject{
     public static boolean showRingNumbers;
     public static boolean showMouseDistance;
     
-    public static MapSnapType snapType;
-    public static int snapSize = 5;
+    public static MapSnapType snapType = MapSnapType.None;
+    public static int snapSizeDivisor = 5;
     
     static float scale = MAXSCALE;
     static float desiredscale = DEFAULTSCALE;
@@ -240,6 +240,7 @@ public class SpawnMap extends GuiObject{
 						showMessage("Invalid location.");
 						currentPoint.position = new Vector2(9999,0);
 				    }else{
+				    	currentPoint.useSnap_Cartesian(.2f);//test, works
 						String mess = "Placing point.";
 						for(int i = 0; i < (_G.cycle%150)/50; i++)
 						    mess += '.';
@@ -326,7 +327,8 @@ public class SpawnMap extends GuiObject{
 		GraphicsDraw.setColor(COLOR_LINES);
 		GraphicsDraw.smallBoldFont();
 		float ringradius = 0;
-		for(int ring = 2; ring <= MAXSCALE; ring += 2){
+		System.out.println(""+2/snapSizeDivisor);
+		for(float ring = 2; ring <= MAXSCALE; ring += (snapType == MapSnapType.None ? 2 : 2/snapSizeDivisor)){
 		    ringradius = RADIUSFLOAT*ring/scale;
 		    GraphicsDraw.circle(centeronscreen,ringradius);
 		    if(showRingNumbers){
@@ -426,6 +428,13 @@ class EventLocation{
     public EventLocation(Vector2 pos,SpawnType typ){
 		position = pos;
 		type = typ;
+    }
+    
+    float sign(float f){return f < 0 ? -1 : 1;}
+    public void useSnap_Cartesian(float snap){
+    	position = new Vector2((int)(position.x/snap+.5f*sign(position.x))*snap,(int)(position.y/snap+.5f*sign(position.y))*snap);
+    }
+    public void useSnap_Polar(float anglesnap,float distsnap){
     }
 }
 

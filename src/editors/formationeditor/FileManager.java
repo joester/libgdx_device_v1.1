@@ -3,6 +3,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -44,10 +45,16 @@ public class FileManager{
 		JFileChooser chooser = new JFileChooser(DEFAULTFOLDER);
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("The Device Formation Map (*"+FILENAMEEXTENSION+")","spawnformation");
 		chooser.setFileFilter(filter);
-		chooser.setDialogTitle(savingnotloading ? "Save As" : "Open");
-		chooser.setDialogType(savingnotloading ? JFileChooser.SAVE_DIALOG : JFileChooser.OPEN_DIALOG);
-		int returnval = chooser.showOpenDialog(Center.instance);
-		if(returnval == 0){
+		int returnval;
+		if(savingnotloading)
+			returnval = chooser.showSaveDialog(Center.instance);
+		else
+			returnval = chooser.showOpenDialog(Center.instance);
+		
+		//chooser.setDialogTitle(savingnotloading ? "Save As" : "Open");
+		//chooser.setDialogType(savingnotloading ? JFileChooser.SAVE_DIALOG : JFileChooser.OPEN_DIALOG);
+		//int returnval = chooser.showOpenDialog(Center.instance);
+		if(returnval == JFileChooser.APPROVE_OPTION){
 		    return chooser.getSelectedFile().getPath();
 		}
 		return null;
