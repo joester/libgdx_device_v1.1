@@ -28,7 +28,7 @@ import dev.Manager;
 
 public class TheDevice extends BaseState
 {
-	static final String LEVELPATH = "./data/leveldata/levels/Level1.devicelevel";//Temporary until we make a way for the game to choose the map to use
+	String LEVELPATH;//Temporary until we make a way for the game to choose the map to use
 	
 	public StateManager state;
 	GraphicsManager graphics;
@@ -42,6 +42,7 @@ public class TheDevice extends BaseState
 		this.graphics = g;
 		this.state = state;
 		this.manager = manager;
+		LEVELPATH = Gdx.files.internal("./data/leveldata/levels/Level1.devicelevel").toString();
 		// TODO Auto-generated constructor stub
 	}
 	
