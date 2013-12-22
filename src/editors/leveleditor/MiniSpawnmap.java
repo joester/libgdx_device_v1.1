@@ -12,7 +12,8 @@ import editors.shared.SpawnTypes;
 
 public class MiniSpawnmap{
 	static final Vector2 SIZE = new Vector2(200,200);
-	static final Vector2 OFFSET = new Vector2(_G.LEVELEDITOR_WIDTH-SIZE.x-25,_G.LEVELEDITOR_HEIGHT-SIZE.y-40);
+	static final Vector2 OFFSET = new Vector2(_G.LEVELEDITOR_WIDTH-SIZE.x-25,_G.LEVELEDITOR_HEIGHT-SIZE.y-30);
+	static final Vector2 TEXTPOSITION = new Vector2(OFFSET.x,OFFSET.y-5);
 	
 	static ArrayList<EventLocation> locations;
 	public static void load(String name){
@@ -24,6 +25,8 @@ public class MiniSpawnmap{
 		GraphicsDraw.setColor(new Color(.5f,0,0));
 		GraphicsDraw.fillRectangle(center,SIZE);
 		GraphicsDraw.setColor(Color.BLACK);
+		GraphicsDraw.smallBoldFont();
+		GraphicsDraw.text("Enemies: "+locations.size(),TEXTPOSITION);
 		GraphicsDraw.fillCircle(center,SIZE.x/2);
 		GraphicsDraw.setColor(Color.GREEN);
 		for(int i = 0; i < 4; i++){

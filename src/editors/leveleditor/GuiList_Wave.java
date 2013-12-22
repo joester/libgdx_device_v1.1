@@ -65,7 +65,7 @@ public class GuiList_Wave extends GuiList<SingleFormation>{
 	public void removeSelectedFormation(){
 		if(selectedIndex == -1 || values.size() == 0) return;
 		values.remove(selectedIndex);
-		selectIndex(selectedIndex-1);
+		selectIndex(selectedIndex == 0 ? 0 : selectedIndex-1);
 		if(values.size() == 0)
 			selectedIndex = -1;
 	}
