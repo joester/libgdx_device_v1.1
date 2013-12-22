@@ -14,5 +14,8 @@ public class EventLocation{
     	position = new Vector2((int)(position.x/snap+.5f*sign(position.x))*snap,(int)(position.y/snap+.5f*sign(position.y))*snap);
     }
     public void useSnap_Polar(float anglesnap,float distsnap){
+    	float angle = anglesnap*(int)(Vector2.toAngle(position)/anglesnap+.5f);
+    	float dist = (int)(position.magnitude()/distsnap+.5f)*distsnap;
+    	position = Vector2.fromAngle(angle,dist);
     }
 }

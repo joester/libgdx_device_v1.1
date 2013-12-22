@@ -10,7 +10,7 @@ import editors.shared._G;
 import editors.shared.EventLocation;
 
 
-enum MapSnapType{None,Ring,Grid}
+enum MapSnapType{None,Grid,Ring}
 
 public class SpawnMap extends GuiObject{
     //////////Constants
@@ -241,7 +241,16 @@ public class SpawnMap extends GuiObject{
 						showMessage("Invalid location.");
 						currentPoint.position = new Vector2(9999,0);
 				    }else{
-				    	currentPoint.useSnap_Cartesian(.2f);//test, works
+				    	switch(snapType){
+				    	case None:
+				    		break;
+				    	case Grid:
+				    		currentPoint.useSnap_Cartesian(.2f);
+				    		break;
+				    	case Ring:
+				    		currentPoint.useSnap_Polar(_G.PI/12,.2f);
+				    		break;
+				    	}
 						String mess = "Placing point.";
 						for(int i = 0; i < (_G.cycle%150)/50; i++)
 						    mess += '.';
@@ -329,7 +338,7 @@ public class SpawnMap extends GuiObject{
 		GraphicsDraw.smallBoldFont();
 		float ringradius = 0;
 		System.out.println(""+2/snapSizeDivisor);
-		for(float ring = 2; ring <= MAXSCALE; ring += (snapType == MapSnapType.None ? 2 : 2/snapSizeDivisor)){
+		for(float ring = 2; ring <= MAXSCALE; ring += 2){//(snapType == MapSnapType.None ? 2 : 2/snapSizeDivisor)){
 		    ringradius = RADIUSFLOAT*ring/scale;
 		    GraphicsDraw.circle(centeronscreen,ringradius);
 		    if(showRingNumbers){

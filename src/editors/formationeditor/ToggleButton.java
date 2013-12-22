@@ -38,6 +38,29 @@ public abstract class ToggleButton extends GuiButton{
     }
 }
 
+/*class SpawnMap_ToggleSnap extends ToggleButton{
+    public SpawnMap_ToggleSnap(){
+	super();
+	setPosition(new Vector2(1,420));
+	setSize(ToggleButton.TOGGLEBUTTONSIZE);
+    }
+    
+    /////Overrides
+    public void button_OnMouseClick(){
+	SpawnMap.showRingNumbers = !SpawnMap.showRingNumbers;
+    }
+    
+    public String getToggleButtonText(){
+	return "Snap to Grid [G]";
+    }
+    public boolean checkIsToggledOn(){
+	return SpawnMap.currentMap.showRingNumbers;
+    }
+    public Keys getShortcutKey(){
+    	return Keys.G;
+    }
+}*/
+
 class SpawnMap_ToggleShowColors extends ToggleButton{
     public SpawnMap_ToggleShowColors(){
 	super();
@@ -124,27 +147,3 @@ class SpawnMap_ToggleShowNumbers extends ToggleButton{
 	return Keys.H;
     }
 }
-
-/*class SpawnMap_ToggleSnap extends ToggleButton{
-    public SpawnMap_ToggleSnap(){
-	super();
-	setPosition(new Vector2(1,420));
-	setSize(ToggleButton.TOGGLEBUTTONSIZE);
-    }
-    
-    /////Overrides
-    public void button_OnMouseClick(){
-	SpawnMap.showRingNumbers = !SpawnMap.showRingNumbers;
-    }
-    
-    public String getToggleButtonText(){
-	return "Snap to Grid [G]";
-    }
-    public boolean checkIsToggledOn(){
-	return SpawnMap.currentMap.showRingNumbers;
-    }
-    public Keys getShortcutKey(){
-    	return Keys.G;
-    }
-}
-*/
