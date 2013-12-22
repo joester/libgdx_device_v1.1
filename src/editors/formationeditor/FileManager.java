@@ -1,18 +1,14 @@
 package editors.formationeditor;
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import editors.shared.SpawnType;
-import editors.shared.Vector2;
+import editors.shared.EventLocation;
+import editors.shared.FormationLoader;
 import editors.shared._G;
 
 public class FileManager{
@@ -127,37 +123,20 @@ public class FileManager{
     static void loadFormationFromFile(String path){
 		SpawnMap.showMessage("Loading...");
 		newFormation();
-		DataInputStream stream = null;
-		boolean success = false;
-		try{
-		    stream = new DataInputStream(new BufferedInputStream(new FileInputStream(path)));
-		    byte version = stream.readByte();
-		    int size;
-		    SpawnType[] spawntypes = SpawnType.values();
-		    for(int i = 0; i < 9999; i++){//The last iteration will throw an EOFException
-				SpawnType type = spawntypes[stream.readByte()];
-				float xpos = stream.readFloat();
-				float ypos = stream.readFloat();
-				SpawnMap.currentMap.addSpawnLocation(new EventLocation(new Vector2(xpos,ypos),type));
-		    }
-		}catch(java.io.EOFException _){
-		    //Completed sucessfully
-		    success = true;
-		}catch(Exception e){
-		    System.out.println("FORMATION LOADING THREW EXCEPTION: "+e);
-		    success = false;
-		}finally{
-		    if(success){
-				SpawnMap.showMessage("Formation loaded.");
-				fileName = path;
-				TheDevice_FormationEditor.changeTitle(fileName);
-		    }else
-		    	SpawnMap.showMessage("Load failed!!");
-		    try{
-		    	stream.close();
-		    }catch(Exception e){
-		    	System.out.println("Well this sucks.");
-		    }
+		
+		ArrayList<EventLocation> locations = FormationLoader.loadFormationFromFile(path);
+		if(locations == null){
+	    	SpawnMap.showMessage("Load failed!!");
+	    	return;
 		}
+		
+		fileName = path;
+		TheDevice_FormationEditor.changeTitle(fileName);
+
+		for(EventLocation location : locations){
+			SpawnMap.currentMap.addSpawnLocation(location);
+		}
+
+		SpawnMap.showMessage("Formation loaded.");
     }
 }

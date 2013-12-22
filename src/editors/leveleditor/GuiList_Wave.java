@@ -89,8 +89,10 @@ public class GuiList_Wave extends GuiList<SingleFormation>{
 	public void selectIndex(int i){
 		super.selectIndex(i);
 		GuiList_ImportedFormations.instance.deselect();
-		if(selectedIndex != -1 && values.size() != 0)
+		if(selectedIndex != -1 && values.size() != 0){
 			formationAngleVariator.setData(values.get(selectedIndex));
+			MiniSpawnmap.load(values.get(i).name);
+		}
 	}
 	public void setFormationSpawnAngle(byte val){
 		values.get(selectedIndex).spawnAngle = val;
@@ -122,6 +124,13 @@ public class GuiList_Wave extends GuiList<SingleFormation>{
     	if(Center.keyPressed(Keys.DELETE))
     		removeSelectedFormation();
     }
+    
+	public void draw(){
+		super.draw();
+		if(selectedIndex != -1){
+			MiniSpawnmap.draw();
+		}
+	}
 }
 
 /*

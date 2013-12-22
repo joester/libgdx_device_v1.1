@@ -50,7 +50,7 @@ class SpawnMap_ToggleShowColors extends ToggleButton{
     }
     
     public String getToggleButtonText(){
-	return "Show enemy colors [T]";
+	return "Show colors [T]";
     }
     public boolean checkIsToggledOn(){
 	return SpawnMap.showEnemyColors;
@@ -71,7 +71,7 @@ class SpawnMap_ToggleOnlySelected extends ToggleButton{
     }
     
     public String getToggleButtonText(){
-	return "Only show selected [G]";
+	return "Hide deselected [G]";
     }
     public boolean checkIsToggledOn(){
 	return SpawnMap.currentMap.onlyShowSelected;
@@ -124,3 +124,27 @@ class SpawnMap_ToggleShowNumbers extends ToggleButton{
 	return Keys.H;
     }
 }
+
+/*class SpawnMap_ToggleSnap extends ToggleButton{
+    public SpawnMap_ToggleSnap(){
+	super();
+	setPosition(new Vector2(1,420));
+	setSize(ToggleButton.TOGGLEBUTTONSIZE);
+    }
+    
+    /////Overrides
+    public void button_OnMouseClick(){
+	SpawnMap.showRingNumbers = !SpawnMap.showRingNumbers;
+    }
+    
+    public String getToggleButtonText(){
+	return "Snap to Grid [G]";
+    }
+    public boolean checkIsToggledOn(){
+	return SpawnMap.currentMap.showRingNumbers;
+    }
+    public Keys getShortcutKey(){
+    	return Keys.G;
+    }
+}
+*/

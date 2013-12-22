@@ -1,12 +1,13 @@
 package editors.formationeditor;
-import java.util.ArrayList;
 import java.awt.Color;
+import java.util.ArrayList;
 
 import editors.shared.CenteredText;
-import editors.shared.SpawnType;
 import editors.shared.GraphicsDraw;
+import editors.shared.SpawnTypes;
 import editors.shared.Vector2;
 import editors.shared._G;
+import editors.shared.EventLocation;
 
 
 enum MapSnapType{None,Ring,Grid}
@@ -418,23 +419,6 @@ public class SpawnMap extends GuiObject{
 		GraphicsDraw.setColor(Color.BLACK);
 		GraphicsDraw.boldFont();
 		GraphicsDraw.centerText("MAP",new Vector2(OFFSET.x+SIZE.x/2,OFFSET.y-10));
-    }
-}
-
-class EventLocation{
-    public Vector2 position;
-    public SpawnType type;
-    
-    public EventLocation(Vector2 pos,SpawnType typ){
-		position = pos;
-		type = typ;
-    }
-    
-    float sign(float f){return f < 0 ? -1 : 1;}
-    public void useSnap_Cartesian(float snap){
-    	position = new Vector2((int)(position.x/snap+.5f*sign(position.x))*snap,(int)(position.y/snap+.5f*sign(position.y))*snap);
-    }
-    public void useSnap_Polar(float anglesnap,float distsnap){
     }
 }
 

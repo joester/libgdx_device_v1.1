@@ -83,6 +83,7 @@ public class GuiList_ImportedFormations extends GuiList<ImportedFormation>{//For
 		}else{
 			super.selectIndex(i);
 			GuiList_Wave.instance.deselect();
+			MiniSpawnmap.load(values.get(i).name);
 		}
 	}
 
@@ -114,6 +115,13 @@ public class GuiList_ImportedFormations extends GuiList<ImportedFormation>{//For
 			selectIndex(selectedIndex+1);
 		}else if(Center.keyPressed(Keys.LEFT)){
 			GuiList_Wave.instance.selectIndex(0);
+		}
+	}
+	
+	public void draw(){
+		super.draw();
+		if(selectedIndex != -1){
+			MiniSpawnmap.draw();
 		}
 	}
 }

@@ -6,7 +6,9 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import editors.leveleditor.GuiList;
+import editors.shared.EventLocation;
 import editors.shared.GraphicsDraw;
+import editors.shared.SpawnTypes;
 import editors.shared.Vector2;
 import editors.shared._G;
 
