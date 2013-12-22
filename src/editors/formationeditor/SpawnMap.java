@@ -51,7 +51,7 @@ public class SpawnMap extends GuiObject{
     public static boolean showRingNumbers;
     public static boolean showMouseDistance;
     
-    public static MapSnapType snapType = MapSnapType.None;
+    public static MapSnapType snapType = MapSnapType.Grid;
     public static int snapSizeDivisor = 5;
     
     static float scale = MAXSCALE;

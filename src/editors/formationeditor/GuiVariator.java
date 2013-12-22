@@ -364,7 +364,7 @@ class SnapTypeVariator extends GuiVariator{
 	return 2;
     }
     public int getInitialValue(){
-	return 0;
+	return 1;
     }
     
     public float getHoldIncrementerInrcease(){
