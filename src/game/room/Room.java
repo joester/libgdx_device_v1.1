@@ -28,6 +28,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import dev.Manager;
+import device.graphics.Graphics;
 
 public class Room implements Controllable
 {
@@ -86,7 +87,12 @@ public class Room implements Controllable
 	public Room(GraphicsManager g, Player player, GameStats stats, SoundSystem sound, HashMap<String, Texture> assets)
 	{
 		this.assets = assets;
+		
 		this.background = new Sprite(assets.get("game_bg"));
+		this.background.setOrigin(0, 0);
+		this.background.setBounds(0, 0, 1280, 800);
+		Graphics.add(Graphics.TYPES.BACKGROUND, background,0,0,1,1);
+		
 		this.deathRing = new Sprite(assets.get("deathRing"));
 		this.player = player;
 		this.stats = stats;
@@ -288,9 +294,7 @@ public class Room implements Controllable
 		float drawWidth;
 		float drawHeight;
 		//Render Background
-		this.background.setSize(renderInfo[2] * (100),
-				renderInfo[2] * (62.5f));
-		this.background.draw(spritebatch);
+		//this.background.setSize(renderInfo[2] * (100),renderInfo[2] * (62.5f));
 		
 		//Render Indicator
 		this.indicators.render(spritebatch, renderInfo);

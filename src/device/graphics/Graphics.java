@@ -1,5 +1,6 @@
 package device.graphics;
 
+import java.util.HashSet;
 import java.util.TreeMap;
 
 import com.badlogic.gdx.Gdx;
@@ -7,82 +8,69 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
-public class Graphics
+import device.graphics.Graphics.TYPES;
+
+public final class Graphics
 {
-	private int baseWidth = 1280;
-	private int baseHeight = 800;
 	
-	private int phoneWidth;
-	private int phoneHeight;
+	private static int screenWidth = Gdx.graphics.getWidth();
+	private static int screenHeight = Gdx.graphics.getHeight();
 	
-	private int widthRatio;
-	private int heightRatio;
+	private static Sprite background = new Sprite();
+	private static TreeMap<Float, Sprite> actors = new TreeMap<Float, Sprite>();
+	private static TreeMap<Float, Sprite> hpbars = new TreeMap<Float, Sprite>();
+	private static HashSet<Sprite> ui = new HashSet<Sprite>();
+	private static HashSet<Sprite> buttons = new HashSet<Sprite>();
+	private static HashSet<Sprite> extras = new HashSet<Sprite>();
 	
-	private Sprite background;
-	private TreeMap<Float, Sprite> actors = new TreeMap<Float, Sprite>();
-	private TreeMap<Float, Sprite> hpbars = new TreeMap<Float, Sprite>();
-	private Sprite[] ui;
-	private Sprite[] buttons;
-	
-	private int uicount = 0;
-	private int bcount = 0;
-	
-	public enum TYPES
-	{
-		BACKGROUND, ACTOR, HPBAR, UI, BUTTON
-	}
+	public static enum TYPES { BACKGROUND, ACTOR, HPBAR, UI, BUTTON, EXTRAS }
 	
 	public Graphics()
 	{
-		phoneWidth = Gdx.graphics.getWidth();
-		phoneHeight = Gdx.graphics.getHeight();
-		
-		widthRatio = phoneWidth / baseWidth;
-		heightRatio = phoneHeight / baseHeight;
 	}
 	
-	public void add(TYPES t, Sprite s, Rectangle dst)
+	/** Adds element to the drawing list. Sprite draw order is automatically done correctly. Valid TYPES are: { BACKGROUND, ACTOR, HPBAR, UI, BUTTON, EXTRAS }*/
+	public static void add(TYPES type, Sprite sprite, float xPos, float yPos, float width, float height)
 	{
-		switch(t)
+		switch(type)
 		{
 			case BACKGROUND:
-				background = s;
+				sprite.setOrigin(0,0);
+				sprite.setBounds(xPos*screenWidth, yPos*screenHeight, width*screenWidth, height*screenHeight);
+				background = sprite;
 				break;
 			
 			case ACTOR:
-				actors.put(-dst.y, s);
+				actors.put(-sprite.getBoundingRectangle().y, sprite);
 				break;
 				
 			case HPBAR:
-				hpbars.put(-dst.y, s);
+				hpbars.put(-sprite.getBoundingRectangle().y, sprite);
 				break;
 				
 			case UI:
-				ui[uicount] = s;
+				sprite.setOrigin(0, 0);
+				sprite.setBounds(xPos*screenWidth, yPos*screenHeight, width*screenWidth, height*screenHeight);
+				ui.add(sprite);
 				break;
 				
 			case BUTTON:
-				buttons[bcount] = s;
+				sprite.setOrigin(0, 0);
+				sprite.setBounds(xPos*screenWidth, yPos*screenHeight, width*screenWidth, height*screenHeight);
+				buttons.add(sprite);
+				break;
+				
+			case EXTRAS:
+				System.out.println("ADD EXTRA");
+				sprite.setOrigin(0, 0);
+				sprite.setBounds(xPos*screenWidth, yPos*screenHeight, width*screenWidth, height*screenHeight);
+				buttons.add(sprite);
 				break;
 		}
 	}
 	
-	public void resize()
-	{
-		background.setScale(widthRatio, heightRatio);
-		for (Sprite s : actors.values())
-			s.setScale(widthRatio, heightRatio);
-		for (Sprite s : hpbars.values())
-			s.setScale(widthRatio, heightRatio);
-		for (Sprite s : ui)
-			s.setScale(widthRatio, heightRatio);
-		for (Sprite s : buttons)
-			s.setScale(widthRatio, heightRatio);
-	}
 	public void draw(SpriteBatch s)
 	{
-		resize();
-		s.begin();
 		background.draw(s);
 		for(Sprite sprite : actors.values())
 			sprite.draw(s);
@@ -92,6 +80,17 @@ public class Graphics
 			sprite.draw(s);
 		for(Sprite sprite : buttons)
 			sprite.draw(s);
-		s.end();
+		for(Sprite sprite : extras)
+			sprite.draw(s);
+	}
+	
+	public void clearAll()
+	{
+		background = null;
+		actors.clear();
+		hpbars.clear();
+		ui.clear();
+		buttons.clear();
+		extras.clear();
 	}
 }

@@ -25,10 +25,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dev.DesignHelper;
 //import dev.DesignHelper;
 import dev.Manager;
+import device.graphics.Graphics;
 
 public class TheDevice extends BaseState
 {
 	String LEVELPATH;//Temporary until we make a way for the game to choose the map to use
+	
+	private Graphics deviceGraphics = new Graphics();
 	
 	public StateManager state;
 	GraphicsManager graphics;
@@ -123,8 +126,12 @@ public class TheDevice extends BaseState
 
 	@Override
 	public void render(SpriteBatch batch) {
+		
+		
+		
+		
 		// TODO Auto-generated method stub
-		if(this.gameUI.placeItem())
+		if(this.g.placeItem() != 0)
 		{
 			this.player.pause_touch();
 		}//fi
@@ -144,10 +151,10 @@ public class TheDevice extends BaseState
 			g.updateTimeElapsed(dt);
 			
 			spawner.update(dt);
-			if(gameUI.nukeState)
+			if(g.nukeState())
 			{
 				this.room.wipe();
-				gameUI.nukeState = false;
+				g.nukeStateOff();
 			}
 			this.room.update(dt);
 		}
@@ -161,5 +168,7 @@ public class TheDevice extends BaseState
 		//Draw	
 		this.room.render(batch, state.renderInfo);
 		gameUI.render(batch, dt);
+		deviceGraphics.draw(batch);
+		g.updateTimeElapsed(dt);
 	}
 }

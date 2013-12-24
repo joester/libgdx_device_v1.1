@@ -4,19 +4,23 @@ import game.objects.Player;
 import sounds.SoundSystem;
 
 public class GameStats {
-	
 	private int monsterCount = 0;
 	private int score = 0;
 	private int xpCount = 0;
 	private int xpMax=20;
 	private int level = 1;
-	private int mineCount = 0;
-	private int vortCount = 0;
+	private int mineCount = 3;
+	private int vortCount = 3;
+	private int nukeCount = 3;
+	private float nukeCD = 0;
 	private int maxItemCount;
 	private float boxHP;
 	private float totalTimeElapsed;
 	private SoundSystem sound;
 	private Player player;
+	private boolean pause = false;
+	private int placeItem = 0;
+	private boolean nukeState = false;
 	
 	public GameStats(Player player, SoundSystem sound){
 		maxItemCount = 3;
@@ -99,6 +103,7 @@ public class GameStats {
 	
 	public void updateTimeElapsed(float dt){
 		totalTimeElapsed += dt;
+		nukeCD -= dt;
 	}
 	
 	public int getMineCount(){
@@ -106,11 +111,23 @@ public class GameStats {
 	}
 	
 	public boolean useMine(){
-		if(mineCount > 0){
+		if(mineCount > 0 && placeItem == 0){
 			mineCount--;
+			placeItem = 1;
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean placeMine()
+	{
+		placeItem = 0;
+		return true;
+	}
+	
+	public boolean mineReady()
+	{
+		return (mineCount > 0 && placeItem == 0);
 	}
 	
 	public boolean addMine(){
@@ -133,11 +150,63 @@ public class GameStats {
 		return false;
 	}
 	
+	public void placeVort()
+	{
+		placeItem = 0;
+	}
+	
 	public boolean addVortex(){
 		if(vortCount + 1 > maxItemCount){
 			return false;
 		}
 		vortCount ++;
 		return true;
+	}
+	
+	public boolean useNuke()
+	{
+		if (nukeCount > 0)
+		{
+			nukeCount--;
+			nukeState = true;
+			nukeCD = 3;
+			return true;
+		}
+		return false;
+	}
+	
+	public void nukeStateOff()
+	{
+		nukeState = false;
+	}
+	
+	public boolean nukeState()
+	{
+		return nukeState;
+	}
+	
+	public boolean nukeReady()
+	{
+		return nukeCount > 0 && nukeCD <= 0;
+	}
+	
+	public int nukeCount()
+	{
+		return nukeCount;
+	}
+	
+	public void pauseToggle()
+	{
+		pause = !pause;
+	}
+	
+	public boolean pauseState()
+	{
+		return pause;
+	}
+	
+	public int placeItem()
+	{
+		return placeItem;
 	}
 }

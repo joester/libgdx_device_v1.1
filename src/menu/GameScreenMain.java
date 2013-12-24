@@ -9,9 +9,9 @@ import com.badlogic.gdx.files.FileHandle;
 
 public class GameScreenMain {
 	
-	public static final int SCREEN_RATIO = 2;
-	public static final int CONFIG_HEIGHT = 330 * SCREEN_RATIO;
-	public static final int CONFIG_WIDTH = 577 * SCREEN_RATIO;
+	public static final float SCREEN_RATIO = 0.5f;
+	public static final int CONFIG_HEIGHT = (int) (800 * SCREEN_RATIO);
+	public static final int CONFIG_WIDTH = (int) (1280 * SCREEN_RATIO);
 	
 	public static void main(String args[]){
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
