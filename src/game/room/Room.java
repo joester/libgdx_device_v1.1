@@ -91,7 +91,7 @@ public class Room implements Controllable
 		this.background = new Sprite(assets.get("game_bg"));
 		this.background.setOrigin(0, 0);
 		this.background.setBounds(0, 0, 1280, 800);
-		Graphics.add(Graphics.TYPES.BACKGROUND, background,0,0,1,1);
+		Graphics.draw(Graphics.TYPES.BACKGROUND, background,0,0,1,1);
 		
 		this.deathRing = new Sprite(assets.get("deathRing"));
 		this.player = player;

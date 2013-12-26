@@ -106,7 +106,7 @@ public class TheDevice extends BaseState
 		//helper = new DesignHelper(new MonsterManager(box, this.graphics, state.sounds, this.room), this.room, box, g, gameUI);
 		
 		
-		gameUI = new UI(g, graphics, this, this.room, state.sounds, state.renderInfo);
+		gameUI = new UI(g, this.room, state.sounds);
 		
 		/* Controls */
 		this.controller = new Controller(state.renderInfo);
@@ -137,7 +137,9 @@ public class TheDevice extends BaseState
 		}//fi
 		
 		float dt = Gdx.graphics.getDeltaTime();
-		if (!gameUI.update(dt))
+		gameUI.render();
+		Graphics.draw(batch);
+		if (!gameUI.update())
 		{
 			
 			if(box.getHp() <= 0){
@@ -148,7 +150,7 @@ public class TheDevice extends BaseState
 			
 			this.controller.isPause = false;
 			//boolean gameIsOver = this.room.update(dt);
-			g.updateTimeElapsed(dt);
+			g.updateTimeElapsed();
 			
 			spawner.update(dt);
 			if(g.nukeState())
@@ -167,8 +169,7 @@ public class TheDevice extends BaseState
 		
 		//Draw	
 		this.room.render(batch, state.renderInfo);
-		gameUI.render(batch, dt);
-		deviceGraphics.draw(batch);
-		g.updateTimeElapsed(dt);
+		
+		g.updateTimeElapsed();
 	}
 }

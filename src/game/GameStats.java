@@ -1,5 +1,7 @@
 package game;
 
+import com.badlogic.gdx.Gdx;
+
 import game.objects.Player;
 import sounds.SoundSystem;
 
@@ -101,7 +103,8 @@ public class GameStats {
 		return (int)totalTimeElapsed;
 	}
 	
-	public void updateTimeElapsed(float dt){
+	public void updateTimeElapsed(){
+		float dt = Gdx.graphics.getDeltaTime();
 		totalTimeElapsed += dt;
 		nukeCD -= dt;
 	}
@@ -127,7 +130,7 @@ public class GameStats {
 	
 	public boolean mineReady()
 	{
-		return (mineCount > 0 && placeItem == 0);
+		return (mineCount > 0 && placeItem != 1);
 	}
 	
 	public boolean addMine(){
@@ -143,8 +146,9 @@ public class GameStats {
 	}
 	
 	public boolean useVort(){
-		if(vortCount > 0){
-			vortCount --;
+		if(vortCount > 0 && placeItem == 0){
+			vortCount--;
+			placeItem = 2;
 			return true;
 		}
 		return false;
@@ -153,6 +157,11 @@ public class GameStats {
 	public void placeVort()
 	{
 		placeItem = 0;
+	}
+	
+	public boolean vortexReady()
+	{
+		return (vortCount > 0 && placeItem != 2);
 	}
 	
 	public boolean addVortex(){

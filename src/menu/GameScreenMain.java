@@ -1,17 +1,16 @@
 package menu;
 
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.files.FileHandle;
 
 
 public class GameScreenMain {
 	
-	public static final float SCREEN_RATIO = 0.5f;
-	public static final int CONFIG_HEIGHT = (int) (800 * SCREEN_RATIO);
-	public static final int CONFIG_WIDTH = (int) (1280 * SCREEN_RATIO);
+	public static final float SCREEN_RATIO = 3f;
+	public static final int CONFIG_WIDTH = (int) (300 * SCREEN_RATIO);
+	public static final int CONFIG_HEIGHT = (int) (200 * SCREEN_RATIO);
+	
 	
 	public static void main(String args[]){
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();

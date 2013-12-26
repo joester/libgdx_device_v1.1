@@ -18,6 +18,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import dev.Manager;
+import device.graphics.Graphics;
 
 public class StateManager implements ApplicationListener{
 
@@ -56,7 +57,7 @@ public class StateManager implements ApplicationListener{
 		this.graphics = new GraphicsManager();
 
 		
-		posStates[0] = new MainMenuScreen(this, sounds, renderInfo, manager);
+		posStates[0] = new MainMenuScreen(this, sounds, manager);
 		//posStates[1]=new OptionsScreen(this, sounds, manager);
 		
 		
@@ -148,7 +149,7 @@ public class StateManager implements ApplicationListener{
 	public void moveToMenu(){
 		//posStates[currentState).dispose();
 		sounds.playMusicLooping(1);
-		posStates[0] = new MainMenuScreen(this, sounds, renderInfo, manager);
+		posStates[0] = new MainMenuScreen(this, sounds, manager);
 		posStates[0].create();
 		currentState = 0;
 	}

@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import dev.Manager;
+import device.graphics.Graphics;
 
 public class Storyboard extends BaseState{
 	int currentScene, maxScene;
@@ -76,6 +77,7 @@ public class Storyboard extends BaseState{
 		this.scene.setSize(state.renderInfo[2] * (100),
 				state.renderInfo[2] * (57.2f));
 		this.scene.draw(batch);
+		Graphics.draw(Graphics.TYPES.BACKGROUND, scene, 0, 0, 1f, 1f);
 		this.update();
 	}
 

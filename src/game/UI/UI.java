@@ -2,8 +2,6 @@
 package game.UI;
 
 import game.GameStats;
-import game.TheDevice;
-import game.draw.GraphicsManager;
 import game.objects.items.ActiveMine;
 import game.objects.items.Vortex;
 import game.room.Room;
@@ -13,126 +11,96 @@ import device.graphics.Graphics;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 
 import sounds.SoundSystem;
 
 public class UI
 {
-	float UIBar;
-	float time = 0;
-	float timeLimit = 90;
-	float nukeCD = 0;
-	int score = 0;
-	int level = 1;
-	BitmapFont font;
-	BitmapFont fontsm;
-	GraphicsManager graphics;
+	private BitmapFont font;
 	private Sprite UIBase;
+	
 	private Sprite pause;
-	private Sprite nuke;
+	
+	private Sprite mine;
+	private Sprite mineCount;
+	
+	private Sprite vortex;
+	private Sprite vortexCount;
+	
 	private Sprite nukeCount1;
 	private Sprite nukeCount2;
 	private Sprite nukeCount3;
-	private Sprite mine;
-	private Sprite mineCount;
-	private Sprite vortex;
-	private Sprite vortexCount;
+	private Sprite nuke;
+	
 	private Room room;
 	private SoundSystem sound;
-	TheDevice state;
-	GameStats g;
-	float[] render;
+	private GameStats stats;
 	
-	private float gWidth;
-	private float gHeight;
-	
-	private Rectangle nukeB;
-	private Rectangle pauseB;
-	private Rectangle mineB;
-	private Rectangle vortexB;
-	
-	public UI(GameStats stats, GraphicsManager graphics, TheDevice state, Room room, SoundSystem sound, float[] render){
-		this.state = state;
-		gWidth = render[0]*render[2];
-		gHeight = render[1]*render[2];
-		
-		this.UIBase = new Sprite(room.getAsset("ui_base"));
-		this.pause = new Sprite(room.getAsset("ui_pause"));
-		this.nuke = new Sprite(room.getAsset("ui_bomb"));
-		this.nukeCount1 = new Sprite(room.getAsset("ui_bombcount"));
-		this.nukeCount2 = new Sprite(room.getAsset("ui_bombcount"));
-		this.nukeCount3 = new Sprite(room.getAsset("ui_bombcount"));
-		this.mine = new Sprite(room.getAsset("ui_mine"));
-		this.mineCount = new Sprite(room.getAsset("ui_minecount"));
-		this.vortex = new Sprite(room.getAsset("ui_vortex"));
-		this.vortexCount = new Sprite(room.getAsset("ui_minecount"));
-		this.sound = sound;
-		this.g = stats;
-		this.graphics = graphics;
-		this.room = room;
-		this.render = render;
-		//Set UIBase
-		Graphics.add(Graphics.TYPES.UI, UIBase,0.8f,0,0.2f,1);
-		//Set Pause
-		Graphics.add(Graphics.TYPES.BUTTON, pause, 0.90f, 0.90f, 0.05f, 0.09f);
-		pauseB = pause.getBoundingRectangle();
-		//Set Nuke
-		Graphics.add(Graphics.TYPES.BUTTON, nuke, 0.85f, 0.06f,0.15f,0.18f);
-		nukeB = nuke.getBoundingRectangle();
-		//Set NukeCount
-		Graphics.add(Graphics.TYPES.BUTTON, nukeCount1, 0.835f, 0.20f,0.08f,0.095f);
-		Graphics.add(Graphics.TYPES.BUTTON, nukeCount2, 0.885f, 0.22f,0.08f,0.095f);
-		Graphics.add(Graphics.TYPES.BUTTON, nukeCount3, 0.935f, 0.20f,0.08f,0.095f);
-		//Set Mine
-		Graphics.add(Graphics.TYPES.BUTTON, mine, 0.83f, 0.57f, 0.17f, 0.165f);
-		mineB = mine.getBoundingRectangle();
-		//Set Mine count
-		Graphics.add(Graphics.TYPES.EXTRAS, mineCount, 0.935f, 0.62f, 0.04f, 0.06f);
-		//Set Vortex
-		vortex.setPosition(gWidth*0.875f, gHeight*0.365f);
-		vortex.setSize(gWidth*0.125f,gHeight*0.165f);
-		vortex.setRegion(0,0,124,98);
-		vortexB = vortex.getBoundingRectangle();
-		//Set Vortex count
-		vortexCount.setPosition(gWidth*0.95f,gHeight*0.42f);
-		vortexCount.setSize(gWidth*0.035f,gHeight*0.058f);
-		vortexCount.setRegion(117-(39*g.getMineCount()),0,39,38);
-		
-		UIBar = Gdx.graphics.getWidth() - gWidth*0.18f;
+	public UI(GameStats istats, Room iroom, SoundSystem isound){
+		sound = isound;
+		stats = istats;
+		room = iroom;
 		font = new BitmapFont(Gdx.files.internal("data/bearz/bearz.fnt"),Gdx.files.internal("data/bearz/bearz.png"), false);
+		UIBase = new Sprite(room.getAsset("ui_base"));
+		pause = new Sprite(room.getAsset("ui_pause"));
+		nuke = new Sprite(room.getAsset("ui_bomb"));
+		nukeCount1 = new Sprite(room.getAsset("ui_bombcount"));
+		nukeCount2 = new Sprite(room.getAsset("ui_bombcount"));
+		nukeCount3 = new Sprite(room.getAsset("ui_bombcount"));
+		mine = new Sprite(room.getAsset("ui_mine"));
+		mineCount = new Sprite(room.getAsset("ui_minecount"));
+		vortex = new Sprite(room.getAsset("ui_vortex"));
+		vortexCount = new Sprite(room.getAsset("ui_minecount"));
+		
+		//Set UIBase
+		Graphics.draw(Graphics.TYPES.UI, UIBase,0.8f,0,0.2f,1);
+		
+		//Set Pause
+		Graphics.draw(Graphics.TYPES.BUTTON, pause, 0.90f, 0.90f, 0.05f, 0.09f);
+		
+		//Set Mine
+		Graphics.draw(Graphics.TYPES.BUTTON, mine, 0.83f, 0.57f, 0.17f, 0.165f);
+		
+		//Set Vortex
+		Graphics.draw(Graphics.TYPES.BUTTON, vortex, 0.83f, 0.35f, 0.17f, 0.165f);
+		
+		//Set Nuke
+		Graphics.draw(Graphics.TYPES.BUTTON, nuke, 0.84f, 0.06f,0.15f,0.18f);
+		
+		//Set NukeCount
+		Graphics.draw(Graphics.TYPES.BUTTON, nukeCount1, 0.825f, 0.20f,0.08f,0.095f);
+		Graphics.draw(Graphics.TYPES.BUTTON, nukeCount2, 0.875f, 0.22f,0.08f,0.095f);
+		Graphics.draw(Graphics.TYPES.BUTTON, nukeCount3, 0.925f, 0.20f,0.08f,0.095f);
 	}
 	
 	public void create()
 	{
-		
 	}
 	
-	public boolean update(float dt)
+	public boolean update()
 	{
-		if(!g.pauseState())
+		if(Gdx.input.justTouched())
 		{
-			if(Gdx.input.justTouched())
+			int touchX = Gdx.input.getX();
+			int touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
+			if(pause.getBoundingRectangle().contains(touchX, touchY))
+				stats.pauseToggle();
+			if(!stats.pauseState())
 			{
-				int touchX = Gdx.input.getX();
-				int touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
-				if(pauseB.contains(touchX, touchY))
-					g.pauseToggle();
-				if(nukeB.contains(touchX, touchY) && g.nukeReady() && nukeCD <= 0)
-					g.useNuke();
-				if(mineB.contains(touchX, touchY) && g.getMineCount() > 0)
-					g.useMine();
-				if(vortexB.contains(touchX, touchY) && g.getVortCount() > 0)
-					g.useVort();
+				if(mine.getBoundingRectangle().contains(touchX, touchY)&& stats.mineReady())
+					stats.useMine();
+				else if(vortex.getBoundingRectangle().contains(touchX, touchY) && stats.vortexReady())
+					stats.useVort();
+				else if(vortex.getBoundingRectangle().contains(touchX, touchY) && stats.nukeReady())
+					stats.useNuke();
 			}
 		}
-		return g.pauseState();
+		return stats.pauseState();
 	}
 	
-	public void render(SpriteBatch batch, float dt)
+	public void render()
 	{
-		if(!g.pauseState())
+		if(!stats.pauseState())
 		{
 			if(Gdx.input.justTouched() )
 			{
@@ -140,84 +108,81 @@ public class UI
 				int touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
 				if(touchX < Gdx.graphics.getWidth() * 0.8f)
 				{
-					if(g.placeItem() == 1)
-						g.placeMine();
-					if(g.placeItem() == 2)
-						g.useVort();
+					if(stats.placeItem() == 1)
+					{
+						stats.placeMine();
+						System.out.println("Touch X: " + touchX + "\t Touch Y: " + touchY);
+						room.add_object(new ActiveMine(touchX * Gdx.graphics.getWidth(), touchY * Gdx.graphics.getHeight(), sound, room.getAsset("mine")));
+					}
+						
+					else if(stats.placeItem() == 2)
+					{
+						stats.placeVort();
+						room.add_object(new Vortex(touchX, touchY, sound, room.getAsset("vortex")));
+					}
 				}
 			}
 		}
-		//Draw Score
-		String scoreString = Integer.toString(g.getScore());
-		font.setScale(Gdx.graphics.getHeight()/450.0f);
-		font.draw(batch, scoreString, Gdx.graphics.getWidth() - font.getBounds(scoreString).width - gWidth*0.01f, gHeight*0.81f);
 		
 		//Draw time
-		g.updateTimeElapsed(dt);
-		String timeString = Integer.toString(g.timeElapsed());
-		font.draw(batch, timeString, (Gdx.graphics.getWidth()-UIBase.getWidth() - font.getBounds(timeString).width)/2, Gdx.graphics.getHeight() - (font.getBounds(timeString).height / 2));
+		stats.updateTimeElapsed();
+		String timeString = Integer.toString(stats.timeElapsed());
+		float timeXPos = (((Gdx.graphics.getWidth() * 0.8f) - font.getBounds(timeString).width) / 2) / Gdx.graphics.getWidth();
+		Graphics.write(timeString, timeXPos, 0.98f);
 		
-		if(g.placeItem() == 1 && Gdx.input.isTouched() && !mineB.contains(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY()) && Gdx.input.getX() < Gdx.graphics.getWidth() * 0.85f)
-		{
-			g.placeMine();
-			room.add_object(new ActiveMine(Gdx.input.getX() / state.state.renderInfo[2], (Gdx.graphics.getHeight() - Gdx.input.getY()) / state.state.renderInfo[2], sound, room.getAsset("mine")));
-			mine.setRegion(0,0,124,98);
-		}
+		//Draw Score
+		String scoreString = Integer.toString(stats.getScore());
+		float scoreXPos = ((Gdx.graphics.getWidth() * 0.99f) - font.getBounds(scoreString).width) / Gdx.graphics.getWidth();
+		Graphics.write(scoreString, scoreXPos, 0.825f);
 		
-		//Draw vortex
-		vortex.draw(batch);
-		if (g.getVortCount() > 0 && !(g.placeItem() == 2))
-		{
-			vortex.setRegion(0,0,124,98);
-			vortexCount.setRegion(117-(39*g.getVortCount()),0,39,38);
-			vortexCount.draw(batch);
-		}
-		if(g.placeItem() == 2 && Gdx.input.isTouched() && !vortexB.contains(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY()) && Gdx.input.getX() < Gdx.graphics.getWidth() * 0.85f)
-		{
-			g.placeVort();
-			room.add_object(new Vortex(Gdx.input.getX() / render[2], (Gdx.graphics.getHeight() - Gdx.input.getY()) / render[2], sound, room.getAsset("vortex")));
-			vortex.setRegion(124,0,124,98);
-		}
-		else if(g.placeItem() == 2)
-		{
-			vortex.setRegion(124,0,124,98);
-		}
-		
-		//Draw Mine Button
-		
-		if(g.mineReady())
+		//Draw Mine Button with Count
+		if(stats.mineReady())
 		{
 			mine.setRegion(0,0,124,95);
-			mineCount.setRegion(39*(3-g.getMineCount()),0,39,38);
+			Graphics.draw(Graphics.TYPES.EXTRAS, mineCount, 0.935f, 0.62f, 0.04f, 0.06f);
 		}
 		else
 		{
 			mine.setRegion(124,0,124,95);
-			mineCount.setRegion(156,0,39,38);
+			Graphics.draw(Graphics.TYPES.EXTRAS, mineCount, 0.935f, 0.60f, 0.04f, 0.06f);
 		}
+		mineCount.setRegion(39*(3-stats.getMineCount()),0,39,38);
+		
+		//Draw Vortex Button with Count
+		if(stats.vortexReady())
+		{
+			vortex.setRegion(0,0,124,95);
+			Graphics.draw(Graphics.TYPES.EXTRAS, vortexCount, 0.935f, 0.40f, 0.04f, 0.06f);
+		}
+		else
+		{
+			vortex.setRegion(124,0,124,95);
+			Graphics.draw(Graphics.TYPES.EXTRAS, vortexCount, 0.935f, 0.38f, 0.04f, 0.06f);
+		}
+		vortexCount.setRegion(39*(3-stats.getVortCount()),0,39,38);
 		
 		//Update Nuke Button
-		if(g.nukeReady())
+		if(stats.nukeReady())
 			nuke.setRegion(0,0,134,105);
 		else
 			nuke.setRegion(135,0,134,105);
 		
 		//Update NukeCount
-		if(g.nukeCount() > 0)
+		if(stats.nukeCount() > 0)
 			nukeCount1.setRegion(0,0,93,64);
 		else
 			nukeCount1.setRegion(94,0,93,64);
-		if(g.nukeCount() > 1)
+		if(stats.nukeCount() > 1)
 			nukeCount2.setRegion(0,0,93,64);
 		else
 			nukeCount2.setRegion(94,0,93,64);
-		if(g.nukeCount() > 2)
+		if(stats.nukeCount() > 2)
 			nukeCount3.setRegion(0,0,93,64);
 		else
 			nukeCount3.setRegion(94,0,93,64);
 		
 		//Update Pause
-		if (!g.pauseState())
+		if (!stats.pauseState())
 			pause.setRegion(0,0,57,57);
 		else
 			pause.setRegion(58,0,57,57);
