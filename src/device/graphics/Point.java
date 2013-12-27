@@ -18,6 +18,11 @@ public class Point implements Comparable<Point>
 		else if (this.y > point.y)
 			return -1;
 		else
-			return 0;
+			if(this.x < point.x)
+				return 1;
+			else if (this.x > point.x)
+				return -1;
+			else
+				return 0;
 	}
 }

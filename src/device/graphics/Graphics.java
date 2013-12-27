@@ -25,7 +25,7 @@ public final class Graphics
 	private static HashSet<Sprite> extras = new HashSet<Sprite>();
 	private static TreeMap<Point, String> text = new TreeMap<Point, String>();
 	
-	private static BitmapFont font;
+	public static BitmapFont font;
 	
 	public static enum TYPES { BACKGROUND, ACTOR, HPBAR, UI, BUTTON, EXTRAS }
 	
@@ -103,12 +103,13 @@ public final class Graphics
 			sprite.draw(s);
 		for(Sprite sprite : extras)
 			sprite.draw(s);
+		if(!text.isEmpty())
 		for(Entry<Point, String> entry : text.entrySet())
 			font.draw(s, entry.getValue(), entry.getKey().x, entry.getKey().y);
 		//s.end();
 	}
 	
-	public void clearAll()
+	public static void clearAll()
 	{
 		background = null;
 		actors.clear();
@@ -116,5 +117,20 @@ public final class Graphics
 		ui = null;
 		buttons.clear();
 		extras.clear();
+		text.clear();
+	}
+
+	public static void clear()
+	{
+		actors.clear();
+		hpbars.clear();
+		buttons.clear();
+		extras.clear();
+		text.clear();
+	}
+
+	public static void textRefresh()
+	{
+		text.clear();
 	}
 }

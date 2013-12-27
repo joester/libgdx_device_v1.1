@@ -7,7 +7,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
 public class GameScreenMain {
 	
-	public static final float SCREEN_RATIO = 3f;
+	public static final float SCREEN_RATIO = 5f;
 	public static final int CONFIG_WIDTH = (int) (300 * SCREEN_RATIO);
 	public static final int CONFIG_HEIGHT = (int) (200 * SCREEN_RATIO);
 	

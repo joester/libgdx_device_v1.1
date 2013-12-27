@@ -124,14 +124,16 @@ public class UI
 			}
 		}
 		
+		Graphics.textRefresh();
+		
 		//Draw time
 		stats.updateTimeElapsed();
-		String timeString = Integer.toString(stats.timeElapsed());
+		String timeString = Integer.toString(GameStats.timeElapsed());
 		float timeXPos = (((Gdx.graphics.getWidth() * 0.8f) - font.getBounds(timeString).width) / 2) / Gdx.graphics.getWidth();
 		Graphics.write(timeString, timeXPos, 0.98f);
 		
 		//Draw Score
-		String scoreString = Integer.toString(stats.getScore());
+		String scoreString = Integer.toString(GameStats.getScore());
 		float scoreXPos = ((Gdx.graphics.getWidth() * 0.99f) - font.getBounds(scoreString).width) / Gdx.graphics.getWidth();
 		Graphics.write(scoreString, scoreXPos, 0.825f);
 		

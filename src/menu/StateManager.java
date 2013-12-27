@@ -84,25 +84,6 @@ public class StateManager implements ApplicationListener{
 		SpriteBatch batch = new SpriteBatch();
 		batch.begin();
 		posStates[currentState].render(batch);
-		if (currentState == 5)
-		{
-			//Draw Score
-			String scoreString = "Final Score: " + stats.getScore();
-			font.setScale(Gdx.graphics.getHeight()/650.0f);
-			font.draw(batch, scoreString, (Gdx.graphics.getWidth() - font.getBounds(scoreString).width)/2, Gdx.graphics.getHeight()/3f);
-			//Draw Score
-			String monsterString = "Monsters Slain: " + stats.getMonsterCount();
-			font.draw(batch, monsterString, (Gdx.graphics.getWidth() - font.getBounds(monsterString).width)/2, Gdx.graphics.getHeight()/3f - (font.getBounds(scoreString).height * 1.5f));
-//			//Draw Level
-//			String levelString = "Final Level: " + stats.getLevel();
-//			font.draw(batch, levelString, (Gdx.graphics.getWidth() - font.getBounds(levelString).width)/2, (float) (Gdx.graphics.getHeight()/3 - (font.getBounds(scoreString).height * 1.5)));
-//			//Draw Exp
-//			String XPString = "Final XP: " + stats.getXP();
-//			font.draw(batch, XPString, (Gdx.graphics.getWidth() - font.getBounds(levelString).width)/2, (float) (Gdx.graphics.getHeight()/3));
-			//Draw Time
-			String timeString = "Time Survived: " + stats.timeElapsed();
-			font.draw(batch, timeString, (Gdx.graphics.getWidth() - font.getBounds(timeString).width)/2, (float) (Gdx.graphics.getHeight()/3 - (font.getBounds(scoreString).height * 1.5f) - (font.getBounds(monsterString).height * 1.5)));
-		}
 		batch.end();
 		batch.dispose();
 	}
@@ -155,7 +136,7 @@ public class StateManager implements ApplicationListener{
 	}
 	
 	public void endGame(GameStats g){
-		posStates[5] = new GameOverState(this, this.graphics, sounds, manager);
+		posStates[5] = new GameOverState(this, sounds, manager);
 		posStates[5].create();
 		sounds.stopMusic(2);
 		sounds.playSound(SoundSystem.laugh);

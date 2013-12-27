@@ -3,35 +3,50 @@ package game;
 import sounds.SoundSystem;
 import menu.BaseState;
 import menu.StateManager;
-import game.draw.GraphicsManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import dev.Manager;
+import device.graphics.Graphics;
 
 
 public class GameOverState extends BaseState{
 	
 	Sprite gameOverImage, retry, quit;
-	GraphicsManager g;
 	Manager manager;
 	
-	public GameOverState(StateManager state, GraphicsManager g, SoundSystem sound, Manager manager){
+	public GameOverState(StateManager state, SoundSystem sound, Manager manager){
 		super(state, sound, manager);
-		this.g = g;
 		this.manager = manager;
 		manager.loadArtAssets("End");
 		assets = manager.getArtAssets("End");
+		
+		Graphics.clearAll();
+		
 		gameOverImage = new Sprite(assets.get("end_bg"));
 		retry = new Sprite(assets.get("end_retry"));
 		quit = new Sprite(assets.get("end_quit"));
-		retry.setBounds(Gdx.graphics.getWidth() * 0.2f, Gdx.graphics.getHeight() * 0.445f, Gdx.graphics.getWidth() * 0.27f, Gdx.graphics.getHeight() * 0.13f);
-		quit.setBounds(Gdx.graphics.getWidth() * 0.55f, Gdx.graphics.getHeight() * 0.445f, Gdx.graphics.getWidth() * 0.27f, Gdx.graphics.getHeight() * 0.13f);
-		this.gameOverImage.setSize(state.renderInfo[2] * (100),
-				state.renderInfo[2] * (57.2f));
+		
+		Graphics.draw(Graphics.TYPES.BACKGROUND, gameOverImage, 0, 0, 1f, 1f);
+		Graphics.draw(Graphics.TYPES.BUTTON, retry, 0.2f, 0.445f, 0.27f, 0.13f);
+		Graphics.draw(Graphics.TYPES.BUTTON, quit, 0.55f, 0.445f, 0.27f, 0.13f);
+		
+		//Write Score
+		String score = "Final Score: " + GameStats.getScore();
+		float scoreX = ((Gdx.graphics.getWidth() - Graphics.font.getBounds(score).width) / 2) / Gdx.graphics.getWidth();
+		Graphics.write(score, scoreX, 1/3f);
+		
+		//Write Monster
+		String monster = "Monsters Slain: " + GameStats.getMonsterCount();
+		float monsterX = ((Gdx.graphics.getWidth() - Graphics.font.getBounds(monster).width) / 2) / Gdx.graphics.getWidth();
+		Graphics.write(monster, monsterX, 1/3f - ((Graphics.font.getBounds(score).height * 1.5f)/Gdx.graphics.getHeight()));
+		
+		//Write Time
+		String time = "Time Survived: " + GameStats.timeElapsed();
+		float timeX = ((Gdx.graphics.getWidth() - Graphics.font.getBounds(time).width) / 2) / Gdx.graphics.getWidth();
+		Graphics.write(time, timeX, 1/3f - (((Graphics.font.getBounds(score).height * 1.5f) + (Graphics.font.getBounds(monster).height * 1.5f))/Gdx.graphics.getHeight()));
 	}
 	
 	public void update(){
@@ -50,21 +65,14 @@ public class GameOverState extends BaseState{
 	}
 	
 	public void render(SpriteBatch batch){
-		gameOverImage.draw(batch);
-		retry.draw(batch);
-		quit.draw(batch);
+		Graphics.draw(batch);
 		this.update();
 	}
 
-	@Override
 	public void create() {
-		// TODO Auto-generated method stub
-		
+		//Graphics.clear();
 	}
-
-	@Override
+	
 	public void dispose() {
-		// TODO Auto-generated method stub
-		
 	}
 }

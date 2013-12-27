@@ -5,9 +5,9 @@ import com.badlogic.gdx.Gdx;
 import game.objects.Player;
 import sounds.SoundSystem;
 
-public class GameStats {
-	private int monsterCount = 0;
-	private int score = 0;
+public final class GameStats {
+	private static int monsterCount = 0;
+	private static int score = 0;
 	private int xpCount = 0;
 	private int xpMax=20;
 	private int level = 1;
@@ -17,7 +17,7 @@ public class GameStats {
 	private float nukeCD = 0;
 	private int maxItemCount;
 	private float boxHP;
-	private float totalTimeElapsed;
+	private static float totalTimeElapsed;
 	private SoundSystem sound;
 	private Player player;
 	private boolean pause = false;
@@ -34,7 +34,7 @@ public class GameStats {
 	{
 		monsterCount++;
 	}
-	public int getMonsterCount()
+	public static int getMonsterCount()
 	{
 		return monsterCount;
 	}
@@ -43,7 +43,7 @@ public class GameStats {
 		score += scoreAdd;
 	}
 	
-	public int getScore(){
+	public static int getScore(){
 		return score;
 	}
 	
@@ -99,7 +99,7 @@ public class GameStats {
 		return (int)totalTimeElapsed % 60;
 	}
 	
-	public int timeElapsed(){
+	public static int timeElapsed(){
 		return (int)totalTimeElapsed;
 	}
 	
