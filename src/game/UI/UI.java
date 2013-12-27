@@ -238,6 +238,7 @@ public class UI
 //		}
 		//Draw Score
 		String scoreString = Integer.toString(g.getScore());
+		font.setScale(Gdx.graphics.getHeight()/450.0f);
 		font.draw(batch, scoreString, Gdx.graphics.getWidth() - font.getBounds(scoreString).width - gWidth*0.01f, gHeight*0.81f);
 		
 		//Draw time

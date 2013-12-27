@@ -32,7 +32,7 @@ public class OpenInFormationEditorButton extends GuiButton{
 		String name;
 		if(GuiList_ImportedFormations.instance.selectedIndex != -1){
 			name = GuiList_ImportedFormations.instance.getValues().get(GuiList_ImportedFormations.instance.selectedIndex).name;
-		}else if(GuiList_Wave.instance.selectedIndex == -1){
+		}else if(GuiList_Wave.instance.selectedIndex != -1){
 			name = GuiList_Wave.instance.getValues().get(GuiList_Wave.instance.selectedIndex).name;
 		}else{
 			return;

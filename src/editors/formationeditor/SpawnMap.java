@@ -1,15 +1,16 @@
 package editors.formationeditor;
-import java.util.ArrayList;
 import java.awt.Color;
+import java.util.ArrayList;
 
 import editors.shared.CenteredText;
-import editors.shared.SpawnType;
 import editors.shared.GraphicsDraw;
+import editors.shared.SpawnTypes;
 import editors.shared.Vector2;
 import editors.shared._G;
+import editors.shared.EventLocation;
 
 
-enum MapSnapType{None,Ring,Grid}
+enum MapSnapType{None,Grid,Ring}
 
 public class SpawnMap extends GuiObject{
     //////////Constants
@@ -50,8 +51,8 @@ public class SpawnMap extends GuiObject{
     public static boolean showRingNumbers;
     public static boolean showMouseDistance;
     
-    public static MapSnapType snapType;
-    public static int snapSize = 5;
+    public static MapSnapType snapType = MapSnapType.Grid;
+    public static int snapSizeDivisor = 5;
     
     static float scale = MAXSCALE;
     static float desiredscale = DEFAULTSCALE;
@@ -240,6 +241,16 @@ public class SpawnMap extends GuiObject{
 						showMessage("Invalid location.");
 						currentPoint.position = new Vector2(9999,0);
 				    }else{
+				    	switch(snapType){
+				    	case None:
+				    		break;
+				    	case Grid:
+				    		currentPoint.useSnap_Cartesian(.2f);
+				    		break;
+				    	case Ring:
+				    		currentPoint.useSnap_Polar(_G.PI/12,.2f);
+				    		break;
+				    	}
 						String mess = "Placing point.";
 						for(int i = 0; i < (_G.cycle%150)/50; i++)
 						    mess += '.';
@@ -326,7 +337,8 @@ public class SpawnMap extends GuiObject{
 		GraphicsDraw.setColor(COLOR_LINES);
 		GraphicsDraw.smallBoldFont();
 		float ringradius = 0;
-		for(int ring = 2; ring <= MAXSCALE; ring += 2){
+		System.out.println(""+2/snapSizeDivisor);
+		for(float ring = 2; ring <= MAXSCALE; ring += 2){//(snapType == MapSnapType.None ? 2 : 2/snapSizeDivisor)){
 		    ringradius = RADIUSFLOAT*ring/scale;
 		    GraphicsDraw.circle(centeronscreen,ringradius);
 		    if(showRingNumbers){
@@ -416,16 +428,6 @@ public class SpawnMap extends GuiObject{
 		GraphicsDraw.setColor(Color.BLACK);
 		GraphicsDraw.boldFont();
 		GraphicsDraw.centerText("MAP",new Vector2(OFFSET.x+SIZE.x/2,OFFSET.y-10));
-    }
-}
-
-class EventLocation{
-    public Vector2 position;
-    public SpawnType type;
-    
-    public EventLocation(Vector2 pos,SpawnType typ){
-		position = pos;
-		type = typ;
     }
 }
 

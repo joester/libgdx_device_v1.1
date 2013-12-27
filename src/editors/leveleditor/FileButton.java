@@ -8,8 +8,8 @@ import editors.shared.Vector2;
 import editors.shared._G;
 
 public abstract class FileButton extends GuiButton{
-	public static final Vector2 BASEOFFSET_UPPER = new Vector2(GuiList_ImportedFormations.GUILIST_IMPORTEDFORMATIONS_OFFSET.x,GuiList.EXTRABUTTONOFFSETY);
-	public static final Vector2 BASEOFFSET_LOWER = new Vector2(GuiList_ImportedFormations.GUILIST_IMPORTEDFORMATIONS_OFFSET.x,GuiList.EXTRABUTTONOFFSETY+65);
+	public static final Vector2 BASEOFFSET_UPPER = new Vector2(20,_G.LEVELEDITOR_HEIGHT-170);//new Vector2(GuiList_ImportedFormations.GUILIST_IMPORTEDFORMATIONS_OFFSET.x,_G.LEVELEDITOR_HEIGHT-170);
+	public static final Vector2 BASEOFFSET_LOWER = new Vector2(BASEOFFSET_UPPER.x,BASEOFFSET_UPPER.y+65);
     public static final Vector2 SIZE = new Vector2(GuiList.SIZE.x/2,30);
     static final Color COLOR = new Color(.75f,.5f,1f);
     
@@ -91,9 +91,14 @@ class FileManager_SaveButton extends FileButton{
     public void draw(){
     	super.draw();
     	GraphicsDraw.setColor(Color.BLACK);
+    	//For bottom-let corner
+    	Vector2 pos = new Vector2(position.x+size.x*2+20,position.y-20);
+    	GraphicsDraw.line(pos,new Vector2(pos.x-size.x*2-100,pos.y));
+    	GraphicsDraw.line(pos,new Vector2(pos.x,pos.y+size.y*2+100));
+    	/*//For bottom-right corner
     	Vector2 pos = new Vector2(position.x-20,position.y-20);
     	GraphicsDraw.line(pos,new Vector2(pos.x+size.x*2+100,pos.y));
-    	GraphicsDraw.line(pos,new Vector2(pos.x,pos.y+size.y*2+100));
+    	GraphicsDraw.line(pos,new Vector2(pos.x,pos.y+size.y*2+100));*/
     }
 }
 

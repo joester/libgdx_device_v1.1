@@ -47,6 +47,6 @@ public class _G{//Only used to help the spawn and match editors. Will not do any
     public static final Vector2 FORMATIONEDITOR_SCREENSIZE = new Vector2(FORMATIONEDITOR_WIDTH,FORMATIONEDITOR_HEIGHT);
     
     /////Match Editor
-    public static int LEVELEDITOR_WIDTH = 800,LEVELEDITOR_HEIGHT = 600;
+    public static int LEVELEDITOR_WIDTH = 800,LEVELEDITOR_HEIGHT = 700;
     public static final Vector2 LEVELEDITOR_SCREENSIZE = new Vector2(LEVELEDITOR_WIDTH,LEVELEDITOR_HEIGHT);
 }

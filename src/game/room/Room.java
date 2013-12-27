@@ -360,7 +360,7 @@ public class Room implements Controllable
 					HPFill.setOrigin((current/max) * renderInfo[2] * (drawWidth/2),
 							renderInfo[2] * (drawHeight/2));
 					HPFill.setSize((current/max) * renderInfo[2] * (drawWidth),
-							10);
+							renderInfo[2]);
 					HPFill.setPosition(renderInfo[2] * (obj.get_positionX() - drawWidth/2),
 							renderInfo[2] * (obj.get_positionY() - drawHeight/2  + obj.getSpriteHeight()));
 					HPFill.draw(spritebatch);

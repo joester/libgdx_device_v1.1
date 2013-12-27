@@ -33,8 +33,8 @@ public class MainMenuScreen extends BaseState {
 		help = new Sprite(assets.get("main_help"));
 		this.bgArt.setSize(state.renderInfo[2] * (100),
 				state.renderInfo[2] * (57.2f));
-		this.play.setBounds(Gdx.graphics.getWidth() * 0.6f, Gdx.graphics.getHeight() * 0.06f, Gdx.graphics.getWidth() * 0.15f, Gdx.graphics.getHeight() * 0.25f);
-		this.help.setBounds(Gdx.graphics.getWidth() * 0.8f, Gdx.graphics.getHeight() * 0.06f, Gdx.graphics.getWidth() * 0.15f, Gdx.graphics.getHeight() * 0.25f);
+		this.play.setBounds(Gdx.graphics.getWidth() * 0.61f, Gdx.graphics.getHeight() * 0.06f, Gdx.graphics.getWidth() * 0.15f, Gdx.graphics.getHeight() * 0.25f);
+		this.help.setBounds(Gdx.graphics.getWidth() * 0.79f, Gdx.graphics.getHeight() * 0.06f, Gdx.graphics.getWidth() * 0.15f, Gdx.graphics.getHeight() * 0.25f);
 	}
 
 	@Override

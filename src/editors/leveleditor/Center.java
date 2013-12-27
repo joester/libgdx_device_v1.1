@@ -35,7 +35,7 @@ public class Center extends GameDriver{/////The class that handles everything
 		    first = false;
     	}
 		GraphicsDraw.setColor(_G.COLOR_BACKGROUND);
-		GraphicsDraw.fillRectangle(_G.FORMATIONEDITOR_SCREENSIZE.div(2),_G.FORMATIONEDITOR_SCREENSIZE);
+		GraphicsDraw.fillRectangle(_G.LEVELEDITOR_SCREENSIZE.div(2),_G.LEVELEDITOR_SCREENSIZE);
     	
     	/////Update stuff
 		update_mouse();

@@ -1,13 +1,11 @@
-package editors.formationeditor;
+package editors.shared;
 
 import java.awt.Color;
 
-import editors.shared.SpawnType;
-import editors.shared.GraphicsDraw;
-import editors.shared.Vector2;
+import editors.formationeditor.SpawnMap;
 
 
-class SpawnTypes{
+public class SpawnTypes{
 	//static final Color COLOR_PLOTHOLE = new Color(0f,1,1);
 	
     public static int getLevel(SpawnType t){

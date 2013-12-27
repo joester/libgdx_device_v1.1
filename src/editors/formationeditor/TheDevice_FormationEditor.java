@@ -6,7 +6,7 @@ import editors.shared._G;
 
 public class TheDevice_FormationEditor{
     public static void changeTitle(String filename){
-    	jframe.setTitle(filename == null ? "The Device: Creature Spawn Point Editor" : "Spawn Editor - "+filename);
+    	//jframe.setTitle(filename == null ? "The Device: Formation Editor" : "Formation Editor - "+filename);
     }
     static JFrame jframe;
     

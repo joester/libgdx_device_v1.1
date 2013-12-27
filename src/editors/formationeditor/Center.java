@@ -20,7 +20,7 @@ import editors.shared.GraphicsDraw;
 import editors.shared._G;
 
 public class Center extends GameDriver{/////The class that handles everything
-    static Center instance;//The instance of this class
+    public static Center instance;//The instance of this class
     
     public static boolean getKey(Keys n){//If a key is being held down
 	return instance.keys[n.ordinal()] || keyPressed(n);

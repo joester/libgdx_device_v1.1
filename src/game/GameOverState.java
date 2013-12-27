@@ -28,8 +28,8 @@ public class GameOverState extends BaseState{
 		gameOverImage = new Sprite(assets.get("end_bg"));
 		retry = new Sprite(assets.get("end_retry"));
 		quit = new Sprite(assets.get("end_quit"));
-		retry.setPosition((Gdx.graphics.getWidth() - retry.getWidth())/3, (Gdx.graphics.getHeight() - retry.getHeight())/2);
-		quit.setPosition((Gdx.graphics.getWidth() - retry.getWidth())*2/3, (Gdx.graphics.getHeight() - retry.getHeight())/2);
+		retry.setBounds(Gdx.graphics.getWidth() * 0.2f, Gdx.graphics.getHeight() * 0.445f, Gdx.graphics.getWidth() * 0.27f, Gdx.graphics.getHeight() * 0.13f);
+		quit.setBounds(Gdx.graphics.getWidth() * 0.55f, Gdx.graphics.getHeight() * 0.445f, Gdx.graphics.getWidth() * 0.27f, Gdx.graphics.getHeight() * 0.13f);
 		this.gameOverImage.setSize(state.renderInfo[2] * (100),
 				state.renderInfo[2] * (57.2f));
 	}

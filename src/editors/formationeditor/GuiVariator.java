@@ -4,6 +4,7 @@ import java.awt.Color;
 import editors.shared.CenteredText;
 import editors.shared.SpawnType;
 import editors.shared.GraphicsDraw;
+import editors.shared.SpawnTypes;
 import editors.shared.Vector2;
 import editors.shared._G;
 
@@ -363,7 +364,7 @@ class SnapTypeVariator extends GuiVariator{
 	return 2;
     }
     public int getInitialValue(){
-	return 0;
+	return 1;
     }
     
     public float getHoldIncrementerInrcease(){

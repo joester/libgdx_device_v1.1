@@ -2,6 +2,7 @@ package game.objects.spawner;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +10,8 @@ import java.util.Random;
 
 import sounds.SoundSystem;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 
 import editors.shared.LevelWave;
@@ -90,7 +93,7 @@ public class CustomSpawner{
 		DataInputStream stream = null;
 	    ArrayList<SpawnData> ans = new ArrayList<SpawnData>();
 		try{
-		    stream = new DataInputStream(new BufferedInputStream(new FileInputStream(filepath)));
+		    stream = new DataInputStream(new BufferedInputStream(Gdx.files.internal(filepath).read()));
 		    byte version = stream.readByte();
 		    for(int i = 0; i < 9999; i++){
 			    byte type = stream.readByte();

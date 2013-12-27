@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import editors.formationeditor.Center;
 import editors.shared.SingleFormation;
 import editors.shared.LevelWave;
 import editors.shared._G;
@@ -46,9 +47,14 @@ public class FileManager{
 		JFileChooser chooser = new JFileChooser(formationnotlevel ? FOLDER_FORMATION : FOLDER_LEVEL);
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(text,extension);
 		chooser.setFileFilter(filter);
-		chooser.setDialogTitle(savingnotloading ? "Save As" : "Open");
+		int returnval;
+		if(savingnotloading)
+			returnval = chooser.showSaveDialog(Center.instance);
+		else
+			returnval = chooser.showOpenDialog(Center.instance);
+		/*chooser.setDialogTitle(savingnotloading ? "Save As" : "Open");
 		chooser.setDialogType(savingnotloading ? JFileChooser.SAVE_DIALOG : JFileChooser.OPEN_DIALOG);
-		int returnval = chooser.showOpenDialog(Center.instance);
+		int returnval = chooser.showOpenDialog(Center.instance);*/
 		if(returnval == 0){
 		    return chooser.getSelectedFile().getName();
 		}
