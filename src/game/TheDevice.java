@@ -35,7 +35,7 @@ public class TheDevice extends BaseState
 	UI gameUI;
 	Player player;
 	Manager manager;
-	//DesignHelper helper;
+	DesignHelper helper;
 	
 	public TheDevice(StateManager state, GraphicsManager g, SoundSystem sound, Manager manager) {
 		super(state, sound, manager);
@@ -99,7 +99,7 @@ public class TheDevice extends BaseState
 		spawner = new CustomSpawner(LEVELPATH,box,graphics,state.sounds,room);//temporary path
 		
 		//Spawn Management for dev tool
-		//helper = new DesignHelper(new MonsterManager(box, this.graphics, state.sounds, this.room), this.room, box, g, gameUI);
+		helper = new DesignHelper(new MonsterManager(box, this.graphics, state.sounds, this.room), this.room, box, g, gameUI);
 		
 		
 		gameUI = new UI(g, graphics, this, this.room, state.sounds, state.renderInfo);

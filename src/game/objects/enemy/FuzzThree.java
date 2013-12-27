@@ -101,7 +101,7 @@ public class FuzzThree extends Enemy{
 					float dist = (float)Math.pow((xDist * xDist) + (yDist * yDist), .5);
 					if(dist < 15){
 						if(!this.animator.get_currentAnimation().equals("attack")){
-							this.set_animation("attack", true);
+							this.set_animation("attack", false);
 							isAttacking = true;
 							return;
 						}	

@@ -323,8 +323,8 @@ public class Player extends AnimatedObject
 		}
 		if(this.isSlowed){
 			this.movement.acceleration = 5f;
-			this.movement.speed = 10f;
-			this.movement.speedcap = 30f;
+			this.movement.speed = 20f;
+			this.movement.speedcap = 20f;
 			this.slowTime.update_timer(dt);
 			if(this.slowTime.isDone()){
 				this.isSlowed = false;

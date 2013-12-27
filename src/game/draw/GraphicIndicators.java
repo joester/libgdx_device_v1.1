@@ -44,7 +44,7 @@ public class GraphicIndicators
 		this.animation_1.add_animation("test0",0,0,5,10, false);
 		this.animation_1.add_animation("test1",0,0,5,10, false);
 		this.animation_1.add_animation("test2",5, 1, 5, 10, false);
-		this.animation_1.add_animation("test3",0, 2, 8, 10, false);
+		this.animation_1.add_animation("test3",0, 2, 8, 5, true);
 		this.animation_1.set_animation("test2", false);
 		
 		this.animation_2.add_animation("test0",0, 0, 5, 10, false);
@@ -71,13 +71,14 @@ public class GraphicIndicators
 		GameObject target = player.get_target();
 		if(target == null || this.player.isIdle())
 		{
-			if(!this.animation_1.get_currentAnimation().equals(3))
+			if(!this.animation_1.get_currentAnimation().equals("test3"))
 			{
-				this.animation_1.set_animation("test3", false);
+				this.animation_1.set_animation("test3", true);
 				this.animation_1.setCurrentFrame(0);
-				this.drawHeight = 10;
-				this.drawWidth = 10;
+				this.drawHeight = 7;
+				this.drawWidth = 7;
 				this.drawOffsetY = 1;
+				
 			}//fi
 			Vector2 heading = player.get_heading();
 			this.x = heading.x;
@@ -88,9 +89,9 @@ public class GraphicIndicators
 			if(target.getID() == 3 && !this.animation_1.get_currentAnimation().equals("test1"))
 			{
 				this.animation_1.set_animation("test1", false);
-				this.animation_1.setCurrentFrame(0);
-				this.drawHeight = 7;
-				this.drawWidth = 7;
+				this.animation_1.setCurrentFrame(1);
+				this.drawHeight = 5;
+				this.drawWidth = 5;
 				this.drawOffsetY = 0.5f;
 			}//fi
 			if (target.getID() == 1 && !this.player.isIdle())
@@ -107,14 +108,14 @@ public class GraphicIndicators
 		
 		if(this.selectedDevice == false && !this.animation_2.get_currentAnimation().equals("test0"))
 		{
-			this.animation_2.set_animation("test0", false);
+			this.animation_2.set_animation("test0", true);
 		}//fi
 		
 		if(!this.player.isIdle() && !this.selectedDevice)
 		{
 			/* Sprite 1 */
-			this.sprite_1.setOrigin(renderInfo[2] * (this.drawWidth/2),
-					renderInfo[2] * (this.drawHeight/2));
+			this.sprite_1.setOrigin(renderInfo[2] * (this.drawWidth/4),
+					renderInfo[2] * (this.drawHeight/4));
 			this.sprite_1.setSize(renderInfo[2] * (this.drawWidth),
 					renderInfo[2] * (this.drawHeight));
 			this.sprite_1.setPosition(renderInfo[2] * (this.x - this.drawWidth/2 + this.drawOffsetX),
