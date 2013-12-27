@@ -81,7 +81,10 @@ public final class Graphics
 		}
 	}
 	
-	/** Write text to screen**/
+	/** Write text to screen
+	 * @param string Text to write
+	 * @param xPos xPosition to write at, relative to screen width
+	 * @param yPos yPosition to write at, relative to screen height*/
 	public static void write(String string, float xPos, float yPos)
 	{
 		text.put(new Point(xPos*screenWidth, yPos*screenHeight), string);
@@ -103,7 +106,6 @@ public final class Graphics
 			sprite.draw(s);
 		for(Sprite sprite : extras)
 			sprite.draw(s);
-		if(!text.isEmpty())
 		for(Entry<Point, String> entry : text.entrySet())
 			font.draw(s, entry.getValue(), entry.getKey().x, entry.getKey().y);
 		//s.end();

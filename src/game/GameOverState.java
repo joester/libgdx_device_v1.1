@@ -65,12 +65,11 @@ public class GameOverState extends BaseState{
 	}
 	
 	public void render(SpriteBatch batch){
-		Graphics.draw(batch);
 		this.update();
+		Graphics.draw(batch);
 	}
 
 	public void create() {
-		//Graphics.clear();
 	}
 	
 	public void dispose() {
